@@ -1,11 +1,11 @@
 .navbar {
+    z-index: 9997;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     height: var(--navbar-height);
     padding: 6px 18px;
-    z-index: 9997;
 
     &__logo {
         height: 64px;
@@ -15,6 +15,7 @@
         &.disabled {
             pointer-events: none;
         }
+        font-size: 48px;
     }
 
     .gold-border {
