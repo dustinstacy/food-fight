@@ -5,8 +5,7 @@
     background: var(--background-color);
     background-position: right;
     background-size: cover;
-    border-bottom: 2px solid;
-    border-image: var(--gold-gradient) 1;
+    border: 2px solid var(--primary-color);
     overflow-y: none;
 
     .home-wrapper {

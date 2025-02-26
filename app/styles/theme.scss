@@ -1,19 +1,19 @@
-.gold-border {
+.primary-border {
     height: 2px;
     margin: 0;
     border: 0;
-    background: var(--gold-gradient);
+    background: var(--primary-color);
 }
 
-.primary-border {
-    border: 2px solid var(--primary-color);
+.secondary-border {
+    border: 2px solid var(--secondary-color);
     border-radius: 4px;
 }
 
 .background-gradient {
     background: var(--background-color);
-    background: -webkit-linear-gradient(45deg, var(--background-color), var(--background2-color));
-    background: linear-gradient(45deg, var(--background-color), var(--background2-color));
+    background: -webkit-linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
 }
 
 .background-gradient-reverse {
