@@ -9,10 +9,10 @@ const NavBar = () => {
     return (
         <div className='navbar between background-gradient'>
             <BurgerMenu />
-            <h3 className='navbar__logo'>FF</h3>
+            <h3 className='navbar__logo'>Food Fight</h3>
             <Links menu='navbar' />
             <UserSection />
-            <hr className='gold-border' />
+            <hr className='primary-border' />
         </div>
     )
 }
