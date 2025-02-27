@@ -5,6 +5,7 @@ import { classSet } from "utils"
 
 import { AvatarMenu } from "./components"
 import "./avatar.scss"
+import Image from "next/image"
 
 // Renders user image avatar
 // levelShowing: Indicates whether the user's level should be displayed
@@ -40,7 +41,7 @@ const Avatar = ({
 
     return (
         <div className={avatarClasses}>
-            <img className={imageClasses} src={image} alt='user image' onClick={() => handleClick()} />
+            <Image className={imageClasses} src={image} alt='user image' onClick={() => handleClick()} />
             {menu && <AvatarMenu isOpen={isOpen} toggleIsOpen={toggleIsOpen} />}
         </div>
     )
