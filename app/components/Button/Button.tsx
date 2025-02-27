@@ -11,7 +11,7 @@ interface ButtonProps {
     label: string
     type?: string
     path?: string
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>, ...args: string[]) => void
     disabled?: boolean
     onKeyDown?: boolean
 }
