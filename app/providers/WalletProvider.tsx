@@ -37,11 +37,16 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             }
         }
 
-        window.ethereum?.on("accountsChanged", handleAccountsChanged)
+        if (window.ethereum) {
+            window.ethereum.on("accountsChanged", handleAccountsChanged)
+        }
+
         checkConnection()
 
         return () => {
-            window.ethereum?.removeListener("accountsChanged", handleAccountsChanged)
+            if (window.ethereum) {
+                window.ethereum.removeListener("accountsChanged", handleAccountsChanged)
+            }
         }
     }, [])
 
