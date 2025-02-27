@@ -40,11 +40,18 @@
     justify-content: flex-start;
 }
 
+.left-column {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
 .around-column,
 .between-column,
 .center-column,
 .end-column,
-.start-column {
+.start-column,
+.left-column {
     flex-direction: column;
 }
 
