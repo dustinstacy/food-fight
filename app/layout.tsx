@@ -5,6 +5,7 @@ import "./styles/globals.scss"
 import "./styles/containers.scss"
 import "./styles/modules.scss"
 import "./styles/theme.scss"
+import { WalletProvider } from "providers/WalletProvider"
 
 export const metadata: Metadata = {
     title: "Food Fight",
@@ -22,7 +23,9 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body>
-                <ClientLayout>{children}</ClientLayout>
+                <WalletProvider>
+                    <ClientLayout>{children}</ClientLayout>
+                </WalletProvider>
             </body>
         </html>
     )
