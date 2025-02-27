@@ -18,7 +18,7 @@ const BurgerMenu = () => {
         return () => {
             setIsOpen(false)
         }
-    }, [, isSmallScreen])
+    }, [setIsOpen, isSmallScreen])
 
     return (
         <div className='burger-menu'>

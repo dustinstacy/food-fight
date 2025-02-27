@@ -3,6 +3,7 @@
 import { NavBar } from "components"
 import { useWallet } from "providers"
 import { useEffect } from "react"
+import { IconContext } from "react-icons"
 import { useUserStore } from "stores"
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -11,12 +12,14 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     useEffect(() => {
         checkForUser(accounts[0])
-    }, [accounts])
+    }, [accounts, checkForUser])
 
     return (
         <div>
-            <NavBar />
-            {children}
+            <IconContext.Provider value={{ className: "react-icons" }}>
+                <NavBar />
+                {children}
+            </IconContext.Provider>
         </div>
     )
 }
