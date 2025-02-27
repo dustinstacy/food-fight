@@ -5,25 +5,34 @@ import { IoMdCloseCircle } from "react-icons/io"
 
 import { updateUser } from "api"
 import { Avatar, Button, TextInput } from "components"
+import { useWallet } from "providers"
 import { useUserStore } from "stores"
 
 import "./editUser.scss"
+import { User } from "types"
 
 interface EditUserProps {
     setIsEditing: Dispatch<SetStateAction<boolean>>
 }
 
+interface updateErrors {
+    image: string
+    username: string
+}
+
 const EditUser = ({ setIsEditing }: EditUserProps) => {
+    const { accounts } = useWallet()
     const user = useUserStore((state) => state.user)
+    const setUser = useUserStore((state) => state.setUser)
 
     const [newUserImage, setNewUserImage] = useState("")
     const [newUsername, setNewUsername] = useState("")
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
+    const [errors, setErrors] = useState<updateErrors>({ image: "", username: "" })
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-        setError("") // Clear any previous errors
+        setErrors({ image: "", username: "" }) // Clear any previous errors
         if (name === "image") {
             setNewUserImage(value)
         }
@@ -32,17 +41,25 @@ const EditUser = ({ setIsEditing }: EditUserProps) => {
         }
     }
 
-    const handleSubmit = async (e: React.MouseEvent) => {
-        e.preventDefault()
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>, name: string) => {
         setLoading(true)
-        const { name } = e.target as HTMLButtonElement
 
         try {
-            if (name === "username") await updateUser("username", newUsername)
-            if (name === "image") await updateUser("image", newUserImage)
+            if (name === "username") {
+                await updateUser("username", newUsername, accounts[0])
+                setNewUsername("") // Clear the input field
+                setUser({ ...user!, username: newUsername })
+            }
+
+            if (name === "image") {
+                await updateUser("image", newUserImage, accounts[0])
+                setNewUserImage("") // Clear the input field
+                // Directly set the updated user object
+                setUser({ ...user!, image: newUserImage })
+            }
         } catch (error: unknown) {
             if (error instanceof Error) {
-                setError(error.message)
+                setErrors({ ...errors, [name]: error.message })
             }
         } finally {
             setLoading(false)
@@ -67,11 +84,11 @@ const EditUser = ({ setIsEditing }: EditUserProps) => {
                                 onChange={handleInputChange}
                                 loading={loading}
                             />
-                            {error && <p className='error'>{error}</p>}
+                            {errors && <p className='error'>{errors.image}</p>}
                             <Button
                                 label='Update Image'
                                 type='submit'
-                                onClick={handleSubmit}
+                                onClick={(e) => handleSubmit(e, "image")}
                                 disabled={newUserImage.length === 0}
                             />
                         </div>
@@ -89,11 +106,11 @@ const EditUser = ({ setIsEditing }: EditUserProps) => {
                                 onChange={handleInputChange}
                                 loading={loading}
                             />
-                            {error && <p className='error'>{error}</p>}
+                            {errors && <p className='error'>{errors.username}</p>}
                             <Button
                                 label='Update Username'
                                 type='submit'
-                                onClick={handleSubmit}
+                                onClick={(e) => handleSubmit(e, "username")}
                                 disabled={newUsername.length === 0}
                             />
                         </div>
