@@ -9,7 +9,6 @@ import { useWallet } from "providers"
 import { useUserStore } from "stores"
 
 import "./editUser.scss"
-import { User } from "types"
 
 interface EditUserProps {
     setIsEditing: Dispatch<SetStateAction<boolean>>
