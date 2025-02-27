@@ -1,0 +1,15 @@
+.account {
+    position: relative;
+    gap: 48px;
+    padding: 128px 0 64px 0;
+
+    .box {
+        min-height: 200px;
+        width: 60vw;
+        padding: 48px;
+
+        @media screen and (max-width: 1080px) {
+            width: 90vw;
+        }
+    }
+}
