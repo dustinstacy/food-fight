@@ -6,12 +6,14 @@ import { customFetch } from "utils"
 interface UserState {
     user: User | null
     checkingForUser: boolean
+    setUser: (user: User | null) => void
     checkForUser: (address: string) => void
 }
 
 const useUserStore = create<UserState>((set) => ({
     user: null,
     checkingForUser: false,
+    setUser: (user) => set({ user: user }),
     checkForUser: async (address: string) => {
         set({ checkingForUser: true })
 
@@ -38,7 +40,7 @@ const useUserStore = create<UserState>((set) => ({
 const fetchUserFromAccount = async (address: string) => {
     try {
         console.log("Fetching user")
-        const res = await customFetch(`/api/users?address=${address}`, {
+        const res = await customFetch(`/api/users/${address}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +60,7 @@ const fetchUserFromAccount = async (address: string) => {
 const createNewUser = async (address: string) => {
     try {
         console.log("Creating new user")
-        const res = await customFetch("/api/users", {
+        const res = await customFetch("/api/users/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
