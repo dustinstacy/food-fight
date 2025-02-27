@@ -11,9 +11,6 @@
 }
 
 .avatar.small {
-    height: 64px;
-    width: 64px;
-
     .level {
         bottom: -6px;
         height: 20px;
@@ -23,9 +20,6 @@
 }
 
 .avatar.medium {
-    height: 128px;
-    width: 128px;
-
     .level {
         bottom: -12px;
         height: 30px;
@@ -35,9 +29,6 @@
 }
 
 .avatar.large {
-    height: 192px;
-    width: 192px;
-
     .level {
         bottom: -18px;
         height: 60px;
@@ -48,4 +39,16 @@
 
 .pointer {
     cursor: pointer;
+}
+
+@keyframes loading-placeholder {
+    0% {
+        background-color: #f0f0f0;
+    }
+    50% {
+        background-color: #e0e0e0; /* Slightly darker gray */
+    }
+    100% {
+        background-color: #f0f0f0;
+    }
 }

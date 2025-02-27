@@ -10,7 +10,7 @@ const AvatarMenu = ({ isOpen, toggleIsOpen }: HandleToggle) => {
     return (
         <>
             {isOpen && (
-                <div className='avatar-menu box left-column'>
+                <div className='avatar-menu box left-column background-gradient'>
                     <Link href='/account' onClick={() => toggleIsOpen?.()}>
                         Account
                     </Link>
