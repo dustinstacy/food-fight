@@ -8,10 +8,8 @@ const UserSection = () => {
 
     return (
         <div className='user-section end'>
-            <p>
-                Connected Account:{" "}
-                {accounts.map((account) => `${account.slice(0, 7)}...${account.slice(-4)}`).join(", ")}
-            </p>
+            <hr />
+            <p>{accounts.map((account) => `${account.slice(0, 7)}...${account.slice(-4)}`).join(", ")}</p>
         </div>
     )
 }
