@@ -1,11 +1,19 @@
 .avatar-menu {
     position: absolute;
-    top: 80px;
-    right: -16px;
+    top: 90px;
+    right: 2px;
     gap: 8px;
     padding: 12px;
 
     .avatar-menu-link {
         gap: 8px;
+    }
+
+    a {
+        color: var(--black-color);
+    }
+
+    a:hover {
+        color: var(--primary2-color);
     }
 }

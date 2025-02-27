@@ -10,7 +10,9 @@ const UserSection = () => {
     return (
         <div className='user-section end'>
             <hr />
-            <div className='user-info center-column'>{user?.username}</div>
+            <div className='user-info center-column'>
+                <p>{user?.username}</p>
+            </div>
             <Avatar menu small />
         </div>
     )

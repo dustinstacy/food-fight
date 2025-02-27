@@ -23,16 +23,18 @@ const AccountDetails = () => {
             ) : (
                 <>
                     <h1>Account</h1>
-                    <div className='box background-gradient'>
-                        <div className='edit' onClick={() => setIsEditing(true)}>
-                            <GoPencil />
-                        </div>
+                    <div className='box background-gradient-reverse'>
+                        {user && (
+                            <div className='edit' onClick={() => setIsEditing(true)}>
+                                <GoPencil />
+                            </div>
+                        )}
                         <div className='wrapper center-column'>
                             <Avatar medium />
                             <div className='section center-column'>
                                 <span>
                                     Username:
-                                    <p>{user?.username}</p>
+                                    {user && <p>{user?.username}</p>}
                                 </span>
                             </div>
                         </div>

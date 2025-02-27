@@ -6,9 +6,11 @@
     left: 0;
     height: var(--navbar-height);
     padding: 6px 18px;
+    border-bottom: 2px solid var(--black-color);
+    box-sizing: border-box;
 
     &__logo {
-        height: 54px;
+        height: 100%;
         padding-right: 2vw;
         cursor: pointer;
 
@@ -16,19 +18,18 @@
             pointer-events: none;
         }
         font-size: 48px;
+
+        @media screen and (max-width: 419px) {
+            font-size: 28px;
+        }
     }
 
-    &__connect {
-        padding: 4px 12px;
+    .button {
         font-size: 24px;
         font-weight: 600;
-        text-transform: capitalize;
     }
 
-    .primary-border {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
+    @media screen and (max-width: 1079px) {
+        padding: 6px;
     }
 }

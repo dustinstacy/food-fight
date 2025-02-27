@@ -25,7 +25,7 @@ const Avatar = ({ menu = false, small = false, medium = false, large = false }) 
     // Dynamically set CSS classes based on props
     const avatarClasses = classSet(
         "avatar",
-        "secondary-border",
+        "black-border",
         small ? "small" : "",
         medium ? "medium" : "",
         large ? "large" : ""

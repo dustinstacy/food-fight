@@ -26,7 +26,7 @@ const BurgerMenu = () => {
             <motion.div
                 className='menu background-gradient'
                 initial={{ width: 0 }}
-                animate={isSmallScreen ? { width: isOpen ? "40vw" : "0" } : { width: isOpen ? "60vw" : "0" }}
+                animate={isSmallScreen ? { width: isOpen ? "40vw" : "0" } : { width: isOpen ? "40vw" : "0" }}
                 transition={{
                     duration: 0.3,
                     ease: "easeInOut",
