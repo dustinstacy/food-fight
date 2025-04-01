@@ -1,18 +1,18 @@
 import type { Metadata } from "next"
 
 import ClientLayout from "./client-layout"
-import "./styles/globals.scss"
-import "./styles/containers.scss"
-import "./styles/modules.scss"
-import "./styles/theme.scss"
+import "styles/globals.scss"
+import "styles/containers.scss"
+import "styles/modules.scss"
+import "styles/theme.scss"
 import { WalletProvider } from "providers/WalletProvider"
 
 export const metadata: Metadata = {
     title: "Food Fight",
-    // icons: {
-    //     icon: [{ url: "/favicon.png" }],
-    // },
-    description: "Food Fight is a web3 collectible card game",
+    icons: {
+        icon: [{ url: "/icon.ico" }],
+    },
+    description: "A Web3 collectible card game",
 }
 
 export default function RootLayout({
