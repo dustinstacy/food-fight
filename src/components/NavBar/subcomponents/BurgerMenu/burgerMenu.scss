@@ -11,9 +11,9 @@
     .menu {
         position: fixed;
         top: var(--navbar-height);
-        left: -2px;
-        min-height: calc(100vh - var(--navbar-height));
-        padding-top: 18px;
+        left: 0;
+        width: 100%;
         border-right: 2px solid var(--primary2-color);
+        overflow: hidden;
     }
 }

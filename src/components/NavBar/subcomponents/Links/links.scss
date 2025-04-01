@@ -70,7 +70,7 @@
 .burger-menu-links {
     width: 100%;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 16px;
     font-size: 24px;
 
@@ -85,6 +85,6 @@
     .burger-menu-link {
         flex-direction: row-reverse;
         gap: 12px;
-        padding-right: 12px;
+        padding-left: 12px;
     }
 }

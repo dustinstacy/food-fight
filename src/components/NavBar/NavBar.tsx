@@ -14,10 +14,10 @@ const NavBar = () => {
 
     return (
         <div className='navbar between background-gradient'>
-            <BurgerMenu />
             <a href='/'>
                 <Image className='navbar__logo center' src={smallLogo1} alt='Food Fight logo' />
             </a>
+            <BurgerMenu />
             <Links menu='navbar' />
             {isConnected ? <UserSection /> : <Button label='Connect' onClick={connectWallet} />}
         </div>
