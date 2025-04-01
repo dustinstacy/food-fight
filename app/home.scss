@@ -1,0 +1,73 @@
+.home-wrapper {
+    min-height: 100vh;
+    padding-top: calc(var(--navbar-height) + 5vh);
+    padding-bottom: 5vh;
+    background: var(--background-color);
+    background-position: right;
+    background-size: cover;
+    overflow-y: none;
+
+    .home {
+        height: 80vh;
+        width: 80vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+
+        @media screen and (max-height: 720px) {
+            flex-direction: column;
+            height: auto;
+            width: 90vw;
+        }
+
+        @media screen and (max-width: 912px) {
+            flex-direction: column;
+            width: 90vw;
+            height: auto;
+        }
+
+        @media screen and (min-width: 768px) and (orientation: portrait) {
+            flex-direction: column;
+            width: 90vw;
+            height: auto;
+        }
+
+        .title {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 80vw;
+            margin-bottom: 72px;
+
+            h1 {
+                font-size: 286px;
+                font-family: "Lilita One";
+                text-align: center;
+                line-height: 0.8;
+
+                &:nth-child(1) {
+                    color: var(--secondary-color);
+                }
+
+                &:nth-child(2) {
+                    color: var(--primary-color);
+                }
+            }
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .home-button {
+                width: 250px;
+                height: 50px;
+            }
+        }
+    }
+}
