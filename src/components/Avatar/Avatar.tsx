@@ -8,7 +8,7 @@ type AvatarSize = "small" | "medium" | "large"
 interface AvatarProps {
     // Specifies the size variant of the avatar.
     size?: AvatarSize
-    // Optional additional class name for custom styling.
+    // Optional additional class names for custom styling.
     className?: string
     // Optional callback function to handle click events.
     onClick?: () => void
@@ -45,7 +45,7 @@ const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
         onClick && "avatar--clickable" // Class for clickable avatar
     )
 
-    // Props to make the div interactive and accessible when onClick is provided
+    // Props to make the div interactive and accessible when onClick is provided.
     const interactiveProps = onClick
         ? {
               onClick: onClick,
