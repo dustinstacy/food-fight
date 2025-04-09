@@ -1,78 +1,78 @@
-import { useToggle } from "hooks"
-import { User } from "types"
+import Image from "next/image"
 import { useUserStore } from "stores"
 import { classSet } from "utils"
-
-import { AvatarMenu } from "./subcomponents"
 import "./avatar.scss"
-import Image from "next/image"
 
-// Renders user image avatar
-// menu: Indicates whether the avatar has an onClick menu
-// small, medium, large: Indicates the avatar's size
-const Avatar = ({ menu = false, small = false, medium = false, large = false }) => {
-    const user = useUserStore((state) => state.user)
-    const { image } = (user as User) ?? {}
+type AvatarSize = "small" | "medium" | "large"
 
-    const [isOpen, toggleIsOpen] = useToggle(false)
+interface AvatarProps {
+    // Specifies the size variant of the avatar.
+    size?: AvatarSize
+    // Optional additional class name for custom styling.
+    className?: string
+    // Optional callback function to handle click events.
+    onClick?: () => void
+}
 
-    const handleClick = () => {
-        if (menu) {
-            toggleIsOpen()
-        }
-    }
+const DEFAULT_SIZE: AvatarSize = "medium"
 
-    // Dynamically set CSS classes based on props
+/**
+ * Renders an Avatar component, displaying the image of the currently logged-in user.
+ * It supports different size variants and can be made interactive with click handlers,
+ * automatically incorporating accessibility features when clickable.
+ *
+ * @component
+ * @param {AvatarProps} props - The props for the Avatar component.
+ * @param {AvatarSize} [props.size='medium'] - Specifies the size variant ('small', 'medium', 'large').
+ *                                           - Applies CSS class `avatar--${size}`. Defaults to 'medium'.
+ * @param {string} [props.className] - Optional additional CSS class names to apply to the root element.
+ * @param {() => void} [props.onClick] - Optional callback function. If provided:
+ *                                     - The avatar becomes clickable.
+ *                                     - Accessibility attributes (`role="button"`, `tabIndex="0"`) are added.
+ *                                     - Keyboard interaction (Enter, Space) is enabled.
+ *                                     - The CSS class `avatar--clickable` is applied for styling (e.g., cursor).
+ *
+ * @notice The avatar image source is automatically determined from the `useUserStore`.
+ */
+const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
+    const image = useUserStore((state) => state.user?.image)
+
     const avatarClasses = classSet(
         "avatar",
-        "black-border",
-        small ? "small" : "",
-        medium ? "medium" : "",
-        large ? "large" : ""
+        `avatar--${size}`,
+        "black-border", // Theme class
+        className,
+        onClick && "avatar--clickable" // Class for clickable avatar
     )
 
-    // Dynamically set <Image> element width and height based on size props
-    let imgWidth = 100
-    let imgHeight = 100
-
-    if (small) {
-        imgWidth = 64
-        imgHeight = 64
-    } else if (medium) {
-        imgWidth = 128
-        imgHeight = 128
-    } else if (large) {
-        imgWidth = 192
-        imgHeight = 192
-    }
-
-    const imageClasses = classSet("fill", menu ? "pointer" : "")
-
-    // Fallback loading box styles (using a div as placeholder)
-    const loadingBoxStyles = {
-        width: `${imgWidth}px`,
-        height: `${imgHeight}px`,
-        backgroundColor: "#f0f0f0", // Light gray background color
-        borderRadius: "4px", // Circular shape for the avatar
-        animation: "loading-placeholder 1.5s infinite linear", // Optional animation
-    }
+    // Props to make the div interactive and accessible when onClick is provided
+    const interactiveProps = onClick
+        ? {
+              onClick: onClick,
+              role: "button",
+              tabIndex: 0,
+              onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      onClick()
+                  }
+              },
+          }
+        : {}
 
     return (
-        <div className={avatarClasses}>
+        <div className={avatarClasses} {...interactiveProps}>
             {!image ? (
-                <div style={loadingBoxStyles}></div> // Loading box placeholder
+                <div className='avatar__placeholder'></div>
             ) : (
                 <Image
-                    className={imageClasses}
+                    className='avatar__image'
                     src={image}
-                    alt='user image'
-                    height={imgHeight}
-                    width={imgWidth}
-                    onClick={handleClick}
-                    priority
+                    alt=''
+                    layout='fill'
+                    objectFit='cover'
                 />
             )}
-            {menu && <AvatarMenu isOpen={isOpen} toggleIsOpen={toggleIsOpen} />}
         </div>
     )
 }
