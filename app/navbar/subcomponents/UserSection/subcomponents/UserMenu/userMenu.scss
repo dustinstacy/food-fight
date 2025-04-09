@@ -1,0 +1,34 @@
+@use "styles/breakpoints.scss" as *;
+
+///////////////////////////////////////////////
+/// User Menu Styles                        ///
+/// ///////////////////////////////////////////
+
+.user-menu {
+    z-index: 99;
+    position: absolute;
+    top: 58px;
+    right: 2px;
+    padding: 12px;
+
+    @media screen and (min-width: $sm) {
+        top: 74px;
+    }
+
+    @media screen and (min-width: $lg) {
+        top: 84px;
+    }
+
+    // ----- Link ----- //
+
+    &__link {
+        letter-spacing: 1px;
+        color: var(--white-color);
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    &__link:hover {
+        color: var(--secondary3-color);
+    }
+}
