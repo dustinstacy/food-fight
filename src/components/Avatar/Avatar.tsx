@@ -21,7 +21,6 @@ const DEFAULT_SIZE: AvatarSize = "medium"
  * It supports different size variants and can be made interactive with click handlers,
  * automatically incorporating accessibility features when clickable.
  *
- * @component
  * @param {AvatarProps} props - The props for the Avatar component.
  * @param {AvatarSize} [props.size='medium'] - Specifies the size variant ('small', 'medium', 'large').
  *                                           - Applies CSS class `avatar--${size}`. Defaults to 'medium'.
@@ -33,6 +32,7 @@ const DEFAULT_SIZE: AvatarSize = "medium"
  *                                     - The CSS class `avatar--clickable` is applied for styling (e.g., cursor).
  *
  * @notice The avatar image source is automatically determined from the `useUserStore`.
+ * @see {@link useUserStore} - Hook to access user data, including the image URL.
  */
 const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
     const image = useUserStore((state) => state.user?.image)
@@ -77,4 +77,5 @@ const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
     )
 }
 
+Avatar.displayName = "Avatar"
 export default Avatar
