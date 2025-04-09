@@ -1,0 +1,12 @@
+///////////////////////////////////////////
+/// Breakpoints                         ///
+///////////////////////////////////////////
+
+// These define the *minimum* width for each breakpoint range (mobile-first)
+// Base styles (no media query) apply to 'xs' (portrait phones, < 576px)
+
+$sm: 576px; // Small devices (landscape phones) ≥ 576px
+$md: 768px; // Medium devices (tablets) ≥ 768px
+$lg: 992px; // Large devices (desktops) ≥ 992px
+$xl: 1200px; // Extra large devices (large desktops) ≥ 1200px
+$xxl: 1400px; // Extra extra large devices (larger desktops) ≥ 1400px
