@@ -75,27 +75,6 @@ body {
     scrollbar-color: var(--background2-color) var(--background-color);
 }
 
-// Links
-a,
-.navlink {
-    color: var(--white-color);
-    text-decoration: none;
-    cursor: pointer;
-
-    &:hover {
-        color: var(--primary-color);
-    }
-
-    &:active {
-        color: var(--secondary2-color);
-    }
-
-    &.disabled {
-        pointer-events: none;
-        color: var(--gray-color);
-    }
-}
-
 // Text
 h1,
 h2,
