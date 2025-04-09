@@ -1,33 +1,73 @@
-.primary-border {
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
+///////////////////////////////////////////
+/// Border Styles                       ///
+///////////////////////////////////////////
+
+$border-colors: (
+    "primary": var(--primary-color),
+    "primary2": var(--primary2-color),
+    "primary3": var(--primary3-color),
+    "secondary": var(--secondary-color),
+    "secondary2": var(--secondary2-color),
+    "secondary3": var(--secondary3-color),
+    "background": var(--background-color),
+    "background2": var(--background2-color),
+    "background3": var(--background3-color),
+    "black": var(--black-color),
+);
+
+@mixin theme-border($width: 2px, $style: solid, $radius: 4px) {
+    border-width: $width;
+    border-style: $style;
+    border-radius: $radius;
 }
 
-.secondary-border {
-    border: 2px solid var(--secondary-color);
-    border-radius: 4px;
+@each $name, $color in $border-colors {
+    .#{$name}-border {
+        @include theme-border;
+        border-color: $color;
+    }
 }
 
-.black-border {
-    border: 2px solid var(--black-color);
-    border-radius: 4px;
+///////////////////////////////////////////////
+/// Background Styles                       ///
+///////////////////////////////////////////////
+
+.background {
+    background-color: var(--background-color);
+}
+
+.background2 {
+    background-color: var(--background2-color);
+}
+
+.background3 {
+    background-color: var(--background3-color);
 }
 
 .background-gradient {
+    background: var(--background-color);
+    background: -webkit-linear-gradient(45deg, var(--background-color), var(--background2-color));
+    background: linear-gradient(45deg, var(--background-color), var(--background2-color));
+}
+
+.secondary-gradient {
     background: var(--secondary-color);
     background: -webkit-linear-gradient(45deg, var(--secondary-color), var(--primary-color));
     background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
 }
 
-.background-gradient-reverse {
+.primary-gradient {
     background: var(--primary-color);
     background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
 }
 
+///////////////////////////////////////////////
+/// Error Styles                            ///
+///////////////////////////////////////////////
+
 .error {
-    margin: -16px 0 8px 0;
     color: var(--error-color);
-    font-family: "Open Sans";
+    font-family: "Anton", sans-serif;
     text-align: center;
 }

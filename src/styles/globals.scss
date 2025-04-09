@@ -1,32 +1,31 @@
-@import url("https://fonts.googleapis.com/css2?family=Anton&family=Bangers&family=Dangrek&family=Honk&family=Lilita+One&family=Luckiest+Guy&family=Permanent+Marker&family=Press+Start+2P&family=Sigmar&family=Tilt+Warp&display=swap");
-
 ///////////////////////////////////////////
 /// Fonts                               ///
 ///////////////////////////////////////////
-/// Anton                               ///
 /// Bangers                             ///
-/// Dangrek                             ///
-/// Honk                                ///
 /// Lilita One                          ///
 /// Luckiest Guy                        ///
-/// Permanent Marker                    ///
-/// Press Start 2P                      ///
-/// Sigmar                              ///
 /// Tilt Warp                           ///
 ///////////////////////////////////////////
 
+@import url("https://fonts.googleapis.com/css2?family=Bangers&family=Lilita+One&family=Luckiest+Guy&family=Tilt+Warp&display=swap");
+
+///////////////////////////////////////////
+/// Root                                ///
+///////////////////////////////////////////
+
 :root {
+    // Colors
     --primary-color: rgb(196, 45, 196);
     --primary2-color: rgb(175, 35, 175);
+    --primary3-color: rgb(255, 0, 255);
 
     --secondary-color: rgb(32, 172, 214);
     --secondary2-color: rgb(25, 160, 201);
     --secondary3-color: rgb(61, 209, 231);
 
     --background-color: rgb(212, 191, 29);
-    --background2-color: rgb(255, 200, 0);
+    --background2-color: rgb(230, 182, 9);
     --background3-color: rgb(255, 230, 0);
-    --background-colorOpacity: rgba(0, 19, 35, 0.9);
 
     --error-color: rgb(158, 14, 36);
 
@@ -34,23 +33,35 @@
     --gray-color: rgb(162, 162, 165);
     --white-color: rgb(243, 244, 248);
 
-    --navbar-height: 88px;
+    // Sizes
+    --navbar-height-sm: 56px;
+    --navbar-height-md: 72px;
+    --navbar-height-lg: 80px;
+
     --footer-height: 80px;
 
+    // Fonts
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
 }
 
-/******* Universal Styling ********/
+/////////////////////////////////////////////
+/// Universal                             ///
+/////////////////////////////////////////////
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
+//////////////////////////////////////////////
+/// Global Styles                          ///
+//////////////////////////////////////////////
+
+// Containers
 html,
 body {
     min-height: 100vh;
@@ -58,12 +69,13 @@ body {
     margin: 0;
     background-color: var(--background-color);
     color: var(--white-color);
-    font-family: "Lilita One";
-    font-weight: 700;
-    scroll-behavior: smooth;
     overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--background2-color) var(--background-color);
 }
 
+// Links
 a,
 .navlink {
     color: var(--white-color);
@@ -84,6 +96,7 @@ a,
     }
 }
 
+// Text
 h1,
 h2,
 h3,
@@ -97,7 +110,7 @@ p,
 span {
     text-shadow: 1px 1px 1px var(--black-color), -1px -1px 1px var(--black-color),
         1px -1px 1px var(--black-color), -1px 1px 1px var(--black-color);
-    font-family: "Tilt Warp";
+    font-family: "Tilt Warp", sans-serif;
 }
 
 h1,
@@ -109,7 +122,11 @@ h3 {
         -2px 2px 2px var(--black-color), 2px -2px 2px var(--black-color);
 }
 
-/******* Scrollbar ********/
+//////////////////////////////////////////
+/// Scrollbar Styles                   ///
+//////////////////////////////////////////
+
+// Scrollbar
 ::-webkit-scrollbar {
     width: 12px;
 
@@ -118,12 +135,12 @@ h3 {
     }
 }
 
-/* Track */
+// Track
 ::-webkit-scrollbar-track {
     background-color: var(--background-color);
 }
 
-/* Handle */
+// Thumb
 ::-webkit-scrollbar-thumb {
     background: var(--background2-color);
     background-clip: padding-box;
@@ -132,6 +149,7 @@ h3 {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
+// Thumb hover
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-color);
 }
