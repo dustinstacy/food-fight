@@ -1,7 +1,7 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import React from "react"
+import Link from "next/link"
+import React, { forwardRef } from "react"
 
 import { classSet } from "utils"
 
@@ -10,34 +10,60 @@ import "./button.scss"
 interface ButtonProps {
     label: string
     className?: string
-    type?: string
     path?: string
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>, ...args: string[]) => void
+    onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void // Updated event type
     disabled?: boolean
-    onKeyDown?: boolean
+    htmlButtonType?: "button" | "submit" | "reset"
 }
 
-// Renders button component that can function as a navigation link or a custom onClick function.
-// Set the prop 'type' to 'link' and provide a 'path' to navigate to a specific page.
-// Set the prop 'onClick' to define a custom function to execute on button click.
-const Button = ({ label, className, type, path, onClick, disabled }: ButtonProps) => {
-    const router = useRouter()
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+    ({ label, className, path, onClick, disabled, htmlButtonType = "button" }, ref) => {
+        const commonClasses = classSet("button", "center", className, disabled ? "disabled" : "")
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (type === "link") {
-            router.push(`${path}`)
-        } else {
+        const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+            if (disabled) {
+                e.preventDefault()
+                return
+            }
             onClick?.(e)
         }
+
+        if (path && !disabled) {
+            return (
+                <Link
+                    href={path}
+                    className={commonClasses}
+                    onClick={handleClick}
+                    ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+                    aria-disabled={disabled}
+                >
+                    {label}
+                </Link>
+            )
+        }
+
+        if (path && disabled) {
+            return (
+                <span className={commonClasses} aria-disabled='true'>
+                    {label}
+                </span>
+            )
+        }
+
+        return (
+            <button
+                className={commonClasses}
+                onClick={handleClick}
+                disabled={disabled}
+                type={htmlButtonType}
+                ref={ref as React.ForwardedRef<HTMLButtonElement>}
+            >
+                {label}
+            </button>
+        )
     }
+)
 
-    const buttonClasses = classSet(`${className}`, "button", "center", disabled ? "disabled" : "")
-
-    return (
-        <button className={buttonClasses} onClick={(e) => handleClick(e)}>
-            <span>{label}</span>
-        </button>
-    )
-}
+Button.displayName = "Button"
 
 export default Button
