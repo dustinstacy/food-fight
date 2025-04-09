@@ -22,8 +22,6 @@
         outline-offset 0.1s ease;
     cursor: pointer;
 
-    // ----- Responsive Styles ----- //
-
     @media screen and (min-width: $sm) {
         padding: 6px 12px;
         font-size: 16px;
@@ -38,8 +36,6 @@
         padding: 8px 16px;
         font-size: 20px;
     }
-
-    // ----- States ----- //
 
     // Hover (only when not disabled)
     &:not(.disabled):not([disabled]):hover {
