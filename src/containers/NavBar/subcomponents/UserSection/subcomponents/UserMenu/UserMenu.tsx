@@ -4,14 +4,23 @@ import Link from "next/link"
 import { HandleToggle } from "types"
 import "./userMenu.scss"
 
+/////////////////////////////////////////////
+/// Component                             ///
+/////////////////////////////////////////////
+
 /**
+ * @component
  * Renders a simple menu, typically associated with a user avatar.
  * Its visibility is controlled by the `isOpen` prop. Contains user-related navigation links.
  *
+ * @notice Requires `HandleToggle` type from the `types` module for prop validation.
+ *
  * @remarks
- * - Conditionally renders its content based on the `isOpen` prop.
  * - Designed to be positioned relative to the UserSection of the NavBar.
- * - Calls the `toggleIsOpen` function (passed via props) when the link is clicked, usually to close the menu.
+ * - Ideal use case includes more menu items like Settings, Logout, etc.
+ * - Rendering logic:
+ *   - If `isOpen` is true, the menu is displayed.
+ *   - Else, nothing is rendered.
  *
  * @param {HandleToggle} props - Props controlling the menu's visibility and closure.
  * @param {boolean} props.isOpen - If true, the menu is rendered; otherwise, it's not. (Required)
@@ -19,7 +28,11 @@ import "./userMenu.scss"
  *
  * @see {@link HandleToggle} type definition expected from 'types' module.
  */
-const AvatarMenu = ({ isOpen, toggleIsOpen }: HandleToggle) => {
+const UserMenu = ({ isOpen, toggleIsOpen }: HandleToggle) => {
+    ////////////////////////////////////////////////
+    /// Render                                   ///
+    ////////////////////////////////////////////////
+
     return (
         <>
             {isOpen && (
@@ -38,5 +51,5 @@ const AvatarMenu = ({ isOpen, toggleIsOpen }: HandleToggle) => {
     )
 }
 
-AvatarMenu.displayName = "AvatarMenu"
-export default AvatarMenu
+UserMenu.displayName = "UserMenu"
+export default UserMenu

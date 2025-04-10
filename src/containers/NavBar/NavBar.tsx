@@ -7,17 +7,22 @@ import { useWallet } from "providers"
 import { BurgerMenu, Links, UserSection } from "./subcomponents"
 import "./navBar.scss"
 
+///////////////////////////////////////////
+/// Layout Component                    ///
+///////////////////////////////////////////
+
 /**
  * Renders the main application navigation bar.
- * Includes the logo, navigation links (via subcomponents), a burger menu,
+ * Includes the logo, navigation links, a burger menu,
  * and conditionally displays either a user section or a connect wallet button.
  *
  * @remarks
  * - Fetches wallet connection status (`isConnected`) and `connectWallet` function from `useWallet`.
- * - Renders the `UserSection` subcomponent when `isConnected` is true.
- * - Renders a "Connect" `Button` calling `connectWallet` when `isConnected` is false.
- * - Utilizes `BurgerMenu`, `Links`, and `UserSection` subcomponents for its structure.
- * - Styling relies on classes defined in `./navBar.scss` and potentially global classes like `between`, `secondary-gradient`, `abs-center`.
+ * - Rendering Logic:
+ *   - If the wallet is connected, it displays the `UserSection` component.
+ *   - If the wallet is not connected, it displays a "Connect" button.
+ *   - The BurgerMenu will display on screens < 922px in width.
+ *   - The Logo will not be displayed on screens < 576px in width.
  *
  * @see {@link BurgerMenu} - Component for menu navigation toggle.
  * @see {@link Links} - Component displaying navigation links.
@@ -26,12 +31,20 @@ import "./navBar.scss"
  * @see {@link useWallet} - Hook/Context providing wallet status and actions.
  */
 const NavBar = () => {
+    ////////////////////////////////////////////////
+    /// Hooks                                    ///
+    ////////////////////////////////////////////////
+
     const { isConnected, connectWallet } = useWallet()
+
+    ////////////////////////////////////////////////
+    /// Render                                   ///
+    ////////////////////////////////////////////////
 
     return (
         <div className='navbar between secondary-gradient'>
             <BurgerMenu />
-            {/* Logo linking to the home page */}
+            {/* --- Logo linking to the home page --- */}
             <a href='/'>
                 <Image
                     className='navbar__logo abs-center'
@@ -41,7 +54,7 @@ const NavBar = () => {
                 />
             </a>
             <Links menu='navbar' />
-            {/* Conditional rendering based on wallet connection status */}
+            {/* --- Conditional rendering based on wallet connection status --- */}
             {isConnected ? (
                 // Render user-specific section if wallet is connected
                 <UserSection />

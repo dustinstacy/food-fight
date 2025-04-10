@@ -10,15 +10,16 @@
     // ----- Divider ----- //
 
     hr {
-        height: 100%;
-        width: 0.5px;
-        margin-right: 24px;
-        background: var(--background3-color);
-        border: none;
-        opacity: 0.6;
+        display: none;
 
-        @media screen and (max-width: 768px) {
-            display: none;
+        @media screen and (min-width: $md) {
+            display: block;
+            height: 100%;
+            width: 0.5px;
+            margin-right: 24px;
+            background: var(--background3-color);
+            border: none;
+            opacity: 0.6;
         }
     }
 

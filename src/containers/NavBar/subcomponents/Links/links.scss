@@ -125,6 +125,10 @@
     gap: 16px;
     font-size: 24px;
 
+    @media screen and (min-width: $md) {
+        display: none !important;
+    }
+
     .burger-menu-link {
         @include nav-link-base;
 
