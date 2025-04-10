@@ -3,23 +3,51 @@ import { useUserStore } from "stores"
 import { classSet } from "utils"
 import "./avatar.scss"
 
+/////////////////////////////////////////////
+/// Types                                 ///
+/////////////////////////////////////////////
+
+/**
+ * Defines the size variants for the Avatar component.
+ */
 type AvatarSize = "small" | "medium" | "large"
 
+/**
+ * @interface
+ * Defines the props for the Avatar component.
+ *
+ * @property {AvatarSize} [size='medium'] - Specifies the size variant ('small', 'medium', 'large'). Defaults to 'medium'.
+ * @property {string} [className] - Optional additional CSS class names for custom styling or layout.
+ * @property {() => void} [onClick] - Optional callback function. If provided, makes the avatar clickable and adds accessibility attributes.
+ */
 interface AvatarProps {
-    // Specifies the size variant of the avatar.
     size?: AvatarSize
-    // Optional additional class names for custom styling.
     className?: string
-    // Optional callback function to handle click events.
     onClick?: () => void
 }
 
+/////////////////////////////////////////////
+/// Constants                             ///
+/////////////////////////////////////////////
+
 const DEFAULT_SIZE: AvatarSize = "medium"
 
+/////////////////////////////////////////////
+/// Component                             ///
+/////////////////////////////////////////////
+
 /**
+ * @component
  * Renders an Avatar component, displaying the image of the currently logged-in user.
  * It supports different size variants and can be made interactive with click handlers,
  * automatically incorporating accessibility features when clickable.
+ *
+ * @notice Requires `useUserStore` to access user data.
+ *
+ * @remarks
+ * - Rendering logic:
+ *   - Displays the user's image if available.
+ *   - If no image is available, a placeholder is shown.
  *
  * @param {AvatarProps} props - The props for the Avatar component.
  * @param {AvatarSize} [props.size='medium'] - Specifies the size variant ('small', 'medium', 'large').
@@ -31,19 +59,18 @@ const DEFAULT_SIZE: AvatarSize = "medium"
  *                                     - Keyboard interaction (Enter, Space) is enabled.
  *                                     - The CSS class `avatar--clickable` is applied for styling (e.g., cursor).
  *
- * @notice The avatar image source is automatically determined from the `useUserStore`.
  * @see {@link useUserStore} - Hook to access user data, including the image URL.
  */
 const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
+    ////////////////////////////////////////////////
+    /// Hooks                                    ///
+    ////////////////////////////////////////////////
+
     const image = useUserStore((state) => state.user?.image)
 
-    const avatarClasses = classSet(
-        "avatar",
-        `avatar--${size}`,
-        "black-border", // Theme class
-        className,
-        onClick && "avatar--clickable" // Class for clickable avatar
-    )
+    ////////////////////////////////////////////////
+    /// Render                                   ///
+    ////////////////////////////////////////////////
 
     // Props to make the div interactive and accessible when onClick is provided.
     const interactiveProps = onClick
@@ -59,6 +86,14 @@ const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
               },
           }
         : {}
+
+    const avatarClasses = classSet(
+        "avatar",
+        `avatar--${size}`,
+        "black-border", // Theme class
+        className,
+        onClick && "avatar--clickable"
+    )
 
     return (
         <div className={avatarClasses} {...interactiveProps}>

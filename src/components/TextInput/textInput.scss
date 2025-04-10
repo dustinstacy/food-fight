@@ -1,0 +1,147 @@
+@use "styles/breakpoints.scss" as *;
+
+//////////////////////////////////////////////////
+/// TextInput Styles                           ///
+//////////////////////////////////////////////////
+
+.text-input {
+    position: relative;
+    margin: 20px 5px;
+    font-family: "Tilt Warp";
+
+    // ----- Input ----- //
+
+    .input {
+        width: 100%;
+        padding: 7px 14px;
+        background: var(--white-color);
+        border: 2px solid var(--secondary2-color);
+        border-radius: 4px;
+        color: var(--black-color);
+        font-size: 20px;
+        font-weight: 500;
+        transition: border-color 0.4s, padding 0.4s;
+
+        @media screen and (max-width: 400px) {
+            padding: 7px;
+            font-size: 14px;
+        }
+
+        &:disabled {
+            background-color: var(--disabled-bg-color, var(--gray-color));
+            border-color: var(--disabled-border-color, var(--light-gray-color));
+            color: var(--disabled-text-color, var(--light-gray-color));
+            cursor: not-allowed;
+        }
+
+        &:disabled ~ label {
+            color: var(--disabled-text-color, var(--dark-gray-color));
+        }
+    }
+
+    // ----- Focus and Label ----- //
+
+    :focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    .input ~ label {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        transform: translateY(-50%);
+        width: 100%;
+        color: var(--gray-color);
+        transition: 0.3s;
+        pointer-events: none;
+
+        @media screen and (max-width: 400px) {
+            left: 8px;
+            font-size: 10px;
+        }
+    }
+
+    .input:focus ~ label,
+    .has-content ~ label {
+        top: -12px;
+        left: 0;
+        font-size: 14px;
+        color: var(--black-color);
+        transition: 0.3s;
+
+        @media screen and (max-width: 400px) {
+            font-size: 10px;
+        }
+    }
+
+    // ----- Error ----- //
+
+    &.has-error {
+        .input {
+            border-color: var(--error-color);
+
+            &:focus {
+                border-color: var(--error-color);
+            }
+        }
+
+        .input ~ label,
+        .input:focus ~ label,
+        .input.has-content ~ label {
+            color: var(--error-color);
+        }
+    }
+
+    .error-message {
+        display: block;
+        color: var(--error-color);
+        font-size: 12px;
+        margin-top: 4px;
+        padding-left: 2px;
+    }
+
+    // ----- Password Toggle ----- //
+
+    &.has-password-toggle {
+        .input {
+            padding-right: 45px;
+
+            @media screen and (max-width: 400px) {
+                padding-right: 40px;
+            }
+        }
+    }
+
+    .password-toggle-btn {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        color: var(--gray-color);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 1px;
+            border-radius: 4px;
+        }
+    }
+}
