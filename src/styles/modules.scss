@@ -3,15 +3,15 @@
 ////////////////////////////////////////
 
 @mixin flex-layout(
-    $direction: row,
-    $align: center,
-    // Default align-items
-    $justify: center // Default justify-content
+  $direction: row,
+  $align: center,
+  // Default align-items
+  $justify: center // Default justify-content
 ) {
-    display: flex;
-    flex-direction: $direction;
-    align-items: $align;
-    justify-content: $justify;
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
 }
 
 ////////////////////////////////////////
@@ -19,91 +19,91 @@
 ////////////////////////////////////////
 
 .center {
-    @include flex-layout($direction: row, $align: center, $justify: center);
+  @include flex-layout($direction: row, $align: center, $justify: center);
 }
 
 .top {
-    @include flex-layout($direction: row, $align: flex-start, $justify: center);
+  @include flex-layout($direction: row, $align: flex-start, $justify: center);
 }
 
 .top-right {
-    @include flex-layout($direction: row, $align: flex-start, $justify: flex-end);
+  @include flex-layout($direction: row, $align: flex-start, $justify: flex-end);
 }
 
 .top-left {
-    @include flex-layout($direction: row, $align: flex-start, $justify: flex-start);
+  @include flex-layout($direction: row, $align: flex-start, $justify: flex-start);
 }
 
 .right {
-    @include flex-layout($direction: row, $align: center, $justify: flex-end);
+  @include flex-layout($direction: row, $align: center, $justify: flex-end);
 }
 
 .bottom {
-    @include flex-layout($direction: row, $align: flex-end, $justify: center);
+  @include flex-layout($direction: row, $align: flex-end, $justify: center);
 }
 
 .bottom-right {
-    @include flex-layout($direction: row, $align: flex-end, $justify: flex-end);
+  @include flex-layout($direction: row, $align: flex-end, $justify: flex-end);
 }
 
 .bottom-left {
-    @include flex-layout($direction: row, $align: flex-end, $justify: flex-start);
+  @include flex-layout($direction: row, $align: flex-end, $justify: flex-start);
 }
 
 .left {
-    @include flex-layout($direction: row, $align: center, $justify: flex-start);
+  @include flex-layout($direction: row, $align: center, $justify: flex-start);
 }
 
 .around {
-    @include flex-layout($direction: row, $align: center, $justify: space-around);
+  @include flex-layout($direction: row, $align: center, $justify: space-around);
 }
 
 .between {
-    @include flex-layout($direction: row, $align: center, $justify: space-between);
+  @include flex-layout($direction: row, $align: center, $justify: space-between);
 }
 
 .center-column {
-    @include flex-layout($direction: column, $align: center, $justify: center);
+  @include flex-layout($direction: column, $align: center, $justify: center);
 }
 
 .top-column {
-    @include flex-layout($direction: column, $align: center, $justify: flex-start);
+  @include flex-layout($direction: column, $align: center, $justify: flex-start);
 }
 
 .top-right-column {
-    @include flex-layout($direction: column, $align: flex-start, $justify: flex-end);
+  @include flex-layout($direction: column, $align: flex-start, $justify: flex-end);
 }
 
 .top-left-column {
-    @include flex-layout($direction: column, $align: flex-start, $justify: flex-start);
+  @include flex-layout($direction: column, $align: flex-start, $justify: flex-start);
 }
 
 .right-column {
-    @include flex-layout($direction: column, $align: flex-end, $justify: center);
+  @include flex-layout($direction: column, $align: flex-end, $justify: center);
 }
 
 .bottom-column {
-    @include flex-layout($direction: column, $align: center, $justify: flex-end);
+  @include flex-layout($direction: column, $align: center, $justify: flex-end);
 }
 
 .bottom-right-column {
-    @include flex-layout($direction: column, $align: flex-end, $justify: flex-end);
+  @include flex-layout($direction: column, $align: flex-end, $justify: flex-end);
 }
 
 .bottom-left-column {
-    @include flex-layout($direction: column, $align: flex-end, $justify: flex-start);
+  @include flex-layout($direction: column, $align: flex-end, $justify: flex-start);
 }
 
 .left-column {
-    @include flex-layout($direction: column, $align: flex-start, $justify: center);
+  @include flex-layout($direction: column, $align: flex-start, $justify: center);
 }
 
 .around-column {
-    @include flex-layout($direction: column, $align: center, $justify: space-around);
+  @include flex-layout($direction: column, $align: center, $justify: space-around);
 }
 
 .between-column {
-    @include flex-layout($direction: column, $align: center, $justify: space-between);
+  @include flex-layout($direction: column, $align: center, $justify: space-between);
 }
 
 ////////////////////////////////////////
@@ -111,65 +111,65 @@
 ////////////////////////////////////////
 
 .fill {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .abs-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .abs-top-center {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .abs-top-left {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .abs-top-right {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .abs-bottom-left {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .abs-bottom-right {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .abs-bottom-center {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .abs-left-center {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
 }
 
 .abs-right-center {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
 }

@@ -1,11 +1,25 @@
+@use 'styles/breakpoints.scss' as *;
+
 ////////////////////////////////////////
 /// Containers                       ///
 ////////////////////////////////////////
 
 .page {
-    flex: 1;
-    width: 100%;
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: var(--navbar-height-sm);
+  padding-right: var(--page-gutter-x);
+  padding-left: var(--page-gutter-x);
+
+  @media screen and (min-width: $sm) {
+    padding-top: var(--navbar-height-md);
+  }
+
+  @media screen and (min-width: $lg) {
+    padding-top: var(--navbar-height-lg);
+  }
 }
