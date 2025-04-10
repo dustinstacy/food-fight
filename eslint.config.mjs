@@ -27,6 +27,23 @@ if (Object.hasOwn(cleanedBrowserGlobals, problematicKey)) {
 
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
+
+  // Ignore variables that start with an underscore
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
+    },
+  },
+
+  // Enforce accessibility rules
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
@@ -37,6 +54,7 @@ const eslintConfig = [
     },
   },
 
+  // Enforce import rules
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
@@ -63,7 +81,6 @@ const eslintConfig = [
   },
 
   // Prettier configuration - MUST COME LAST!
-  // Applies Prettier formatting as ESLint rules and disables conflicting ESLint rules
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
@@ -82,12 +99,9 @@ const eslintConfig = [
     },
   },
 
+  // Ignore specific directories
   {
-    ignores: [
-      '.next/',
-      'node_modules/',
-      // Add other ignored paths like build outputs, etc.
-    ],
+    ignores: ['.next/', 'node_modules/'],
   },
 ]
 
