@@ -1,2 +1,2 @@
-export * from "./classSet"
-export { default as customFetch } from "./customFetch"
+export * from './classSet'
+export { default as customFetch } from './customFetch'
