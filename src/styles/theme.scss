@@ -15,7 +15,7 @@ $border-colors: (
     "black": var(--black-color),
 );
 
-@mixin theme-border($width: 2px, $style: solid, $radius: 4px) {
+@mixin theme-border($width: 2px, $style: solid, $radius: 0px) {
     border-width: $width;
     border-style: $style;
     border-radius: $radius;
