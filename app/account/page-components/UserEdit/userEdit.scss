@@ -1,0 +1,17 @@
+/////////////////////////////////////////
+/// UserEdit Styles                   ///
+/////////////////////////////////////////
+
+.edit-input {
+    flex-direction: column;
+    width: 80%;
+
+    /* ----- Text Input ----- */
+    .text-input {
+        width: 60%;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
+}
