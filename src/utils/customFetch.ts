@@ -6,7 +6,7 @@
  * @returns {Promise<T>} A promise that resolves with the fetched data
  * @throws {Error} Throws an error if the fetch fails or the response is not ok.
  */
-const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
+export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
   // Ensure the window object is defined before accessing sessionStorage
   const token = typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
@@ -42,5 +42,3 @@ const customFetch = async <T = unknown>(url: string, options: RequestInit = {}):
 
   return res.json() as Promise<T>
 }
-
-export default customFetch
