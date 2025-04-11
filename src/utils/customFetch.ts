@@ -1,10 +1,22 @@
 /**
- * Custom fetch wrapper to handle common fetch logic.
- * @template T - The expected type of the successful JSON response. Defaults to `unknown`.
- * @param {string} url - The URL endpoint to fetch data from.
- * @param {RequestInit} [options={}] - Fetch options
- * @returns {Promise<T>} A promise that resolves with the fetched data
- * @throws {Error} Throws an error if the fetch fails or the response is not ok.
+ * Custom fetch wrapper handling common logic for API requests.
+ *
+ * @remarks
+ * This function provides a standardized way to interact with the backend API. Key behaviors include:
+ * - Prepends the base URL (from `NEXT_PUBLIC_API_BASE_URL` env var or fallback 'http://localhost:5000').
+ * - Automatically sets 'Content-Type' to 'application/json'.
+ * - Adds an 'Authorization: Bearer' token header, reading the token from `sessionStorage` (client-side only).
+ * - Checks the response status and throws an `Error` for non-OK responses , attempting to include status and body details in the error message.
+ * - Correctly handles successful empty responses by resolving the promise with `undefined`.
+ *
+ * @template T - The expected type of the successful JSON response body. Defaults to `unknown`.
+ * @param url - The API endpoint path (e.g., '/api/users') to be appended to the base URL.
+ * @param options - Standard `fetch` options object (method, body, additional headers, etc.).
+ * @defaultValue `{}` (empty object) for the `options` parameter.
+ * @returns A promise that resolves with the parsed JSON response body as type `T`,
+ * or `undefined` if the response has no content.
+ * @throws Throws an `Error` if the `fetch` call itself fails network-wise or if the API
+ * response status code indicates failure.
  */
 export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
