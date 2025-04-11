@@ -2,23 +2,29 @@
 
 import { useState } from 'react'
 
-import { ToggleState } from 'types'
-
+import { UseToggleReturn } from 'types'
 /**
- * Custom Hook: useToggle
- * A reusable hook that manages a boolean toggle state.
+ * Custom hook to manage a boolean toggle state.
  *
- * @param {boolean} initialState - The initial state of the toggle (default: false).
- * @returns {ToggleState} An (tuple) array containing the toggle state, toggle function, and a manual toggle state setter.
+ * @param initialState - The initial boolean state of the toggle.
+ * @defaultValue `false`
+ * @returns A state tuple conforming to {@link UseToggleReturn}:
+ * - `[0]` (boolean): The current state (`true` or `false`).
+ * - `[1]` (function): A function to toggle the state (`() => void`).
+ * - `[2]` (function): The raw state setter from `useState` (`Dispatch<SetStateAction<boolean>>`).
  *
- * @example // Basic usage
- *    const [isOpen, toggleIsOpen, setToggleIsOpen] = useToggle();
- *    - isToggled: The current state of the toggle (true/false).
- *    - toggle: A function to toggle the state between true and false.
- *    - setToggleIsOpen: Set state of isOpen to desired value
+ * @example
+ * const [isActive, toggleIsActive, setIsActive] = useToggle(true);
+ *
+ * return (
+ * <>
+ * <p>Active: {String(isActive)}</p>
+ * <button onClick={toggleIsActive}>Toggle</button>
+ * <button onClick={() => setIsActive(false)}>Deactivate</button>
+ * </>
+ * );
  */
-
-const useToggle = (initialState: boolean = false): ToggleState => {
+const useToggle = (initialState: boolean = false): UseToggleReturn => {
   const [toggleState, setToggleState] = useState(initialState)
 
   const toggle = () => {
