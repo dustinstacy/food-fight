@@ -1,5 +1,4 @@
 /**
- * @fileoverview
  * Augments the global Window interface to include type definitions for the
  * EIP-1193 compatible Ethereum provider (like MetaMask) injected by browser wallets.
  * This provides type safety when interacting with `window.ethereum`.
