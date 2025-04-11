@@ -20,7 +20,7 @@ import { UserState } from 'types'
  *
  * @example // Triggering check after wallet connection
  * const { user, checkingForUser } = useUserStore();
- * const { address } = useWallet(); // Assuming a wallet hook
+ * const { address } = useAccount(); // Project uses wagmi for wallet connection
  * const checkUser = useUserStore((state) => state.checkForUser);
  *
  * useEffect(() => {
