@@ -127,11 +127,6 @@ export interface TextInputProps {
    */
   error?: string | boolean
 
-  /**
-   * If true, the input field will attempt to receive focus automatically when mounted.
-   */
-  autoFocus?: boolean // Added based on previous component code review
-
   /** Sets the `autoComplete` attribute for the input field, influencing browser autofill behavior. */
   autoComplete?: string
 }

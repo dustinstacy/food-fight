@@ -24,10 +24,7 @@ const DEFAULT_LOADING = false
  * @returns The TextInput component JSX, wrapped in a `div`.
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  (
-    { label, name, value, onChange, type = DEFAULT_TYPE, loading = DEFAULT_LOADING, error, autoFocus, autoComplete },
-    ref
-  ) => {
+  ({ label, name, value, onChange, type = DEFAULT_TYPE, loading = DEFAULT_LOADING, error, autoComplete }, ref) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
     const isPasswordInput = type === 'password'
@@ -55,7 +52,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           disabled={loading}
           type={actualInputType}
           ref={ref}
-          autoFocus={autoFocus}
           autoComplete={autoComplete}
           aria-invalid={!!error}
           aria-describedby={errorId}

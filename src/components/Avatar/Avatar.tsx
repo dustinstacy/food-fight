@@ -1,8 +1,8 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 
-import type { AvatarProps, AvatarSize } from 'types'
 import { useUserStore } from 'stores'
+import type { AvatarProps, AvatarSize } from 'types'
 import { classSet } from 'utils'
 import './avatar.scss'
 
