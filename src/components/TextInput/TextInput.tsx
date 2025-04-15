@@ -21,7 +21,7 @@ const DEFAULT_LOADING = false
  *
  * @param props - Props conforming to the {@link TextInputProps} interface.
  * @param ref - Forwarded ref applied to the underlying HTML `<input>` element.
- * @returns The TextInput component JSX, wrapped in a `div`.
+ * @returns The TextInput component JSX element (a `<div>` containing an `<input>` and a `<label>`).
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, name, value, onChange, type = DEFAULT_TYPE, loading = DEFAULT_LOADING, error, autoComplete }, ref) => {

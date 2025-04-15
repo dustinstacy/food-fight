@@ -19,7 +19,7 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  *
  * @param props - Props conforming to the {@link ButtonProps} interface.
  * @param ref - Forwarded ref applied to the underlying interactive element (`<button>` or `<a>`).
- * @returns The rendered Button, Link, or span element.
+ * @returns The Button component JSX element (a `<button>`, `<a>`, or `<span>`).
  */
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ label, className, path, onClick, disabled, htmlButtonType = DEFAULT_HTML_BUTTON_TYPE }, ref) => {

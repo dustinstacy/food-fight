@@ -18,7 +18,7 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
  *
  * @param props - Props conforming to the {@link AvatarProps} interface.
- * @returns The Avatar component JSX element.
+ * @returns The Avatar component JSX element (a `<div>` containing an image or placeholder).
  */
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
   const image = useUserStore((state) => state.user?.image)

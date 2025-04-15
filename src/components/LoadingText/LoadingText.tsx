@@ -14,7 +14,7 @@ const DEFAULT_SIZE: LoadingTextSize = 'medium'
  * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
  *
  * @param props - Props conforming to the {@link LoadingTextProps} interface.
- * @returns The LoadingText component rendered as a `<p>` element.
+ * @returns The LoadingText component JSX element (a `<p>` with animated dots).
  */
 const LoadingText = ({ text, size = DEFAULT_SIZE, className }: LoadingTextProps) => {
   const combinedClasses = classSet('loading-text', `loading-text--${size}`, 'tilt-warp', 'text-shadow', className)
