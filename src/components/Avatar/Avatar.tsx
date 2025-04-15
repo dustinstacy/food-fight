@@ -1,116 +1,63 @@
-import Image from "next/image"
-import { useUserStore } from "stores"
-import { classSet } from "utils"
-import "./avatar.scss"
+import React from 'react'
+import Image from 'next/image'
 
-/////////////////////////////////////////////
-/// Types                                 ///
-/////////////////////////////////////////////
+import type { AvatarProps, AvatarSize } from 'types'
+import { useUserStore } from 'stores'
+import { classSet } from 'utils'
+import './avatar.scss'
 
-/**
- * Defines the size variants for the Avatar component.
- */
-type AvatarSize = "small" | "medium" | "large"
+const DEFAULT_SIZE: AvatarSize = 'medium'
 
 /**
- * @interface
- * Defines the props for the Avatar component.
- *
- * @property {AvatarSize} [size='medium'] - Specifies the size variant ('small', 'medium', 'large'). Defaults to 'medium'.
- * @property {string} [className] - Optional additional CSS class names for custom styling or layout.
- * @property {() => void} [onClick] - Optional callback function. If provided, makes the avatar clickable and adds accessibility attributes.
- */
-interface AvatarProps {
-    size?: AvatarSize
-    className?: string
-    onClick?: () => void
-}
-
-/////////////////////////////////////////////
-/// Constants                             ///
-/////////////////////////////////////////////
-
-const DEFAULT_SIZE: AvatarSize = "medium"
-
-/////////////////////////////////////////////
-/// Component                             ///
-/////////////////////////////////////////////
-
-/**
- * @component
- * Renders an Avatar component, displaying the image of the currently logged-in user.
- * It supports different size variants and can be made interactive with click handlers,
- * automatically incorporating accessibility features when clickable.
- *
- * @notice Requires `useUserStore` to access user data.
+ * Renders an avatar component displaying the current user's image.
  *
  * @remarks
- * - Rendering logic:
- *   - Displays the user's image if available.
- *   - If no image is available, a placeholder is shown.
+ * - Displays the user's image (`state.user.image`) using the Next.js <Image> component.
+ * - Shows a placeholder element while the image is loading.
+ * - If an `onClick` handler is provided via props, accessibility attributes are automatically added to the wrapper `div`.
+ * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
  *
- * @param {AvatarProps} props - The props for the Avatar component.
- * @param {AvatarSize} [props.size='medium'] - Specifies the size variant ('small', 'medium', 'large').
- *                                           - Applies CSS class `avatar--${size}`. Defaults to 'medium'.
- * @param {string} [props.className] - Optional additional CSS class names to apply to the root element.
- * @param {() => void} [props.onClick] - Optional callback function. If provided:
- *                                     - The avatar becomes clickable.
- *                                     - Accessibility attributes (`role="button"`, `tabIndex="0"`) are added.
- *                                     - Keyboard interaction (Enter, Space) is enabled.
- *                                     - The CSS class `avatar--clickable` is applied for styling (e.g., cursor).
- *
- * @see {@link useUserStore} - Hook to access user data, including the image URL.
+ * @param props - Props conforming to the {@link AvatarProps} interface.
+ * @returns The Avatar component JSX element.
  */
-const Avatar = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
-    ////////////////////////////////////////////////
-    /// Hooks                                    ///
-    ////////////////////////////////////////////////
+const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
+  const image = useUserStore((state) => state.user?.image)
 
-    const image = useUserStore((state) => state.user?.image)
-
-    ////////////////////////////////////////////////
-    /// Render                                   ///
-    ////////////////////////////////////////////////
-
-    // Props to make the div interactive and accessible when onClick is provided.
-    const interactiveProps = onClick
-        ? {
-              onClick: onClick,
-              role: "button",
-              tabIndex: 0,
-              onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault()
-                      onClick()
-                  }
-              },
+  // Props to make the div interactive and accessible when onClick is provided.
+  const interactiveProps = onClick
+    ? {
+        onClick: onClick,
+        role: 'button' as React.ButtonHTMLAttributes<HTMLDivElement>['role'], // Type assertion
+        tabIndex: 0,
+        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick() // Call the passed onClick handler
           }
-        : {}
+        },
+      }
+    : {}
 
-    const avatarClasses = classSet(
-        "avatar",
-        `avatar--${size}`,
-        "black-border", // Theme class
-        className,
-        onClick && "avatar--clickable"
-    )
+  const avatarClasses = classSet('avatar', `avatar--${size}`, 'black-border', className, onClick && 'avatar--clickable')
 
-    return (
-        <div className={avatarClasses} {...interactiveProps}>
-            {!image ? (
-                <div className='avatar__placeholder'></div>
-            ) : (
-                <Image
-                    className='avatar__image'
-                    src={image}
-                    alt=''
-                    layout='fill'
-                    objectFit='cover'
-                />
-            )}
-        </div>
-    )
+  return (
+    <div className={avatarClasses} {...interactiveProps}>
+      {!image ? (
+        <div className='avatar__placeholder'></div>
+      ) : (
+        <Image
+          className='avatar__image'
+          src={image}
+          alt='User avatar'
+          fill={true}
+          sizes='(max-width: 768px) 64px, 96px'
+        />
+      )}
+    </div>
+  )
 }
 
-Avatar.displayName = "Avatar"
+// Memoize the Avatar component to prevent unnecessary re-renders
+const Avatar = React.memo(AvatarComponent)
+Avatar.displayName = 'Avatar'
 export default Avatar
