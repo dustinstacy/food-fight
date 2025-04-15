@@ -1,0 +1,45 @@
+@use 'styles/breakpoints.scss' as *;
+
+/////////////////////////////////////////////
+/// Burger Menu Styles                    ///
+/////////////////////////////////////////////
+
+.burger-menu {
+  @media screen and (min-width: $md) {
+    display: none;
+  }
+
+  // ----- Icon ----- //
+
+  &__icon {
+    padding-top: 6px;
+    font-size: 28px;
+    cursor: pointer;
+
+    @media screen and (min-width: $sm) {
+      font-size: 36px;
+    }
+
+    @media screen and (min-width: $md) {
+      font-size: 40px;
+    }
+  }
+
+  // ----- Menu ----- //
+
+  .menu {
+    position: fixed;
+    top: var(--navbar-height-sm);
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+
+    @media screen and (min-width: $sm) {
+      top: var(--navbar-height-md);
+    }
+
+    @media screen and (min-width: $lg) {
+      top: var(--navbar-height-lg);
+    }
+  }
+}
