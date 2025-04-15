@@ -18,6 +18,12 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
  *
  * @param props - Props conforming to the {@link ButtonProps} interface.
+ * @param props.label - Text label for the button.
+ * @param props.className - Additional CSS classes to apply to the button.
+ * @param props.path - Optional path for navigation; if provided, renders as a link.
+ * @param props.onClick - Optional click handler for the button.
+ * @param props.disabled - Boolean indicating whether the button is disabled.
+ * @param props.htmlButtonType - HTML button type (e.g., 'button', 'submit', 'reset'); defaults to 'button'.
  * @param ref - Forwarded ref applied to the underlying interactive element (`<button>` or `<a>`).
  * @returns The Button component JSX element (a `<button>`, `<a>`, or `<span>`).
  */

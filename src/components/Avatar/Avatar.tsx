@@ -18,6 +18,9 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
  *
  * @param props - Props conforming to the {@link AvatarProps} interface.
+ * @param props.size - Size of the avatar, can be 'small', 'medium', or 'large'. Defaults to 'medium'.
+ * @param props.className - Additional CSS classes to apply to the avatar component.
+ * @param props.onClick - Optional click handler for the avatar component.
  * @returns The Avatar component JSX element (a `<div>` containing an image or placeholder).
  */
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
