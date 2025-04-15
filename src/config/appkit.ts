@@ -1,22 +1,9 @@
-import {
-  arbitrum,
-  arbitrumSepolia,
-  base,
-  baseSepolia,
-  mainnet,
-  sepolia,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonAmoy,
-  polygonZkEvm,
-  polygonZkEvmCardona,
-  zksync,
-  zksyncSepoliaTestnet,
-} from '@reown/appkit/networks'
+import { mainnet, sepolia } from '@reown/appkit/networks'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { type Chain } from 'viem'
 import { cookieStorage, createStorage } from 'wagmi'
+
+/** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
 
 //////////////////////////////////////////////////
 /// Constants                                  ///
@@ -26,18 +13,10 @@ import { cookieStorage, createStorage } from 'wagmi'
 export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID
 
 // Define the production chains for the app
-const productionChains: Chain[] = [mainnet, arbitrum, base, optimism, polygon, polygonZkEvm, zksync]
+const productionChains: Chain[] = [mainnet]
 
 // Define the development chains for local testing
-const developmentChains: Chain[] = [
-  sepolia,
-  arbitrumSepolia,
-  baseSepolia,
-  optimismSepolia,
-  polygonAmoy,
-  polygonZkEvmCardona,
-  zksyncSepoliaTestnet,
-]
+const developmentChains: Chain[] = [sepolia]
 
 // Define the networks/chains the app will support
 export const networks: Chain[] = [
