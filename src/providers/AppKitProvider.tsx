@@ -1,21 +1,6 @@
 'use client'
 
-import {
-  arbitrum,
-  arbitrumSepolia,
-  base,
-  baseSepolia,
-  mainnet,
-  sepolia,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonAmoy,
-  polygonZkEvm,
-  polygonZkEvmCardona,
-  zksync,
-  zksyncSepoliaTestnet,
-} from '@reown/appkit/networks'
+import { mainnet, sepolia } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { type ReactNode } from 'react'
@@ -23,15 +8,13 @@ import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 
 import { wagmiAdapter, projectId, appkitConfig } from 'config'
 
-////////////////////////////////////////////////
-/// Query Client                             ///
-////////////////////////////////////////////////
+/** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
+
+///////////////////////////////////////////////////
+/// Constants                                   ///
+///////////////////////////////////////////////////
 
 const queryClient = new QueryClient()
-
-////////////////////////////////////////////////
-/// Metadata                                 ///
-////////////////////////////////////////////////
 
 const metadata = {
   name: 'Food Fight',
@@ -40,29 +23,11 @@ const metadata = {
   icons: ['/icon.ico'],
 }
 
-////////////////////////////////////////////////
-/// Modal                                    ///
-////////////////////////////////////////////////
-
+// Constant unused. Named for clarity
 const _modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId: projectId!,
-  networks: [
-    arbitrum,
-    arbitrumSepolia,
-    base,
-    baseSepolia,
-    mainnet,
-    optimism,
-    optimismSepolia,
-    polygon,
-    polygonAmoy,
-    polygonZkEvm,
-    polygonZkEvmCardona,
-    zksync,
-    zksyncSepoliaTestnet,
-    ...(process.env.NODE_ENV === 'development' ? [sepolia] : []),
-  ],
+  networks: [mainnet, ...(process.env.NODE_ENV === 'development' ? [sepolia] : [])],
   defaultNetwork: process.env.NODE_ENV === 'development' ? sepolia : mainnet,
   metadata: metadata,
   features: {
@@ -70,9 +35,9 @@ const _modal = createAppKit({
   },
 })
 
-////////////////////////////////////////////////
-/// Provider                                 ///
-////////////////////////////////////////////////
+//////////////////////////////////////////////////
+/// Provider                            ///
+//////////////////////////////////////////////////
 
 function AppKitProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   // Get initial state for Wagmi SSR hydration from cookies
