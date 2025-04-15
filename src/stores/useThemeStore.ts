@@ -5,7 +5,8 @@ import { Theme, ThemeState } from 'types'
 
 /**
  * Determines the preferred theme based on system settings (prefers-color-scheme).
- * @returns {'light' | 'dark'} The preferred theme.
+ * Checks client-side media query.
+ * @returns The preferred theme ('light' or 'dark'), defaulting to 'light'.
  */
 const getSystemPreference = (): Theme => {
   if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -17,7 +18,7 @@ const getSystemPreference = (): Theme => {
 /**
  * Applies the correct theme class ('light-theme' or 'dark-theme') to the
  * root <html> element and removes the other.
- * @param {'light' | 'dark'} theme - The theme to apply.
+ * @param theme - The theme to apply.
  */
 const applyThemeClass = (theme: Theme) => {
   if (typeof window !== 'undefined' && theme) {
@@ -28,24 +29,24 @@ const applyThemeClass = (theme: Theme) => {
 }
 
 /**
- * Zustand store hook for managing the application's visual theme.
+ * Zustand store hook for managing the application's visual theme ('light'/'dark').
  *
- * This store manages the current theme state ('light' or 'dark'), provides actions
- * (`setTheme`, `toggleTheme`) to modify it, and utilizes middleware (`persist`)
- * to save the user's preference to localStorage under the key 'theme-storage'.
+ * @remarks
+ * This store handles the current theme state, provides actions (`setTheme`, `toggleTheme`)
+ * to modify it, and uses the `persist` middleware to save the preference to
+ * localStorage (under the 'theme-storage' key).
  *
- * On initial load, it attempts to hydrate from localStorage, falling back to the user's
- * system preference (`prefers-color-scheme`) if no preference is stored.
+ * The initial state defaults to the user's system preference (`prefers-color-scheme`)
+ * if no valid preference is found in localStorage during hydration.
  *
- * @returns {ThemeState} The theme store object containing state and actions.
- * @property {Theme} theme - The current active theme ('light' | 'dark').
- * @property {(newTheme: Theme) => void} setTheme - Action to explicitly set the theme.
- * @property {() => void} toggleTheme - Action to toggle the theme between 'light' and 'dark'.
+ * @example
+ * const theme = useThemeStore((state) => state.theme);
+ * const toggleTheme = useThemeStore((state) => state.toggleTheme);
+ * // OR: const { theme, toggleTheme } = useThemeStore();
  *
- * @example // Basic usage in a component
- * const { theme, toggleTheme } = useThemeStore();
- * const isDarkMode = theme === 'dark';
- * ... use isDarkMode and/or toggleTheme in JSX ...
+ * return <button onClick={toggleTheme}>Current: {theme}</button>;
+ *
+ * @returns The Zustand store instance conforming to the {@link ThemeState} interface.
  */
 export const useThemeStore = create<ThemeState>()(
   // Use persist middleware for localStorage persistence
