@@ -1,5 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
 
+////////////////////////////////////////////////
+/// useToggle                                ///
+////////////////////////////////////////////////
+
 /**
  * Defines a type for a toggle state tuple, returned by the useToggle hook.
  * Represents [currentState, toggleFunction, setStateFunction].

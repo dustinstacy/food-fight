@@ -1,3 +1,7 @@
+////////////////////////////////////////////////////
+/// useThemeStore                                ///
+////////////////////////////////////////////////////
+
 /**
  * Defines the available themes for the application.
  */
@@ -21,6 +25,10 @@ export interface ThemeState {
    */
   toggleTheme: () => void
 }
+
+////////////////////////////////////////////////////
+/// useUserStore                                 ///
+////////////////////////////////////////////////////
 
 /**
  * Represents a user profile within the application.
