@@ -21,6 +21,7 @@ import './burgerMenu.scss'
  * @see {@link useToggle} - Custom hook for managing boolean state.
  * @see {@link useMediaQuery} - MUI hook for responsive design.
  * @see {@link Links} - Component used to render the navigation links.
+ *
  * @returns The BurgerMenu component JSX element (a `<div>` containing the burger icon and animated menu).
  */
 const BurgerMenu = () => {
