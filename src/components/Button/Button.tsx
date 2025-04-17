@@ -47,7 +47,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
           className={commonClasses}
           onClick={handleClick}
           ref={ref as React.ForwardedRef<HTMLAnchorElement>}
-          aria-disabled={disabled} // Note: aria-disabled="false" is valid, though maybe redundant
+          aria-disabled={disabled}
         >
           {label}
         </Link>

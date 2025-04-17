@@ -26,7 +26,7 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
   const image = useUserStore((state) => state.user?.image)
 
-  // Props to make the div interactive and accessible when onClick is provided.
+  // Props to make the div interactive and accessible when onClick is provided
   const interactiveProps = onClick
     ? {
         onClick: onClick,
@@ -60,7 +60,6 @@ const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProp
   )
 }
 
-// Memoize the Avatar component to prevent unnecessary re-renders
 const Avatar = React.memo(AvatarComponent)
 Avatar.displayName = 'Avatar'
 export default Avatar
