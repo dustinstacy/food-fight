@@ -1,11 +1,11 @@
-@use "styles/breakpoints.scss" as *;
+@use 'styles/breakpoints.scss' as *;
 
 ////////////////////////////////////////
 /// Page Style Overrides             ///
 ////////////////////////////////////////
 
 .home.page {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
 ////////////////////////////////////////
@@ -13,47 +13,44 @@
 ////////////////////////////////////////
 
 .home {
-    position: relative;
-    padding: calc(var(--navbar-height-sm) + 5vh) 2vw 5vh;
+  position: relative;
+  padding-bottom: 5vh;
+
+  @media screen and (orientation: landscape) {
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 2.5vh;
+  }
+
+  // ----- Logo ----- //
+
+  &__logo {
+    z-index: 0;
+    width: 100vw;
+    height: auto;
+    padding-top: var(--navbar-height-sm);
 
     @media screen and (orientation: landscape) {
-        align-items: center;
-        justify-content: flex-end;
+      left: 35vw;
+      height: 100vh;
+      width: auto;
     }
+  }
 
-    @media screen and (min-width: $xxl) {
-        padding-right: 5vw;
+  // ----- Buttons ----- //
+
+  &__buttons {
+    z-index: 1;
+    height: 100%;
+    gap: 12px;
+
+    .button {
+      width: 200px;
+
+      @media screen and (min-width: $xxl) {
+        width: 300px;
+        font-size: 28px;
+      }
     }
-
-    // ----- Logo ----- //
-
-    &__logo {
-        z-index: 0;
-        width: 180vw;
-        height: auto;
-        padding-top: var(--navbar-height-sm);
-
-        @media screen and (orientation: landscape) {
-            left: 35vw;
-            height: 100vh;
-            width: auto;
-        }
-    }
-
-    // ----- Buttons ----- //
-
-    &__buttons {
-        z-index: 1;
-        height: 100%;
-        gap: 12px;
-
-        .button {
-            width: 200px;
-
-            @media screen and (min-width: $xxl) {
-                width: 300px;
-                font-size: 28px;
-            }
-        }
-    }
+  }
 }

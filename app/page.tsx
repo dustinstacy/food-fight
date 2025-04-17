@@ -1,58 +1,47 @@
-"use client"
+'use client'
 
-import Image from "next/image"
-import { largeLogo5 } from "assets"
-import { Button } from "components"
-import { navLinks } from "data"
-import { useUserStore } from "stores"
-import "./home.scss"
+import Image from 'next/image'
 
-///////////////////////////////////////
-// Home Page Component              ///
-///////////////////////////////////////
+import { largeLogo1 } from 'assets'
+import { Button } from 'components'
+import { navLinks } from 'features/navigation/data'
+import { useUserStore } from 'stores'
+import './home.scss'
 
 /**
- * This page is responsible for rendering the home page of the application.
- * It displays the logo and a set of buttons based on the user's authentication status.
- *
- * @notice Requires `navLinks` for button navigation, `useUserStore` for user authentication status,
- * `Button` component for rendering buttons, and `largeLogo5` for the logo image.
+ * @component Home
+ * Renders the main home page ('/') for the Food Fight application.
+ * Displays a background logo and conditionally renders navigation buttons
+ * (excluding 'Home') based on the user's authentication status fetched from `useUserStore`.
  *
  * @remarks
- * - Rendering Logic:
- *   - If the user is authenticated, it displays buttons for navigation.
- *   - If the user is not authenticated, it does not display any buttons.
+ * Rendering Logic:
+ * - Displays logo using next/image (requires `fill` and `sizes` props).
+ * - If `user` exists in the store, maps over `navLinks` (excluding 'Home') to render navigation `Button` components.
+ * - If `user` does not exist (or is being checked), no buttons are rendered.
  *
- * @see {@link navLinks} for the list of navigation links.
- * @see {@link useUserStore} for user authentication status.
- * @see {@link Button} for button component.
+ * @see {@link navLinks} - Data source for navigation buttons.
+ * @see {@link useUserStore} - Hook providing user authentication status (`user`).
+ * @see {@link Button} - Component used to render navigation links.
+ * @see {@link module:next/image.default} - Component used for rendering the logo.
+ *
+ * @returns The JSX element representing the Home page structure.
  */
 export default function Home() {
-    ////////////////////////////////////////////
-    /// Hooks                                ///
-    ////////////////////////////////////////////
+  const { user } = useUserStore()
 
-    const { user } = useUserStore()
-
-    ////////////////////////////////////////////
-    /// Render                               ///
-    ////////////////////////////////////////////
-
-    return (
-        <div className='home page bottom background-gradient'>
-            <Image className='home__logo abs-top-center' src={largeLogo5} alt='Food Fight logo' />
-            {user ? (
-                <div className='home__buttons bottom-column'>
-                    {navLinks.map(
-                        (link) =>
-                            link.name !== "Home" && (
-                                <Button key={link.name} label={link.name} path={link.path} />
-                            )
-                    )}
-                </div>
-            ) : (
-                <> </>
-            )}
+  return (
+    <div className='home page bottom background-gradient'>
+      <Image className='home__logo abs-top-center' src={largeLogo1} alt='Food Fight logo' sizes='100vw' />
+      {user ? (
+        <div className='home__buttons bottom-column'>
+          {navLinks.map(
+            (link) => link.name !== 'Home' && <Button key={link.name} label={link.name} path={link.path} />
+          )}
         </div>
-    )
+      ) : (
+        <> </>
+      )}
+    </div>
+  )
 }
