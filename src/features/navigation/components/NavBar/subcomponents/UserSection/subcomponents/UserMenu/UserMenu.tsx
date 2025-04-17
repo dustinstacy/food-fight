@@ -4,26 +4,27 @@ import Switch from '@mui/material/Switch'
 import Link from 'next/link'
 import { useDisconnect } from 'wagmi'
 
-import { useThemeStore } from 'stores'
+import { useAuthStore, useThemeStore, useUserStore } from 'stores'
 import { UseToggleProps } from 'types'
 import './userMenu.scss'
 
 /**
- * Renders the user menu with options for account, dark mode toggle, and logout.
+ * Renders the user menu.
  *
  * @remarks
- * - This component is conditionally rendered based on the `isOpen` prop.
- * - The account link navigates to the user's account page.
- * - The dark mode toggle updates the theme in the global store.
- * - The logout option disconnects the user from the current session (both wallet and app).
+ * - This component is responsible for:
+ * - Displaying the user's account link.
+ * - Providing a toggle for dark mode.
+ * - Allowing the user to log out.
  *
  * @param props - The component props.
  * @param props.isOpen - Boolean indicating whether the menu is open or closed.
  * @param props.toggleIsOpen - Function to toggle the menu open/closed state.
- * @returns The UserMenu component JSX element (a `<div>` containing user-related options).
  */
 const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
+  const { logout: logoutFromAuthStore } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
+  const { setUser } = useUserStore()
   const { disconnect } = useDisconnect()
 
   const isDarkMode = theme === 'dark'
@@ -33,6 +34,9 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
   }
 
   const handleLogout = () => {
+    console.log('UserMenu: Logging out...')
+    logoutFromAuthStore()
+    setUser(null)
     disconnect()
     toggleIsOpen?.()
   }
