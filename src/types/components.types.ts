@@ -4,18 +4,12 @@ import type React from 'react'
 /// Avatar                                        ///
 /////////////////////////////////////////////////////
 
-/**
- * Defines the size variants for the Avatar component.
- */
+/** Defines the size variants for the Avatar component. */
 export type AvatarSize = 'small' | 'medium' | 'large'
 
-/**
- * Props accepted by the Avatar component.
- */
+/** Props accepted by the Avatar component.*/
 export interface AvatarProps {
-  /**
-   * Specifies the visual size variant ('small', 'medium', 'large').
-   */
+  /** Specifies the visual size variant ('small', 'medium', 'large'). */
   size?: AvatarSize
 
   /** Optional CSS class name(s) to apply to the wrapper `div` element. */
@@ -32,9 +26,7 @@ export interface AvatarProps {
 /// Button                                         ///
 //////////////////////////////////////////////////////
 
-/**
- * Props accepted by the Button component.
- */
+/** Props accepted by the Button component. */
 export interface ButtonProps {
   /** The text content displayed within the button. */
   label: string
@@ -68,21 +60,15 @@ export interface ButtonProps {
 /// LoadingText                                    ///
 //////////////////////////////////////////////////////
 
-/**
- * Defines the size variants for the LoadingText component.
- */
+/** Defines the size variants for the LoadingText component. */
 export type LoadingTextSize = 'small' | 'medium' | 'large'
 
-/**
- * Props accepted by the LoadingText component.
- */
+/** Props accepted by the LoadingText component. */
 export interface LoadingTextProps {
   /** The base text content to display before the animated dots. */
   text: string
 
-  /**
-   * Specifies the size variant which affects the font size via CSS class (`loading-text--${size}`).
-   */
+  /** Specifies the size variant which affects the font size via CSS class (`loading-text--${size}`). */
   size?: LoadingTextSize
 
   /** Optional CSS class name(s) to apply to the root paragraph element. */
@@ -93,9 +79,7 @@ export interface LoadingTextProps {
 /// TextInput                                        ///
 ////////////////////////////////////////////////////////
 
-/**
- * Props accepted by the TextInput component.
- */
+/** Props accepted by the TextInput component. */
 export interface TextInputProps {
   /** The text for the floating label associated with the input. */
   label: string
@@ -112,19 +96,13 @@ export interface TextInputProps {
    */
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 
-  /**
-   * The HTML `type` attribute for the input field (e.g., "text", "password", "email").
-   */
+  /** The HTML `type` attribute for the input field (e.g., "text", "password", "email"). */
   type?: string
 
-  /**
-   * If true, visually disables the input field and prevents user interaction.
-   */
+  /** If true, visually disables the input field and prevents user interaction. */
   loading?: boolean
 
-  /**
-   * Indicates an error state.
-   */
+  /** Indicates an error state. */
   error?: string | boolean
 
   /** Sets the `autoComplete` attribute for the input field, influencing browser autofill behavior. */

@@ -2,14 +2,10 @@
 /// useThemeStore                                ///
 ////////////////////////////////////////////////////
 
-/**
- * Defines the available themes for the application.
- */
+/** Defines the available themes for the application. */
 export type Theme = 'light' | 'dark'
 
-/**
- * Describes the state structure and actions provided by the theme management store.
- */
+/** Describes the state structure and actions provided by the theme management store. */
 export interface ThemeState {
   /** The current active theme. */
   theme: Theme
@@ -20,9 +16,7 @@ export interface ThemeState {
    */
   setTheme: (theme: Theme) => void
 
-  /**
-   * Action to toggle the application theme between 'light' and 'dark'.
-   */
+  /** Action to toggle the application theme between 'light' and 'dark'. */
   toggleTheme: () => void
 }
 
@@ -64,10 +58,8 @@ export interface UserState {
   setUser: (user: User | null) => void
 
   /**
-   * Asynchronous action to fetch user data for a given address from the backend API,
-   * or create a new user record if one doesn't exist.
-   * @param address - The wallet address associated with the user to check or create.
+   * Asynchronous action to initiate fetching the *authenticated* user's data or creating a new user
    * @returns A promise that resolves once the check/create operation and subsequent state updates are complete.
    */
-  checkForUser: (address: string) => Promise<void>
+  checkForUser: () => Promise<void>
 }
