@@ -132,7 +132,9 @@
   font-size: 24px;
 
   @media screen and (min-width: $md) {
-    display: none !important;
+    .burger-menu & {
+      display: none;
+    }
   }
 
   .burger-menu-link {

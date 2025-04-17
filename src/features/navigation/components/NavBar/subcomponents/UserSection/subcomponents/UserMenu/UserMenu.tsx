@@ -58,8 +58,14 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
           </Link>
 
           {/* ----- Dark Mode Toggle ----- */}
-          <div className='left' onClick={toggleTheme} role='button' tabIndex={0} onKeyDown={handleDivKeyDown}>
-            <span className='user-menu__link text-shadow'>Dark Mode</span>
+          <div
+            className='user-menu__toggle left'
+            onClick={toggleTheme}
+            role='button'
+            tabIndex={0}
+            onKeyDown={handleDivKeyDown}
+          >
+            <span className='user-menu__link text-shadow'>{isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
             <Switch
               checked={isDarkMode}
               onChange={handleThemeChange}

@@ -32,16 +32,19 @@
     color: var(--secondary3-color);
   }
 
-  // In userMenu.scss or globally
-  .MuiSwitch-root {
-    & .MuiSwitch-track {
-      // Target track within the switch
-      background-color: var(--primary-color) !important; // May need !important due to MUI specificity
-    }
+  &__toggle {
+    gap: 8px;
 
-    & .MuiSwitch-thumb {
-      // Target thumb within the switch
-      background-color: var(--black-color) !important; // May need !important due to MUI specificity
+    .MuiSwitch-root {
+      & .MuiSwitch-track {
+        // Target track within the switch
+        background-color: var(--primary-color);
+      }
+
+      & .MuiSwitch-thumb {
+        // Target thumb within the switch
+        background-color: var(--white-color);
+      }
     }
   }
 }

@@ -26,10 +26,10 @@
   // ----- Username ----- //
 
   &__name {
-    display: none !important;
+    display: none;
 
     @media screen and (min-width: $sm) {
-      display: block !important;
+      display: block;
       margin-right: 8px;
       color: var(--white-color);
       font-size: 14px;

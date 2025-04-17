@@ -25,7 +25,7 @@ const UserSection = () => {
   return (
     <div className='user-section right'>
       <hr />
-      <div className='user-section__name center-column text-shadow tilt-warp'>
+      <div className='user-section__name text-shadow tilt-warp'>
         <p>{user?.username}</p>
       </div>
       <Avatar size='small' onClick={handleClick} />

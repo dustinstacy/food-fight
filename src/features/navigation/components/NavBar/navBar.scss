@@ -39,11 +39,13 @@
     }
 
     @media screen and (min-width: $md) {
-      position: unset !important;
-      width: 64px;
-      height: 64px;
-      margin-right: 12px;
-      transform: translate(0) translateY(0) !important;
+      .navbar & {
+        position: unset;
+        width: 64px;
+        height: 64px;
+        margin-right: 12px;
+        transform: translate(0) translateY(0);
+      }
     }
 
     @media screen and (min-width: $lg) {
