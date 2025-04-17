@@ -10,14 +10,15 @@ const DEFAULT_SIZE: LoadingTextSize = 'medium'
  * Renders base text followed by CSS-animated loading dots (e.g., "Loading...").
  *
  * @remarks
- * - Applies size-specific CSS classes based on the `size` prop.
- * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
+ * This component is responsible for:
+ * - Displaying a base text with animated dots to indicate loading.
+ * - Applying different styles based on the size of the loading text.
+ * - Accepting additional CSS classes for customization.
  *
  * @param props - Props conforming to the {@link LoadingTextProps} interface.
  * @param props.text - The base text to display (e.g., "Loading").
  * @param props.size - Size of the loading text, can be 'small', 'medium', or 'large'. Defaults to 'medium'.
  * @param props.className - Additional CSS classes to apply to the loading text component.
- * @returns The LoadingText component JSX element (a `<p>` with animated dots).
  */
 const LoadingText = ({ text, size = DEFAULT_SIZE, className }: LoadingTextProps) => {
   const combinedClasses = classSet('loading-text', `loading-text--${size}`, 'tilt-warp', 'text-shadow', className)

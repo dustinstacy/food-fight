@@ -13,9 +13,10 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  * Renders a versatile button that can act as a link or a standard button.
  *
  * @remarks
- * - Renders as `<button>`, `next/link`, or `<span>` based on `path` and `disabled` props.
- * - Click handlers are automatically prevented when `disabled`.
- * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
+ * This component is responsible for:
+ * - Displaying a button with a label.
+ * - Optionally rendering as a link if a `path` is provided.
+ * - Handling click events and optional disabled state.
  *
  * @param props - Props conforming to the {@link ButtonProps} interface.
  * @param props.label - Text label for the button.
@@ -25,7 +26,6 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  * @param props.disabled - Boolean indicating whether the button is disabled.
  * @param props.htmlButtonType - HTML button type (e.g., 'button', 'submit', 'reset'); defaults to 'button'.
  * @param ref - Forwarded ref applied to the underlying interactive element (`<button>` or `<a>`).
- * @returns The Button component JSX element (a `<button>`, `<a>`, or `<span>`).
  */
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ label, className, path, onClick, disabled, htmlButtonType = DEFAULT_HTML_BUTTON_TYPE }, ref) => {

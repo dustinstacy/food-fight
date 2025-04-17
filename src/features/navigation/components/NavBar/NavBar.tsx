@@ -16,13 +16,12 @@ import './navBar.scss'
  * Renders the navigation bar for the application.
  *
  * @remarks
- * - The navigation bar includes a logo, links, and a user section.
- * - The logo links to the home page.
- * - The links are conditionally rendered based on the user's connection status.
- * - The user section displays the user's avatar and name if connected.
- * - If not connected, a "Connect" button is displayed.
- *
- * @returns The NavBar component JSX element (a `<div>` containing the navigation bar).
+ * This component is responsible for:
+ * - Displaying the application logo.
+ * - Providing navigation links.
+ * - Allowing users to connect their wallets.
+ * - Conditionally rendering user-specific sections based on wallet connection status.
+ * - Conditionally rendering the burger menu or navigation links based on media queries (SCSS).
  */
 const NavBar = () => {
   const { isConnected } = useAccount()

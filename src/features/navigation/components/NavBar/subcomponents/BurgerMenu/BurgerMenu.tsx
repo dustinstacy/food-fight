@@ -11,14 +11,13 @@ import { Links } from '..'
 import './burgerMenu.scss'
 
 /**
- * Renders a burger icon button that toggles an animated slide-down navigation menu.
+ * Renders a burger icon menu.
  *
  * @remarks
- * - Uses the `useToggle` hook to manage the menu's open/closed state.
- * - Uses MUI's `useMediaQuery` hook to detect screen size.
- * - The animated panel contains the `Links` component.
- *
- * @returns The BurgerMenu component JSX element (a `<div>` containing the burger icon and animated menu).
+ * - This component is responsible for:
+ * - Displaying a burger icon when the menu is closed.
+ * - Displaying a close icon when the menu is open.
+ * - Animating the menu panel to slide down when opened and slide up when closed.
  */
 const BurgerMenu = () => {
   const [isOpen, toggleIsOpen, setIsOpen] = useToggle(false)

@@ -9,19 +9,19 @@ import './avatar.scss'
 const DEFAULT_SIZE: AvatarSize = 'medium'
 
 /**
- * Renders an avatar component displaying the current user's image.
+ * Renders a user avatar component.
  *
  * @remarks
- * - Displays the user's image (`state.user.image`) using the Next.js <Image> component.
- * - Shows a placeholder element while the image is loading.
- * - If an `onClick` handler is provided via props, accessibility attributes are automatically added to the wrapper `div`.
- * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
+ * This component is responsible for:
+ * - Displaying the user's avatar image.
+ * - Providing a placeholder if the image is not available.
+ * - Making the avatar clickable if an `onClick` handler is provided.
+ * - Applying different styles based on the size of the avatar.
  *
  * @param props - Props conforming to the {@link AvatarProps} interface.
  * @param props.size - Size of the avatar, can be 'small', 'medium', or 'large'. Defaults to 'medium'.
  * @param props.className - Additional CSS classes to apply to the avatar component.
  * @param props.onClick - Optional click handler for the avatar component.
- * @returns The Avatar component JSX element (a `<div>` containing an image or placeholder).
  */
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
   const image = useUserStore((state) => state.user?.image)

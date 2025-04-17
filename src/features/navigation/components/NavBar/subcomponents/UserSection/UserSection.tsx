@@ -6,22 +6,13 @@ import { UserMenu } from './subcomponents'
 import './userSection.scss'
 
 /**
- * Renders the user section of the navigation bar that displays the user's avatar and name.
- * It also provides a dropdown menu for user-related actions.
+ * Renders the user section of the navigation bar.
  *
  * @remarks
- * - The `useToggle` hook is used to manage the open/close state of the menu.
- * - The `UserMenu` component is displayed when the menu is open.
- * - The component uses the `useUserStore` hook to access the user's information.
- * - The `Avatar` component is used to display the user's avatar.
- *
- * @see {@link useToggle} for more details on the toggle functionality.
- * @see {@link UserMenu} for more details on the menu functionality.
- * @see {@link useUserStore} for more details on the user store functionality.
- * @see {@link Avatar} for more details on the avatar functionality.
- *
- * @returns The UserSection component JSX element (a `<div>` containing the user's avatar,
- * username, and menu).
+ * This component is responsible for:
+ * - Displaying the user's avatar.
+ * - Showing the user's username.
+ * - Toggling the visibility of the user menu when the avatar is clicked.
  */
 const UserSection = () => {
   const user = useUserStore((state) => state.user)

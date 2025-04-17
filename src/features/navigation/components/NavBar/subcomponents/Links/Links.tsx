@@ -11,13 +11,14 @@ import './links.scss'
  * Renders a list of navigation links.
  *
  * @remarks
- * - Maps over the `navLinks` array, rendering each item as a Next.js <Link> element containing an icon and text.
- * - Dynamically applies CSS classes based on the `menu` prop.
+ * This component is responsible for:
+ * - Displaying a set of navigation links based on the provided `menu` prop.
+ * - Applying specific styles based on the `menu` context (e.g., 'navbar', 'burger-menu').
+ * - Handling optional click events for each link.
  *
  * @param props - Props conforming to the {@link LinksProps} interface.
  * @param props.menu - Identifier for the menu context (e.g., 'navbar', 'burger-menu'), used for styling.
  * @param props.onClick - Optional click handler passed down to each individual link element.
- * @returns The Links component JSX element (a `<div>` containing multiple `<Link>` elements).
  */
 const Links = ({ menu, onClick }: LinksProps) => {
   const containerClasses = classSet(

@@ -14,14 +14,14 @@ const DEFAULT_LOADING = false
  * Renders a controlled text input component with a floating label effect.
  *
  * @remarks
- * - Includes an optional visibility toggle icon button when `type` is "password".
- * - Handles `loading` state by disabling the input and toggle button.
- * - Displays error styling and an optional message based on the `error` prop.
- * - Uses the `classSet` utility to conditionally apply CSS classes based on props.
+ * This component is responsible for:
+ * - Displaying a text input field with a label that floats when the input is focused or has content.
+ * - Optionally displaying a password visibility toggle button for password inputs.
+ * - Handling loading state to disable user interaction.
+ * - Displaying error messages when validation fails.
  *
  * @param props - Props conforming to the {@link TextInputProps} interface.
  * @param ref - Forwarded ref applied to the underlying HTML `<input>` element.
- * @returns The TextInput component JSX element (a `<div>` containing an `<input>` and a `<label>`).
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, name, value, onChange, type = DEFAULT_TYPE, loading = DEFAULT_LOADING, error, autoComplete }, ref) => {
