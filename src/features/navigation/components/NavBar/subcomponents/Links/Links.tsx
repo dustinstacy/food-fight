@@ -14,8 +14,6 @@ import './links.scss'
  * - Maps over the `navLinks` array, rendering each item as a Next.js <Link> element containing an icon and text.
  * - Dynamically applies CSS classes based on the `menu` prop.
  *
- * @see {@link navLinks} - Data array used to generate links.
- *
  * @param props - Props conforming to the {@link LinksProps} interface.
  * @param props.menu - Identifier for the menu context (e.g., 'navbar', 'burger-menu'), used for styling.
  * @param props.onClick - Optional click handler passed down to each individual link element.

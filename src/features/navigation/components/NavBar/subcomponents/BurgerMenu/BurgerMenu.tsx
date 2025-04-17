@@ -18,10 +18,6 @@ import './burgerMenu.scss'
  * - Uses MUI's `useMediaQuery` hook to detect screen size.
  * - The animated panel contains the `Links` component.
  *
- * @see {@link useToggle} - Custom hook for managing boolean state.
- * @see {@link useMediaQuery} - MUI hook for responsive design.
- * @see {@link Links} - Component used to render the navigation links.
- *
  * @returns The BurgerMenu component JSX element (a `<div>` containing the burger icon and animated menu).
  */
 const BurgerMenu = () => {

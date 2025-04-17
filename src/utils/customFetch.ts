@@ -15,8 +15,6 @@
  * @defaultValue `{}` (empty object) for the `options` parameter.
  * @returns A promise that resolves with the parsed JSON response body as type `T`,
  * or `undefined` if the response has no content.
- * @throws Throws an `Error` if the `fetch` call itself fails network-wise or if the API
- * response status code indicates failure.
  */
 export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'

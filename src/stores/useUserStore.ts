@@ -13,8 +13,6 @@ import { UserState } from 'types'
  * - Check for an existing user (`checkForUser`), which attempts to fetch the user from the API.
  * It also manages a loading flag (`checkingForUser`) during the asynchronous `checkForUser` operation.
  *
- * @see {@link fetchUserFromAccount} - API function used to get existing users.
- *
  * @returns The Zustand store instance conforming to the {@link UserState} interface.
  */
 const useUserStore = create<UserState>((set) => ({
