@@ -1,15 +1,39 @@
 .account {
-    position: relative;
-    gap: 48px;
-    padding: 128px 0 64px 0;
+  position: relative;
+  flex: 1;
+  margin: 12px 0;
+  padding: 24px;
 
-    .box {
-        min-height: 200px;
-        width: 60vw;
-        padding: 48px;
+  .edit {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background: none;
+    border: none;
 
-        @media screen and (max-width: 1080px) {
-            width: 90vw;
-        }
+    .react-icons {
+      padding: 4px;
+      box-sizing: content-box;
+      background-color: var(--background-color);
+      border: 1px solid var(--black-color);
+      border-radius: 4px;
+      color: var(--black-color);
+      font-size: 24px;
+      cursor: pointer;
     }
+  }
+
+  .wrapper {
+    width: 100%;
+    gap: 16px;
+
+    .section {
+      width: 100%;
+      font-size: 18px;
+
+      span {
+        gap: 10px;
+      }
+    }
+  }
 }

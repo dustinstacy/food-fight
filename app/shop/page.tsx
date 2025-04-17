@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import "./shop.scss"
+import './shop.scss'
 
 export default function Shop() {
-    return (
-        <div className='shop-wrapper page center'>
-            <div className='shop'>Shop</div>
-        </div>
-    )
+  return (
+    <div className='shop-wrapper page center'>
+      <div className='shop'>Shop</div>
+    </div>
+  )
 }

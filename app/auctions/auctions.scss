@@ -1,19 +1,19 @@
 .auctions-wrapper {
-    min-height: 100vh;
-    padding-top: calc(var(--navbar-height) + 5vh);
-    padding-bottom: 5vh;
-    background: var(--background-color);
-    background-position: right;
-    background-size: cover;
-    overflow-y: none;
+  min-height: 100vh;
+  padding-top: calc(var(--navbar-height) + 5vh);
+  padding-bottom: 5vh;
+  background: var(--background-color);
+  background-position: right;
+  background-size: cover;
+  overflow-y: none;
 
-    .auctions {
-        height: 80vh;
-        width: 80vw;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-    }
+  .auctions {
+    height: 80vh;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
 }
