@@ -1,7 +1,9 @@
 import { create } from 'zustand'
 
 import { fetchUserFromAccount } from 'api'
-import { UserState } from 'types'
+import { UserActions, UserState } from 'types'
+
+type UserStore = UserState & UserActions
 
 /**
  * Zustand store hook for managing the application's current user data and session status.
@@ -12,20 +14,14 @@ import { UserState } from 'types'
  * - Manually set the user state (`setUser`), primarily used for logout or direct updates.
  * - Check for an existing user (`checkForUser`), which attempts to fetch the user from the API.
  * It also manages a loading flag (`checkingForUser`) during the asynchronous `checkForUser` operation.
- *
- * @returns The Zustand store instance conforming to the {@link UserState} interface.
  */
-const useUserStore = create<UserState>((set) => ({
-  // Current user data
+const useUserStore = create<UserStore>((set) => ({
+  // Initial state
   user: null,
-
-  // Flag to indicate if a user check is in progress
   checkingForUser: false,
 
-  // Function to set the user state directly
+  // Actions
   setUser: (user) => set({ user: user }),
-
-  // Function to check for an existing user
   checkForUser: async () => {
     set({ checkingForUser: true, user: null })
     try {

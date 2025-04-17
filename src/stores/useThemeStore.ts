@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { Theme, ThemeState } from 'types'
+import { Theme, ThemeActions, ThemeState } from 'types'
 
 /**
  * Determines the preferred theme based on system settings (prefers-color-scheme).
@@ -28,41 +28,31 @@ const applyThemeClass = (theme: Theme) => {
   }
 }
 
+type ThemeStore = ThemeState & ThemeActions
+
 /**
  * Zustand store hook for managing the application's visual theme ('light'/'dark').
  *
  * @remarks
- * This store handles the current theme state, provides actions (`setTheme`, `toggleTheme`)
- * to modify it, and uses the `persist` middleware to save the preference to
- * localStorage (under the 'theme-storage' key).
- *
- * The initial state defaults to the user's system preference (`prefers-color-scheme`)
- * if no valid preference is found in localStorage during hydration.
- *
- * @example
- * const theme = useThemeStore((state) => state.theme);
- * const toggleTheme = useThemeStore((state) => state.toggleTheme);
- * // OR: const { theme, toggleTheme } = useThemeStore();
- *
- * return <button onClick={toggleTheme}>Current: {theme}</button>;
- *
- * @returns The Zustand store instance conforming to the {@link ThemeState} interface.
+ * This store handles the current theme state.
+ * It provides actions to:
+ * - Set the theme explicitly (`setTheme`).
+ * - Toggle the theme between 'light' and 'dark' (`toggleTheme`).
+ * It also persists the theme state in localStorage using Zustand's `persist` middleware.
  */
-export const useThemeStore = create<ThemeState>()(
+export const useThemeStore = create<ThemeStore>()(
   // Use persist middleware for localStorage persistence
   persist(
     (set, get) => ({
-      // Set initial state based on system preference
-      // persist middleware will override this with the value from localStorage if it exists on hydration
+      // Initial state
       theme: getSystemPreference(),
 
-      // Action to explicitly set the theme
+      // Actions
       setTheme: (newTheme) => {
         applyThemeClass(newTheme)
         set({ theme: newTheme })
       },
 
-      // Action to toggle between light/dark theme
       toggleTheme: () => {
         const currentTheme = get().theme
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
