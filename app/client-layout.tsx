@@ -39,9 +39,20 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   // Check token on initial load
   useEffect(() => {
-    if (isConnected && address) {
+    if (isConnected && address && chainId) {
       console.log('ClientLayout: Checking existing token...')
       checkExistingToken(address)
+
+      const { isAuthenticated: currentAuthStatus, isLoading: currentLoadingStatus } = useAuthStore.getState()
+
+      if (!currentAuthStatus && !currentLoadingStatus) {
+        console.log('ClientLayout: No existing token, authenticating user...')
+        setUser(null)
+        handleAuthentication(address, chainId, signMessageAsync)
+      } else if (currentAuthStatus && user && user.address.toLowerCase() !== address.toLowerCase()) {
+        console.log('ClientLayout: Address changed, fetching new user data...')
+        setUser(null)
+      }
     }
   }, [isConnected, address, checkExistingToken])
 
