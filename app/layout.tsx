@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 
 import AppKitProvider from 'providers/AppKitProvider'
+import QueryProvider from 'providers/QueryProvider'
 
 import ClientLayout from './client-layout'
 
@@ -22,13 +23,15 @@ export const metadata: Metadata = {
 /**
  * Root Server Component layout for the application.
  *
- * Sets up the main HTML structure (`<html>`, `<body>`), defines global metadata,
- * imports global styles, and wraps the application content (`children`) in the
- * necessary {@link AppKitProvider}.
+ * @remarks
+ * This layour is responsible for:
+ * - Setting the HTML structure and language.
+ * - Providing the AppKit and React Query providers.
+ * - Suppressing hydration warnings.
+ * - Wrapping the application with the ClientLayout component.
  *
  * @param props - The component props object.
  * @param props.children - The nested page or layout content to render.
- * @returns The root HTML structure wrapping the application.
  */
 export default async function RootLayout({
   children,
@@ -42,9 +45,11 @@ export default async function RootLayout({
     // Suppress hydration warning due to client-side theme class injection
     <html lang='en' suppressHydrationWarning>
       <body>
-        <AppKitProvider cookies={cookies}>
-          <ClientLayout>{children}</ClientLayout>
-        </AppKitProvider>
+        <QueryProvider>
+          <AppKitProvider cookies={cookies}>
+            <ClientLayout>{children}</ClientLayout>
+          </AppKitProvider>
+        </QueryProvider>
       </body>
     </html>
   )
