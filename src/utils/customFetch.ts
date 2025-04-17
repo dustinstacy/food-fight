@@ -5,7 +5,7 @@
  * This function provides a standardized way to interact with the backend API. Key behaviors include:
  * - Prepends the base URL (from `NEXT_PUBLIC_API_BASE_URL` env var or fallback 'http://localhost:5000').
  * - Automatically sets 'Content-Type' to 'application/json'.
- * - Adds an 'Authorization: Bearer' token header, reading the token from `sessionStorage` (client-side only).
+ * - Adds an 'Authorization: Bearer' token header, reading the token from `localStorage` (client-side only).
  * - Checks the response status and throws an `Error` for non-OK responses , attempting to include status and body details in the error message.
  * - Correctly handles successful empty responses by resolving the promise with `undefined`.
  *
@@ -18,8 +18,8 @@
  */
 export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
-  // Ensure the window object is defined before accessing sessionStorage
-  const token = typeof window !== 'undefined' ? sessionStorage.getItem('accessToken') : null
+  // Ensure the window object is defined before accessing localStorage
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
   const config: RequestInit = {
     ...options,

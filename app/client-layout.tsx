@@ -40,7 +40,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     if (!isConnected || !address || !chainId) return
 
     let proceedWithSIWE = true
-    const existingToken = sessionStorage.getItem('accessToken')
+    const existingToken = localStorage.getItem('accessToken')
 
     if (existingToken) {
       console.log('ClientLayout: Found existing token.')
@@ -60,13 +60,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           setIsAuthenticated(true)
         } else {
           console.log('ClientLayout: Existing token invalid/expired/mismatched.')
-          sessionStorage.removeItem('accessToken')
+          localStorage.removeItem('accessToken')
           setUser(null)
           setIsAuthenticated(false)
         }
       } catch (decodeError) {
         console.error('ClientLayout: Error decoding existing token:', decodeError)
-        sessionStorage.removeItem('accessToken')
+        localStorage.removeItem('accessToken')
         setUser(null)
         setIsAuthenticated(false)
         proceedWithSIWE = true
@@ -82,13 +82,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       console.log(`ClientLayout: Starting SIWE for ${address}...`)
       setAuthError(null)
       setUser(null)
-      sessionStorage.removeItem('accessToken')
+      localStorage.removeItem('accessToken')
 
       try {
         const message = await getChallenge(address, chainId)
         const signature = await signMessageAsync({ message })
         const { accessToken } = await verifySignature({ message, signature, address })
-        sessionStorage.setItem('accessToken', accessToken)
+        localStorage.setItem('accessToken', accessToken)
         setIsAuthenticated(true)
       } catch (error) {
         console.error('ClientLayout: Authentication flow error:', error)
@@ -115,7 +115,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           displayMessage = error
         }
         setAuthError(`Authentication failed: ${displayMessage}`)
-        sessionStorage.removeItem('accessToken')
+        localStorage.removeItem('accessToken')
         setUser(null)
         setIsAuthenticated(false)
       }
@@ -130,7 +130,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       }
     } else if (isDisconnected) {
       console.log('ClientLayout: Wallet disconnected, clearing session.')
-      sessionStorage.removeItem('accessToken')
+      localStorage.removeItem('accessToken')
       setUser(null)
       setAuthError(null)
       setIsAuthenticated(false)
