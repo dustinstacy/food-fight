@@ -1,6 +1,14 @@
+/**
+ * Props accepted by the Links component.
+ */
 export interface LinksProps {
-  // Identifier for the menu context (e.g., 'navbar', 'burger-menu'), used for styling. (Required)
+  /**
+   * Type of menu to be displayed.
+   */
   menu: string
-  // Optional click handler passed down to each individual link element.
+
+  /**
+   * Optional Callback function executed when the link is clicked.
+   */
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
