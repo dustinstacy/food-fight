@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,scss,md}\"",
     "lint": "next lint",
     "start": "next start",
     "start:all": "make start-all"
