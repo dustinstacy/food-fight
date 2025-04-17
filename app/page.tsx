@@ -20,11 +20,6 @@ import './home.scss'
  * - If `user` exists in the store, maps over `navLinks` (excluding 'Home') to render navigation `Button` components.
  * - If `user` does not exist (or is being checked), no buttons are rendered.
  *
- * @see {@link navLinks} - Data source for navigation buttons.
- * @see {@link useUserStore} - Hook providing user authentication status (`user`).
- * @see {@link Button} - Component used to render navigation links.
- * @see {@link module:next/image.default} - Component used for rendering the logo.
- *
  * @returns The JSX element representing the Home page structure.
  */
 export default function Home() {
