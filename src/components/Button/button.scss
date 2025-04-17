@@ -63,19 +63,19 @@
   &.disabled,
   &[disabled],
   &[aria-disabled='true'] {
-    background: var(--disabled-bg-color, #cccccc);
-    color: var(--disabled-text-color, #888888);
-    border-color: var(--disabled-border-color, #aaaaaa);
-    box-shadow: 0 0 0 var(--disabled-border-color, #aaaaaa);
+    background: var(--gray-color);
+    color: var(--dark-gray-color);
+    border-color: var(--black-color);
+    box-shadow: 0 0 0 var(--black-color);
     transform: translateY(0);
 
     // Prevent hover/active effects visually when disabled
     &:hover {
-      background: var(--disabled-bg-color, #cccccc);
+      background: var(--gray-color);
     }
     &:active {
       transform: translateY(0);
-      box-shadow: 0 0 0 var(--disabled-border-color, #aaaaaa);
+      box-shadow: 0 0 0 var(--black-color);
     }
   }
 }
