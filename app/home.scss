@@ -32,8 +32,8 @@
 
     @media screen and (orientation: landscape) {
       left: 35vw;
-      height: 100vh;
       width: auto;
+      height: 100vh;
     }
   }
 
@@ -41,8 +41,8 @@
 
   &__buttons {
     z-index: 1;
-    height: 100%;
     gap: 12px;
+    height: 100%;
 
     .button {
       width: 200px;

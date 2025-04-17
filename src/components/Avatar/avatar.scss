@@ -5,8 +5,8 @@
 .avatar {
   position: relative;
   display: inline-block;
-  vertical-align: middle;
   flex-shrink: 0;
+  vertical-align: middle;
 
   // ----- Image ----- //
 
@@ -31,22 +31,22 @@
 /// Avatar Modifiers                  ///
 //////////////////////////////////////////////
 
-.avatar--small {
+.avatar-small {
   width: clamp(40px, 6vw, 64px);
   height: clamp(40px, 6vw, 64px);
 }
 
-.avatar--medium {
+.avatar-medium {
   width: clamp(64px, 8vw, 96px);
   height: clamp(64px, 8vw, 96px);
 }
 
-.avatar--large {
+.avatar-large {
   width: clamp(96px, 9vw, 144px);
   height: clamp(96px, 9vw, 144px);
 }
 
-.avatar--clickable {
+.avatar-clickable {
   cursor: pointer;
 }
 
@@ -58,9 +58,11 @@
   0% {
     background-color: var(--light-gray-color);
   }
+
   50% {
     background-color: var(--gray-color);
   }
+
   100% {
     background-color: var(--light-gray-color);
   }

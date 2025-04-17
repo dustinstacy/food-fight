@@ -42,7 +42,7 @@ const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProp
       }
     : {}
 
-  const avatarClasses = classSet('avatar', `avatar--${size}`, 'black-border', className, onClick && 'avatar--clickable')
+  const avatarClasses = classSet('avatar', `avatar-${size}`, 'black-border', className, onClick && 'avatar-clickable')
 
   return (
     <div className={avatarClasses} {...interactiveProps}>

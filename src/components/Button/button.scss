@@ -6,27 +6,27 @@
 
 .button {
   padding: 4px 8px;
-  background: var(--secondary3-color);
-  border: 2px solid var(--black-color);
-  border-radius: 6px;
-  box-shadow: 0 4px 0 var(--black-color);
-  color: var(--white-color);
   font-family: 'Tilt Warp', sans-serif;
   font-size: 14px;
   font-weight: 800;
+  color: var(--white-color);
   letter-spacing: 2px;
+  text-decoration: none;
   text-shadow:
     1px 1px 1px var(--black-color),
     -1px -1px 1px var(--black-color),
     1px -1px 1px var(--black-color),
     -1px 1px 1px var(--black-color);
-  text-decoration: none;
+  cursor: pointer;
+  background: var(--secondary3-color);
+  border: 2px solid var(--black-color);
+  border-radius: 6px;
+  box-shadow: 0 4px 0 var(--black-color);
   transition:
     background-color 0.2s ease,
     transform 0.15s ease,
     box-shadow 0.15s ease,
     outline-offset 0.1s ease;
-  cursor: pointer;
 
   @media screen and (min-width: $sm) {
     padding: 6px 12px;
@@ -43,28 +43,28 @@
     font-size: 20px;
   }
 
+  // Focus (Accessibility for keyboard nav)
+  &:focus-visible {
+    outline: 3px solid var(--focus-ring-color, var(--primary3-color));
+  }
+
   // Hover (only when not disabled)
-  &:not(.disabled):not([disabled]):hover {
+  &:not(.disabled, [disabled]):hover {
     background: var(--primary-color);
   }
 
   // Active (only when not disabled)
-  &:not(.disabled):not([disabled]):active {
-    transform: translateY(2px);
+  &:not(.disabled, [disabled]):active {
     box-shadow: 0 0 0 var(--black-color);
-  }
-
-  // Focus (Accessibility for keyboard nav)
-  &:focus-visible {
-    outline: 3px solid var(--focus-ring-color, var(--primary3-color));
+    transform: translateY(2px);
   }
 
   // Disabled State (using class OR attribute)
   &.disabled,
   &[disabled],
   &[aria-disabled='true'] {
-    background: var(--gray-color);
     color: var(--dark-gray-color);
+    background: var(--gray-color);
     border-color: var(--black-color);
     box-shadow: 0 0 0 var(--black-color);
     transform: translateY(0);
@@ -73,9 +73,10 @@
     &:hover {
       background: var(--gray-color);
     }
+
     &:active {
-      transform: translateY(0);
       box-shadow: 0 0 0 var(--black-color);
+      transform: translateY(0);
     }
   }
 }

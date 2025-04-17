@@ -14,8 +14,8 @@
 
     @media screen and (min-width: $md) {
       display: block;
-      height: 100%;
       width: 0.5px;
+      height: 100%;
       margin-right: 24px;
       background: var(--background3-color);
       border: none;
@@ -31,9 +31,9 @@
     @media screen and (min-width: $sm) {
       display: block;
       margin-right: 8px;
-      color: var(--white-color);
       font-size: 14px;
       font-weight: 500;
+      color: var(--white-color);
     }
 
     @media screen and (min-width: $lg) {

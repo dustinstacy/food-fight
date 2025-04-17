@@ -5,15 +5,15 @@
 ////////////////////////////////////////////////
 
 .navbar {
-  z-index: 100;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
+  z-index: 100;
+  box-sizing: border-box;
   height: var(--navbar-height-sm);
   padding: 3px 6px;
   border-bottom: 2px solid var(--black-color);
-  box-sizing: border-box;
 
   @media screen and (min-width: $sm) {
     height: var(--navbar-height-md);
@@ -34,8 +34,8 @@
       display: block;
       width: 56px;
       height: 56px;
-      border-radius: 4px;
       cursor: pointer;
+      border-radius: 4px;
     }
 
     @media screen and (min-width: $md) {

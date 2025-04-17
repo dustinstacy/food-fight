@@ -21,7 +21,7 @@ const DEFAULT_SIZE: LoadingTextSize = 'medium'
  * @param props.className - Additional CSS classes to apply to the loading text component.
  */
 const LoadingText = ({ text, size = DEFAULT_SIZE, className }: LoadingTextProps) => {
-  const combinedClasses = classSet('loading-text', `loading-text--${size}`, 'tilt-warp', 'text-shadow', className)
+  const combinedClasses = classSet('loading-text', `loading-text-${size}`, 'tilt-warp', 'text-shadow', className)
 
   return (
     <p className={combinedClasses}>

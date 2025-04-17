@@ -16,14 +16,15 @@ $border-colors: (
 );
 
 @mixin theme-border($width: 2px, $style: solid, $radius: 4px) {
-  border-width: $width;
   border-style: $style;
+  border-width: $width;
   border-radius: $radius;
 }
 
 @each $name, $color in $border-colors {
   .#{$name}-border {
     border-color: $color;
+
     @include theme-border;
   }
 }
@@ -46,19 +47,19 @@ $border-colors: (
 
 .background-gradient {
   background: var(--background-color);
-  background: -webkit-linear-gradient(45deg, var(--background-color), var(--background2-color));
+  background: linear-gradient(45deg, var(--background-color), var(--background2-color));
   background: linear-gradient(45deg, var(--background-color), var(--background2-color));
 }
 
 .secondary-gradient {
   background: var(--secondary-color);
-  background: -webkit-linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
   background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
 }
 
 .primary-gradient {
   background: var(--primary-color);
-  background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
   background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
 }
 
@@ -67,7 +68,7 @@ $border-colors: (
 ///////////////////////////////////////////////
 
 .bangers {
-  font-family: 'Bangers', sans-serif;
+  font-family: Bangers, sans-serif;
 }
 
 .lilita-one {
@@ -91,7 +92,7 @@ $border-colors: (
 }
 
 .error {
-  color: var(--error-color);
   font-family: 'Tilt Warp', sans-serif;
+  color: var(--error-color);
   text-align: center;
 }

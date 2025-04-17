@@ -5,10 +5,10 @@
 /// ///////////////////////////////////////////
 
 .user-menu {
-  z-index: 99;
   position: absolute;
   top: 58px;
   right: 2px;
+  z-index: 99;
   padding: 12px;
 
   @media screen and (min-width: $sm) {
@@ -22,8 +22,8 @@
   // ----- Link ----- //
 
   &__link {
-    letter-spacing: 1px;
     color: var(--white-color);
+    letter-spacing: 1px;
     text-decoration: none;
     cursor: pointer;
   }
@@ -35,12 +35,15 @@
   &__toggle {
     gap: 8px;
 
+    // stylelint-disable-next-line selector-class-pattern
     .MuiSwitch-root {
+      // stylelint-disable-next-line selector-class-pattern
       & .MuiSwitch-track {
         // Target track within the switch
         background-color: var(--primary-color);
       }
 
+      // stylelint-disable-next-line selector-class-pattern
       & .MuiSwitch-thumb {
         // Target thumb within the switch
         background-color: var(--white-color);

@@ -68,7 +68,7 @@ export interface LoadingTextProps {
   /** The base text content to display before the animated dots. */
   text: string
 
-  /** Specifies the size variant which affects the font size via CSS class (`loading-text--${size}`). */
+  /** Specifies the size variant which affects the font size via CSS class (`loading-text-${size}`). */
   size?: LoadingTextSize
 
   /** Optional CSS class name(s) to apply to the root paragraph element. */
