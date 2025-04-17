@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect } from 'react'
 import { IconContext } from 'react-icons'
-import { useAccount, useDisconnect, useSignMessage } from 'wagmi'
+import { useAccount, useSignMessage } from 'wagmi'
 
 import { NavBar } from 'features/navigation'
-import { useAuthStore, useUserStore } from 'stores'
+import { useAuthStore } from 'stores'
 
 import './client-layout.scss'
 
@@ -35,65 +35,48 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     logout: logoutFromAuthStore,
     checkExistingToken,
   } = useAuthStore()
-  const { user, checkForUser, setUser } = useUserStore()
 
   // Check token on initial load
   useEffect(() => {
     if (isConnected && address && chainId) {
       console.log('ClientLayout: Checking existing token...')
       checkExistingToken(address)
+    }
+  }, [isConnected, address, chainId, checkExistingToken])
 
+  // Effect 2: Trigger authentication (if needed) or logout
+  useEffect(() => {
+    if (isDisconnected) {
+      const { isAuthenticated: currentAuthStatus } = useAuthStore.getState()
+      if (currentAuthStatus) {
+        console.log('ClientLayout Effect 2: Wallet disconnected, logging out...')
+        logoutFromAuthStore()
+      }
+      return
+    }
+
+    if (isConnected && address && chainId) {
       const { isAuthenticated: currentAuthStatus, isLoading: currentLoadingStatus } = useAuthStore.getState()
 
       if (!currentAuthStatus && !currentLoadingStatus) {
-        console.log('ClientLayout: No existing token, authenticating user...')
-        setUser(null)
+        console.log('ClientLayout Effect 2: Triggering authentication flow...')
         handleAuthentication(address, chainId, signMessageAsync)
-      } else if (currentAuthStatus && user && user.address.toLowerCase() !== address.toLowerCase()) {
-        console.log('ClientLayout: Address changed, fetching new user data...')
-        setUser(null)
-      }
-    }
-  }, [isConnected, address, checkExistingToken])
-
-  // Trigger authentication of logout based on connection status & auth state
-  useEffect(() => {
-    if (isConnected && address && chainId) {
-      if (!isAuthenticated && !isAuthLoading) {
-        console.log('ClientLayout: Authenticating user...')
-        handleAuthentication(address, chainId, signMessageAsync)
-      }
-    } else if (isDisconnected) {
-      console.log('ClientLayout: Wallet disconnected, logging out...')
-      if (useAuthStore.getState().isAuthenticated) {
-        logoutFromAuthStore()
-        setUser(null)
       }
     }
   }, [
+    // Dependencies that should trigger this effect logic
     isConnected,
     isDisconnected,
     address,
     chainId,
-    isAuthenticated,
-    isAuthLoading,
+    // Include functions called within the effect (React ESLint rule)
     handleAuthentication,
     signMessageAsync,
     logoutFromAuthStore,
-    setUser,
+    // Note: We don't strictly need isAuthenticated/isAuthLoading in deps if using getState(),
+    isAuthenticated,
+    isAuthLoading,
   ])
-
-  // Fetch user data if authenticated and address has changed
-  useEffect(() => {
-    const needsUserFetch = isAuthenticated && address && (!user || user.address.toLowerCase() !== address.toLowerCase())
-
-    if (needsUserFetch) {
-      console.log('ClientLayout: Fetching user data...')
-      checkForUser().catch((fetchError) => {
-        console.error('ClientLayout: Error fetching user data:', fetchError)
-      })
-    }
-  }, [isAuthenticated, address, user, checkForUser])
 
   return (
     <>
