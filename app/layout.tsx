@@ -1,50 +1,51 @@
-import type { Metadata } from "next"
-import ClientLayout from "./client-layout"
-import "styles/breakpoints.scss"
-import "styles/containers.scss"
-import "styles/globals.scss"
-import "styles/modules.scss"
-import "styles/theme.scss"
-import { WalletProvider } from "providers/WalletProvider"
+import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 
-///////////////////////////////////////////////
-/// Metadata                                ///
-///////////////////////////////////////////////
+import AppKitProvider from 'providers/AppKitProvider'
+
+import ClientLayout from './client-layout'
+
+import 'styles/breakpoints.scss'
+import 'styles/containers.scss'
+import 'styles/globals.scss'
+import 'styles/modules.scss'
+import 'styles/theme.scss'
 
 export const metadata: Metadata = {
-    title: "Food Fight",
-    icons: {
-        icon: [{ url: "/icon.ico" }],
-    },
-    description: "A Web3 collectible card game",
+  title: 'Food Fight',
+  icons: {
+    icon: [{ url: '/icon.ico' }],
+  },
+  description: 'A Web3 collectible card game',
 }
 
-///////////////////////////////////////////////
-/// Root Layout                            ///
-///////////////////////////////////////////////
-
 /**
- * RootLayout is the main layout component for the application.
- * It wraps the entire application in a global context provider and sets up the HTML structure.
+ * Root Server Component layout for the application.
  *
- * @notice Requires `WalletProvider` for managing wallet connections.
+ * Sets up the main HTML structure (`<html>`, `<body>`), defines global metadata,
+ * imports global styles, and wraps the application content (`children`) in the
+ * necessary {@link AppKitProvider}.
  *
- * @see {@link WalletProvider} - Context provider for managing wallet connections.
- *
- * @param param0 - The children prop is the content to be rendered inside the layout.
+ * @param props - The component props object.
+ * @param props.children - The nested page or layout content to render.
+ * @returns The root HTML structure wrapping the application.
  */
-export default function RootLayout({
-    children,
+export default async function RootLayout({
+  children,
 }: Readonly<{
-    children: React.ReactNode
+  children: React.ReactNode
 }>) {
-    return (
-        <html lang='en'>
-            <body>
-                <WalletProvider>
-                    <ClientLayout>{children}</ClientLayout>
-                </WalletProvider>
-            </body>
-        </html>
-    )
+  // Get cookies from headers
+  const cookies = (await headers()).get('cookie')
+
+  return (
+    // Suppress hydration warning due to client-side theme class injection
+    <html lang='en' suppressHydrationWarning>
+      <body>
+        <AppKitProvider cookies={cookies}>
+          <ClientLayout>{children}</ClientLayout>
+        </AppKitProvider>
+      </body>
+    </html>
+  )
 }
