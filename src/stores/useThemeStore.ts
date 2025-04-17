@@ -52,8 +52,8 @@ export const useThemeStore = create<ThemeState>()(
   // Use persist middleware for localStorage persistence
   persist(
     (set, get) => ({
-      // Set initial state based on system preference.
-      // persist middleware will override this with the value from localStorage if it exists on hydration.
+      // Set initial state based on system preference
+      // persist middleware will override this with the value from localStorage if it exists on hydration
       theme: getSystemPreference(),
 
       // Action to explicitly set the theme
@@ -74,9 +74,9 @@ export const useThemeStore = create<ThemeState>()(
       // Configuration for the persist middleware
       name: 'theme-storage', // Key used in localStorage
       storage: createJSONStorage(() => localStorage),
-      // Only persist the 'theme' property, excluding actions from storage.
+      // Only persist the 'theme' property, excluding actions from storage
       partialize: (state) => ({ theme: state.theme }),
-      // Function called after state is rehydrated from storage.
+      // Function called after state is rehydrated from storage
       onRehydrateStorage: () => (state) => {
         if (state) {
           applyThemeClass(state.theme)
@@ -86,8 +86,8 @@ export const useThemeStore = create<ThemeState>()(
   )
 )
 
-// Apply the theme class immediately when the store module loads on the client.
-// This helps prevent a potential theme flicker.
+// Apply the theme class immediately when the store module loads on the client
+// This helps prevent a potential theme flicker
 if (typeof window !== 'undefined') {
   applyThemeClass(useThemeStore.getState().theme)
 }
