@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { UseToggleReturn } from 'types'
+import { UseToggleReturn } from 'hooks/types'
 /**
  * Custom hook to manage a boolean toggle state.
  *

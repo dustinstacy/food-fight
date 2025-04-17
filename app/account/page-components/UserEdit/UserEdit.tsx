@@ -1,78 +1,47 @@
 'use client'
 
-import React, { Dispatch, SetStateAction, useState, MouseEvent, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, useEffect } from 'react'
 import { IoMdCloseCircle } from 'react-icons/io'
-import { useAccount } from 'wagmi'
 
-import { updateUser } from 'api'
+import { UserEditErrors, UserEditProps } from '@account/types'
 import { Avatar, Button, TextInput } from 'components'
-import { useUserStore } from 'stores'
-
-////////////////////////////////////////////////
-/// Types                                    ///
-////////////////////////////////////////////////
-
-interface UserEditProps {
-  // Callback to set the editing state in the parent component. (Required)
-  setIsEditing: Dispatch<SetStateAction<boolean>>
-}
-
-interface UserEditErrors {
-  // Error messages for the image and username fields.
-  image: string
-  username: string
-}
-
-////////////////////////////////////////////////
-/// Component                                ///
-////////////////////////////////////////////////
+import { useCurrentUser, useUpdateUser } from 'features/user/hooks'
 
 /**
- * @component
- * Renders a form/modal allowing the user to edit their profile image URL and username.
- * Handles input changes, submits updates via an API call, displays errors, and manages loading states.
- *
- * @notice Requires `useWallet` for wallet connection and `useUserStore` for user data.
+ * Renders the user edit profile component.
  *
  * @remarks
- * - The component manages its own loading state and error messages for each input field.
+ * This component is responsible for:
+ * - Allowing the user to edit their profile image and username.
+ * - Handling input changes and form submission.
+ * - Displaying loading states and error messages.
  *
- * @param {UserEditProps} props - Props for the UserEdit component.
- * @param {Dispatch<SetStateAction<boolean>>} props.setIsEditing - Function to signal closing the edit view. (Required)
- *
- * @see {@link TextInput} - Component for user input fields.
- * @see {@link Button} - Component for action buttons.
- * @see {@link Avatar} - Component for displaying user profile images.
- * @see {@link useWallet} - Hook/Context providing wallet connection and account information.
- * @see {@link useUserStore} - Hook/Context for managing user state.
- * @see {@link updateUser} - API function for updating user information.
+ * @param props - Props for the UserEdit component.
+ * @param props.setIsEditing - Function to signal closing the edit view. (Required)
  */
 const UserEdit = ({ setIsEditing }: UserEditProps) => {
-  ////////////////////////////////////////////////
-  /// Hooks                                    ///
-  ////////////////////////////////////////////////
-
-  const { address, isConnected } = useAccount()
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
-
-  ////////////////////////////////////////////////
-  /// State                                    ///
-  ////////////////////////////////////////////////
+  const { data: user, isLoading: isUserLoading } = useCurrentUser()
+  const {
+    mutate: updateUserMutate,
+    isPending: isUpdatePending,
+    error: updateError,
+    reset: resetMutation,
+  } = useUpdateUser()
 
   const [newUserImage, setNewUserImage] = useState('')
   const [newUsername, setNewUsername] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState<UserEditErrors>({ image: '', username: '' })
+  const [validationErrors, setValidationErrors] = useState<UserEditErrors>({ image: '', username: '' })
 
-  ////////////////////////////////////////////////
-  /// Handlers                                 ///
-  ////////////////////////////////////////////////
+  useEffect(() => {
+    if (user) {
+      setNewUsername(user.username || '')
+    }
+  }, [user])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     // Clear error only for the specific field being changed
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }))
+    setValidationErrors((prev) => ({ ...prev, [name]: '' }))
 
     // Update the corresponding state based on input name
     if (name === 'image') {
@@ -80,113 +49,122 @@ const UserEdit = ({ setIsEditing }: UserEditProps) => {
     } else if (name === 'username') {
       setNewUsername(value)
     }
+
+    // Reset mutation state if the input is changed
+    resetMutation()
   }
 
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement | HTMLAnchorElement>, field: 'image' | 'username') => {
-    e.preventDefault()
-
-    if (loading) return
-
-    // Check if the wallet is connected and user data is available
-    if (!isConnected || !address || !user) {
-      console.error('Cannot update: Wallet not connected or user data missing.')
-      setErrors((prev) => ({ ...prev, [field]: 'Cannot update profile right now.' }))
+  const handleSubmit = (field: 'image' | 'username') => {
+    if (isUpdatePending) return
+    if (!user) {
+      console.error('Cannot update: User data not loaded.')
       return
     }
 
     const valueToSubmit = field === 'image' ? newUserImage : newUsername
+    const currentValue = field === 'image' ? user.image : user.username
 
-    // Validate input before submitting
+    // Validate the input
     if (!valueToSubmit || valueToSubmit.trim().length === 0) {
-      setErrors((prev) => ({ ...prev, [field]: 'Input cannot be empty.' }))
+      setValidationErrors((prev) => ({ ...prev, [field]: 'Input cannot be empty.' }))
+      return
+    }
+    if (valueToSubmit.trim() === currentValue) {
+      setValidationErrors((prev) => ({ ...prev, [field]: 'No changes detected.' }))
       return
     }
 
-    // Clear any previous error message for the field being submitted
-    setErrors((prevErrors) => ({ ...prevErrors, [field]: '' }))
-    setLoading(true)
+    setValidationErrors({ image: '', username: '' })
+    resetMutation()
 
-    try {
-      await updateUser(field, valueToSubmit.trim())
-      setUser({ ...user, [field]: valueToSubmit.trim() })
+    console.log(`Submitting update for ${field}:`, valueToSubmit.trim())
 
-      // Clear the corresponding input field state after successful update
-      if (field === 'image') setNewUserImage('')
-      if (field === 'username') setNewUsername('')
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred.'
-      setErrors((prevErrors) => ({ ...prevErrors, [field]: errorMessage }))
-    } finally {
-      setLoading(false)
-    }
+    // Call the mutation function with the field and value
+    updateUserMutate(
+      { property: field, value: valueToSubmit.trim() },
+      {
+        // Optional: onSuccess/onError callbacks specific to this mutation call
+        onSuccess: (updatedData) => {
+          console.log(`${field} updated via mutation hook!`)
+          setIsEditing(false)
+          if (field === 'image') setNewUserImage(updatedData?.image || '')
+          if (field === 'username') setNewUsername(updatedData?.username || '')
+        },
+        onError: (error) => {
+          setValidationErrors((prev) => ({ ...prev, [field]: error.message || 'Update failed' }))
+        },
+      }
+    )
   }
 
-  ////////////////////////////////////////////////
-  /// Render                                   ///
-  ////////////////////////////////////////////////
+  if (isUserLoading) {
+    return <div>Loading user data...</div>
+  }
 
   return (
     <div>
-      <div>
-        {/* --- Close Button --- */}
-        <button
-          type='button'
-          className='edit'
-          onClick={() => setIsEditing(false)}
-          aria-label='Close edit profile'
-          disabled={loading}
-        >
-          <IoMdCloseCircle />
-        </button>
-
-        <div className='wrapper center-column'>
-          {/* --- Image Section --- */}
-          <div className='section center-column'>
-            <Avatar size='medium' />
-            <div className='edit-input center-column'>
-              <TextInput
-                label='Image URL'
-                name='image'
-                value={newUserImage}
-                onChange={handleInputChange}
-                loading={loading}
-                error={errors.image}
-                autoComplete='off'
-              />
-              <Button
-                label='Update Image'
-                htmlButtonType='button'
-                onClick={(e) => handleSubmit(e, 'image')}
-                disabled={!newUserImage.trim() || loading}
-              />
-            </div>
-          </div>
-
-          {/* --- Username Section --- */}
-          <div className='section center-column'>
-            <span>
-              Username:
-              <p>{user?.username ?? '...'}</p>
-            </span>
-            <div className='edit-input center-column'>
-              <TextInput
-                label='New Username'
-                name='username'
-                value={newUsername}
-                onChange={handleInputChange}
-                loading={loading}
-                error={errors.username}
-                autoComplete='off'
-              />
-              <Button
-                label='Update Username'
-                htmlButtonType='button'
-                onClick={(e) => handleSubmit(e, 'username')}
-                disabled={!newUsername.trim() || loading}
-              />
-            </div>
+      {/* --- Close Button --- */}
+      <button
+        type='button'
+        className='edit'
+        onClick={() => setIsEditing(false)}
+        aria-label='Close edit profile'
+        disabled={isUpdatePending}
+      >
+        <IoMdCloseCircle />
+      </button>
+      <div className='wrapper center-column'>
+        {/* --- Image Section --- */}
+        <div className='section center-column'>
+          <Avatar size='medium' />
+          <div className='edit-input center-column'>
+            <TextInput
+              label='Image URL'
+              name='image'
+              value={newUserImage}
+              onChange={handleInputChange}
+              loading={isUpdatePending}
+              error={validationErrors.image}
+              autoComplete='off'
+            />
+            <Button
+              label='Update Image'
+              htmlButtonType='button'
+              onClick={() => handleSubmit('image')}
+              disabled={!newUserImage?.trim() || isUpdatePending || newUserImage.trim() === user?.image}
+            />
           </div>
         </div>
+
+        {/* --- Username Section --- */}
+        <div className='section center-column'>
+          <span>
+            Username:
+            <p>{user?.username ?? '...'}</p>
+          </span>
+          <div className='edit-input center-column'>
+            <TextInput
+              label='New Username'
+              name='username'
+              value={newUsername}
+              onChange={handleInputChange}
+              loading={isUpdatePending}
+              error={validationErrors.username}
+              autoComplete='off'
+            />
+            <Button
+              label='Update Username'
+              htmlButtonType='button'
+              onClick={() => handleSubmit('username')}
+              disabled={!newUsername?.trim() || isUpdatePending || newUsername.trim() === user?.username}
+            />
+          </div>
+        </div>
+
+        {/*!! Error Message? */}
+        {updateError && !validationErrors.image && !validationErrors.username && (
+          <p style={{ color: 'red', marginTop: '10px' }}>{updateError.message}</p>
+        )}
       </div>
     </div>
   )

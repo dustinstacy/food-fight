@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { forwardRef } from 'react'
 
-import type { ButtonProps } from 'types'
+import type { ButtonProps } from 'components/types'
 import { classSet } from 'utils'
 import './button.scss'
 

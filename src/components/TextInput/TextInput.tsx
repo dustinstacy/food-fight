@@ -3,7 +3,7 @@
 import React, { forwardRef, useState } from 'react'
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from 'react-icons/md'
 
-import type { TextInputProps } from 'types'
+import type { TextInputProps } from 'components/types'
 import { classSet } from 'utils'
 import './textInput.scss'
 

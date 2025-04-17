@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 
-import { useUserStore } from 'stores'
-import type { AvatarProps, AvatarSize } from 'types'
+import type { AvatarProps, AvatarSize } from 'components/types'
+import { useCurrentUser } from 'features/user/hooks'
 import { classSet } from 'utils'
 import './avatar.scss'
 
@@ -24,7 +24,8 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  * @param props.onClick - Optional click handler for the avatar component.
  */
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
-  const image = useUserStore((state) => state.user?.image)
+  const { data: user } = useCurrentUser()
+  const image = user?.image
 
   // Props to make the div interactive and accessible when onClick is provided
   const interactiveProps = onClick

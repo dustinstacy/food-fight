@@ -5,14 +5,14 @@ import Image from 'next/image'
 import { largeLogo1 } from 'assets'
 import { Button } from 'components'
 import { navLinks } from 'features/navigation/data'
-import { useUserStore } from 'stores'
+import { useCurrentUser } from 'features/user/hooks'
 import './home.scss'
 
 /**
  * @component Home
  * Renders the main home page ('/') for the Food Fight application.
  * Displays a background logo and conditionally renders navigation buttons
- * (excluding 'Home') based on the user's authentication status fetched from `useUserStore`.
+ * (excluding 'Home') based on the user's authentication status fetched from `useCurrentUser()`.
  *
  * @remarks
  * Rendering Logic:
@@ -23,8 +23,7 @@ import './home.scss'
  * @returns The JSX element representing the Home page structure.
  */
 export default function Home() {
-  const { user } = useUserStore()
-
+  const { data: user } = useCurrentUser()
   return (
     <div className='home page bottom background-gradient'>
       <Image className='home__logo abs-top-center' src={largeLogo1} alt='Food Fight logo' sizes='100vw' />

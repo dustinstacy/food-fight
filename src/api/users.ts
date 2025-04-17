@@ -1,4 +1,4 @@
-import { User } from 'types'
+import { User } from 'features/user/types'
 import { customFetch } from 'utils'
 
 /** @see {@link User} - The type definition for the user object. */

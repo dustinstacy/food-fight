@@ -1,11 +1,12 @@
 'use client'
 
 import Switch from '@mui/material/Switch'
+import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
-import { useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 
-import { useAuthStore, useThemeStore, useUserStore } from 'stores'
-import { UseToggleProps } from 'types'
+import { UseToggleProps } from 'hooks/types'
+import { useAuthStore, useThemeStore } from 'stores'
 import './userMenu.scss'
 
 /**
@@ -24,8 +25,9 @@ import './userMenu.scss'
 const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
   const { logout: logoutFromAuthStore } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
-  const { setUser } = useUserStore()
+  const { address } = useAccount()
   const { disconnect } = useDisconnect()
+  const queryClient = useQueryClient()
 
   const isDarkMode = theme === 'dark'
 
@@ -36,7 +38,7 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
   const handleLogout = () => {
     console.log('UserMenu: Logging out...')
     logoutFromAuthStore()
-    setUser(null)
+    queryClient.removeQueries({ queryKey: ['currentUser', address] })
     disconnect()
     toggleIsOpen?.()
   }

@@ -1,6 +1,6 @@
 import { Avatar } from 'components'
+import { useCurrentUser } from 'features/user/hooks'
 import { useToggle } from 'hooks'
-import { useUserStore } from 'stores'
 
 import { UserMenu } from './subcomponents'
 import './userSection.scss'
@@ -15,7 +15,7 @@ import './userSection.scss'
  * - Toggling the visibility of the user menu when the avatar is clicked.
  */
 const UserSection = () => {
-  const user = useUserStore((state) => state.user)
+  const { data: user } = useCurrentUser()
   const [isOpen, toggleIsOpen] = useToggle(false)
 
   const handleClick = () => {

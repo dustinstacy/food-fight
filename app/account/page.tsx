@@ -4,15 +4,11 @@ import React, { useState } from 'react'
 import { GoPencil } from 'react-icons/go'
 
 import { Avatar, LoadingText } from 'components'
-import { useUserStore } from 'stores'
+import { useCurrentUser } from 'features/user/hooks'
 
 import { UserEdit } from './page-components'
 
 import './account.scss'
-
-////////////////////////////////////////////
-/// Page                                 ///
-////////////////////////////////////////////
 
 /**
  * Renders the user account page.
@@ -36,7 +32,7 @@ const Account = () => {
   /// Hooks                                    ///
   ////////////////////////////////////////////////
 
-  const user = useUserStore((state) => state.user)
+  const { data: user } = useCurrentUser()
 
   ////////////////////////////////////////////////
   /// State                                    ///

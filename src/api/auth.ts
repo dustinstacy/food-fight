@@ -1,4 +1,4 @@
-import { VerifySignatureParams, VerifySignatureResponse } from 'types'
+import { VerifySignatureParams, VerifySignatureResponse } from 'api/types'
 import { customFetch } from 'utils'
 
 /**
