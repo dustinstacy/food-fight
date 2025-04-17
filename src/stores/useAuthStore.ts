@@ -1,7 +1,9 @@
-import { create } from 'zustand'
 import { jwtDecode } from 'jwt-decode'
+import { create } from 'zustand'
+
+import { JwtPayload } from '@types'
 import { getChallenge, verifySignature } from 'api'
-import { AuthActions, AuthState, JwtPayload } from 'types'
+import { AuthActions, AuthState } from 'stores/types'
 
 type AuthStore = AuthState & AuthActions
 
@@ -21,6 +23,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isAuthenticated: false,
   isLoading: false,
   authError: null,
+  isLoggingOut: false,
 
   // Actions
   handleAuthentication: async (address, chainId, signMessageAsync) => {
@@ -28,7 +31,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       console.log('useAuthStore: Authentication already in progress')
       return
     }
-    set({ isLoading: true, authError: null })
+    if (get().isLoggingOut) {
+      console.log('useAuthStore: Auth attempt aborted, logout in progress.')
+      return
+    }
+    set({ isLoading: true, authError: null, isLoggingOut: false })
 
     // Check for existing token in localStorage before SIWE
     const token = localStorage.getItem('accessToken')
@@ -55,7 +62,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
 
     // Return early if token is valid
-    if (!proceedWithSIWE) return
+    if (!proceedWithSIWE) {
+      if (get().isLoading) set({ isLoading: false })
+      return
+    }
 
     // Proceed with SIWE flow
     console.log(`useAuthStore: Starting SIWE for ${address}...`)
@@ -63,47 +73,93 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     set({ isAuthenticated: false })
 
     try {
+      if (get().isLoggingOut) {
+        console.log('useAuthStore: Auth cancelled (logout) before getChallenge.')
+        set({ isLoading: false })
+        return
+      }
+
       // Fetch challenge message and sign it
       const message = await getChallenge(address, chainId)
-      const signature = await signMessageAsync({ message })
-      const { accessToken } = await verifySignature({ message, signature, address })
 
+      if (get().isLoggingOut) {
+        console.log('useAuthStore: Auth cancelled (logout) before signing.')
+        set({ isLoading: false })
+        return
+      }
+
+      // Sign the message
+      const signature = await signMessageAsync({ message })
+
+      if (get().isLoggingOut) {
+        console.log('useAuthStore: Auth cancelled (logout) before verifySignature.')
+        set({ isLoading: false })
+        return
+      }
+
+      // Verify the signature and get the access token
+      const { accessToken } = await verifySignature({ message, signature, address })
       localStorage.setItem('accessToken', accessToken)
+
+      if (get().isLoggingOut) {
+        console.log('useAuthStore: Auth cancelled (logout) before setting final token.')
+        set({ isLoading: false })
+        return
+      }
+
       set({ isAuthenticated: true, isLoading: false, authError: null })
       console.log('useAuthStore: SIWE successful.')
-    } catch (error: any) {
-      console.error('useAuthStore: Authentication flow error:', error)
-      let displayMessage = 'An unexpected error occurred during authentication.'
-      let isUserRejection = false
-      if (error && typeof error === 'object') {
-        if ('code' in error && error.code === 4001) {
-          isUserRejection = true
-          console.log('useAuthStore: Detected user rejection (EIP-1193 code 4001)')
-        } else if (
-          'message' in error &&
-          typeof error.message === 'string' &&
-          /User rejected|rejected request|cancelled|denied/i.test(error.message)
-        ) {
-          isUserRejection = true
-          console.log('useAuthStore: Detected user rejection (message content)')
+    } catch (error: unknown) {
+      if (!get().isLoggingOut) {
+        console.error('useAuthStore: Authentication flow error:', error)
+        let displayMessage = 'An unexpected error occurred during authentication.'
+        let isUserRejection = false
+
+        // Type guard for error handling
+        if (error && typeof error === 'object') {
+          // Check for standard EIP-1193 user rejection code
+          if ('code' in error && typeof error.code === 'number' && error.code === 4001) {
+            isUserRejection = true
+            console.log('useAuthStore: Detected user rejection (EIP-1193 code 4001)')
+          }
+          // Check for common rejection messages (only if not already rejected by code)
+          else if (!isUserRejection && 'message' in error && typeof error.message === 'string') {
+            if (/User rejected|rejected request|cancelled|denied/i.test(error.message)) {
+              isUserRejection = true
+              console.log('useAuthStore: Detected user rejection (message content)')
+            }
+          }
         }
+        if (isUserRejection) {
+          displayMessage = 'Signature request cancelled.'
+        } else if (error instanceof Error) {
+          displayMessage = error.message || displayMessage
+        } else if (typeof error === 'string') {
+          displayMessage = error
+        }
+        set({
+          isAuthenticated: false,
+          // isLoading: false, // Handled in finally
+          authError: `Authentication failed: ${displayMessage}`,
+        })
+      } else {
+        console.log('useAuthStore: Auth flow error caught, but likely due to logout cancellation.')
       }
-      if (isUserRejection) {
-        displayMessage = 'Signature request cancelled.'
-      } else if (error instanceof Error) {
-        displayMessage = error.message || displayMessage
-      } else if (typeof error === 'string') {
-        displayMessage = error
+      // Ensure token is removed on any error path if not cancelled by logout
+      if (!get().isLoggingOut) {
+        localStorage.removeItem('accessToken')
       }
-      set({
-        isAuthenticated: false,
-        isLoading: false,
-        authError: `Authentication failed: ${displayMessage}`,
-      })
-      localStorage.removeItem('accessToken')
+    } finally {
+      // Always ensure loading/loggingOut flags are reset if the function exits for any reason
+      // Check the current state before setting to avoid unnecessary updates if logout already cleared them
+      const finalState = get()
+      if (finalState.isLoading || finalState.isLoggingOut) {
+        set({ isLoading: false, isLoggingOut: false })
+      }
     }
   },
   checkExistingToken: (currentAddress) => {
+    if (get().isLoggingOut || get().isLoading) return
     const token = localStorage.getItem('accessToken')
     if (!token) {
       set({ isAuthenticated: false, isLoading: false })
@@ -134,8 +190,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
   logout: () => {
+    set({ isLoggingOut: true, isLoading: false, isAuthenticated: false, authError: null })
     localStorage.removeItem('accessToken')
-    set({ isAuthenticated: false, isLoading: false, authError: null })
   },
 }))
 
