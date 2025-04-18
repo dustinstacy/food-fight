@@ -9,18 +9,12 @@ import { useCurrentUser } from 'features/user/hooks'
 import './home.scss'
 
 /**
- * @component Home
- * Renders the main home page ('/') for the Food Fight application.
- * Displays a background logo and conditionally renders navigation buttons
- * (excluding 'Home') based on the user's authentication status fetched from `useCurrentUser()`.
+ * Renders the home page of the application.
  *
  * @remarks
- * Rendering Logic:
- * - Displays logo using next/image (requires `fill` and `sizes` props).
- * - If `user` exists in the store, maps over `navLinks` (excluding 'Home') to render navigation `Button` components.
- * - If `user` does not exist (or is being checked), no buttons are rendered.
- *
- * @returns The JSX element representing the Home page structure.
+ * This component is responsible for:
+ * - Displaying the application logo.
+ * - Rendering navigation buttons based on the user's authentication status.
  */
 export default function Home() {
   const { data: user } = useCurrentUser()
