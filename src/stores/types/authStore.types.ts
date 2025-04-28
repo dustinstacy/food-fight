@@ -1,7 +1,3 @@
-////////////////////////////////////////////////////
-/// useAuthStore                                 ///
-////////////////////////////////////////////////////
-
 /**
  * Defines the structure of the authentication state.
  */
@@ -14,6 +10,8 @@ export interface AuthState {
   authError: string | null
   /** Indicates if the user is logging out. */
   isLoggingOut: boolean
+  /** Indicates if the user is new. */
+  isNewUser: boolean | null
 }
 
 /**
@@ -40,31 +38,7 @@ export interface AuthActions {
 
   /** Action for logging out the user. */
   logout: () => void
-}
 
-////////////////////////////////////////////////////
-/// useThemeStore                                ///
-////////////////////////////////////////////////////
-
-/** Defines the available themes for the application. */
-export type Theme = 'light' | 'dark'
-
-/** Describes the structure of the theme state. */
-export interface ThemeState {
-  /** The current active theme. */
-  theme: Theme
-}
-
-/**
- * Describes the actions available for managing the theme state.
- */
-export interface ThemeActions {
-  /**
-   * Action to explicitly set the application theme.
-   * @param newTheme - The theme to activate ('light' or 'dark').
-   */
-  setTheme: (theme: Theme) => void
-
-  /** Action to toggle the application theme between 'light' and 'dark'. */
-  toggleTheme: () => void
+  /** Action to set manually reset the NewUser flag */
+  resetNewUserFlag: () => void
 }

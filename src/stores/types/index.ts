@@ -1,1 +1,2 @@
-export * from './stores.types'
+export * from './authStore.types'
+export * from './themeStore.types'

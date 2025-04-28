@@ -24,6 +24,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isLoading: false,
   authError: null,
   isLoggingOut: false,
+  isNewUser: null,
 
   // Actions
   handleAuthentication: async (address, chainId, signMessageAsync) => {
@@ -35,7 +36,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       console.log('useAuthStore: Auth attempt aborted, logout in progress.')
       return
     }
-    set({ isLoading: true, authError: null, isLoggingOut: false })
+    set({ isLoading: true, authError: null, isLoggingOut: false, isNewUser: null })
 
     // Check for existing token in localStorage before SIWE
     const token = localStorage.getItem('accessToken')
@@ -51,13 +52,15 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           decodedToken.address.toLowerCase() === address.toLowerCase()
         ) {
           console.log('useAuthStore: Token check passed before SIWE.')
-          set({ isAuthenticated: true, isLoading: false })
+          set({ isAuthenticated: true, isLoading: false, isNewUser: false })
           proceedWithSIWE = false
         } else {
           localStorage.removeItem('accessToken')
+          set({ isNewUser: null })
         }
       } catch {
         localStorage.removeItem('accessToken')
+        set({ isNewUser: null })
       }
     }
 
@@ -98,16 +101,16 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       // Verify the signature and get the access token
-      const { accessToken } = await verifySignature({ message, signature, address })
+      const { accessToken, isNewUser } = await verifySignature({ message, signature, address })
       localStorage.setItem('accessToken', accessToken)
 
       if (get().isLoggingOut) {
         console.log('useAuthStore: Auth cancelled (logout) before setting final token.')
-        set({ isLoading: false })
+        set({ isLoading: false, isNewUser: null })
         return
       }
 
-      set({ isAuthenticated: true, isLoading: false, authError: null })
+      set({ isAuthenticated: true, isLoading: false, authError: null, isNewUser })
       console.log('useAuthStore: SIWE successful.')
     } catch (error: unknown) {
       if (!get().isLoggingOut) {
@@ -139,8 +142,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         }
         set({
           isAuthenticated: false,
-          // isLoading: false, // Handled in finally
           authError: `Authentication failed: ${displayMessage}`,
+          isNewUser: null,
         })
       } else {
         console.log('useAuthStore: Auth flow error caught, but likely due to logout cancellation.')
@@ -162,7 +165,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     if (get().isLoggingOut || get().isLoading) return
     const token = localStorage.getItem('accessToken')
     if (!token) {
-      set({ isAuthenticated: false, isLoading: false })
+      set({ isAuthenticated: false, isLoading: false, isNewUser: null })
       return
     }
     try {
@@ -177,21 +180,24 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (isValid) {
         console.log('useAuthStore: Existing token is valid')
-        set({ isAuthenticated: true, isLoading: false, authError: null })
+        set({ isAuthenticated: true, isLoading: false, authError: null, isNewUser: false })
       } else {
         console.log('useAuthStore: Existing token is invalid')
         localStorage.removeItem('accessToken')
-        set({ isAuthenticated: false, isLoading: false, authError: null })
+        set({ isAuthenticated: false, isLoading: false, authError: null, isNewUser: null })
       }
     } catch (error) {
       console.error('useAuthStore: Error decoding token:', error)
       localStorage.removeItem('accessToken')
-      set({ isAuthenticated: false, isLoading: false, authError: null })
+      set({ isAuthenticated: false, isLoading: false, authError: null, isNewUser: null })
     }
   },
   logout: () => {
-    set({ isLoggingOut: true, isLoading: false, isAuthenticated: false, authError: null })
+    set({ isLoggingOut: true, isLoading: false, isAuthenticated: false, authError: null, isNewUser: null })
     localStorage.removeItem('accessToken')
+  },
+  resetNewUserFlag: () => {
+    set({ isNewUser: false })
   },
 }))
 
