@@ -74,6 +74,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     // Dependencies that should trigger this effect logic
     isConnected,
     isDisconnected,
+    isLoggingOut,
     address,
     chainId,
     // Include functions called within the effect (React ESLint rule)
