@@ -38,6 +38,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     checkExistingToken,
     isNewUser,
     resetNewUserFlag,
+    isLoggingOut,
   } = useAuthStore()
 
   const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false)
@@ -63,11 +64,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     }
 
     if (isConnected && address && chainId) {
-      const { isAuthenticated: currentAuthStatus, isLoading: currentLoadingStatus } = useAuthStore.getState()
-
-      if (!currentAuthStatus && !currentLoadingStatus) {
-        console.log('ClientLayout Effect 2: Triggering authentication flow...')
-        handleAuthentication(address, chainId, signMessageAsync)
+      const shouldAttemptAuth = !isAuthenticated && !isAuthLoading && !isLoggingOut
+      if (shouldAttemptAuth) {
+        console.log('ClientLayout Effect 2: Condition met, triggering authentication flow...')
+        handleAuthentication(address, chainId, signMessageAsync, isConnected)
       }
     }
   }, [

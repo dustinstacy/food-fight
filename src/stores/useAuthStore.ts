@@ -27,13 +27,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isNewUser: null,
 
   // Actions
-  handleAuthentication: async (address, chainId, signMessageAsync) => {
+  handleAuthentication: async (address, chainId, signMessageAsync, isConnected) => {
     if (get().isLoading) {
-      console.log('useAuthStore: Authentication already in progress')
+      console.warn('useAuthStore: Authentication already in progress')
       return
     }
     if (get().isLoggingOut) {
-      console.log('useAuthStore: Auth attempt aborted, logout in progress.')
+      console.warn('useAuthStore: Auth attempt aborted, logout in progress.')
+      return
+    }
+    if (!isConnected) {
+      console.warn('useAuthStore: Auth attempt aborted, connector not connected.')
       return
     }
     set({ isLoading: true, authError: null, isLoggingOut: false, isNewUser: null })
@@ -195,6 +199,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   logout: () => {
     set({ isLoggingOut: true, isLoading: false, isAuthenticated: false, authError: null, isNewUser: null })
     localStorage.removeItem('accessToken')
+    set({ isLoggingOut: false })
   },
   resetNewUserFlag: () => {
     set({ isNewUser: false })

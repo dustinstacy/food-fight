@@ -23,11 +23,13 @@ export interface AuthActions {
    * @param address - The user's wallet address.
    * @param chainId - The chain ID of the connected wallet.
    * @param signMessageAsync - Function to sign a message asynchronously.
+   * @param isConnected - Indicates if the wallet is connected.
    */
   handleAuthentication: (
     address: string,
     chainId: number,
-    signMessageAsync: (args: { message: string }) => Promise<`0x${string}`>
+    signMessageAsync: (args: { message: string }) => Promise<`0x${string}`>,
+    isConnected: boolean
   ) => Promise<void>
 
   /**

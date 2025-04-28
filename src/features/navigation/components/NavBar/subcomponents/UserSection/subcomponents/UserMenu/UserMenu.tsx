@@ -3,6 +3,7 @@
 import Switch from '@mui/material/Switch'
 import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAccount, useDisconnect } from 'wagmi'
 
 import { UseToggleProps } from 'hooks/types'
@@ -28,6 +29,7 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
   const { address } = useAccount()
   const { disconnect } = useDisconnect()
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const isDarkMode = theme === 'dark'
 
@@ -41,6 +43,7 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
     queryClient.removeQueries({ queryKey: ['currentUser', address] })
     disconnect()
     toggleIsOpen?.()
+    router.push('/')
   }
   const handleDivKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
