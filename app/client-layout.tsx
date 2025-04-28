@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IconContext } from 'react-icons'
 import { useAccount, useSignMessage } from 'wagmi'
 
 import { NavBar } from 'features/navigation'
+import { UsernamePromptModal } from 'features/user/components'
+import { useCurrentUser } from 'features/user/hooks'
 import { useAuthStore } from 'stores'
-
+import { formatAddress } from 'utils'
 import './client-layout.scss'
 
 /**
@@ -19,6 +21,7 @@ import './client-layout.scss'
  * - Handling user session state and profile data.
  * - Displaying authentication errors.
  * - Rendering the navigation bar and page content.
+ * - Managing the display of the username prompt modal.
  *
  * @param props - Component props.
  * @param props.children - The page content to render within the layout.
@@ -26,7 +29,6 @@ import './client-layout.scss'
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { address, chainId, isConnected, isDisconnected } = useAccount()
   const { signMessageAsync } = useSignMessage()
-
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -34,7 +36,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     handleAuthentication,
     logout: logoutFromAuthStore,
     checkExistingToken,
+    isNewUser,
+    resetNewUserFlag,
   } = useAuthStore()
+
+  const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false)
+  const { data: currentUser, isLoading: isUserLoading } = useCurrentUser()
 
   // Check token on initial load
   useEffect(() => {
@@ -78,6 +85,26 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     isAuthLoading,
   ])
 
+  useEffect(() => {
+    if (isNewUser === true && !isUsernameModalOpen && isAuthenticated /*&& !isUserLoading*/) {
+      console.log('ClientLayout: New user detected, opening username prompt.')
+      setIsUsernameModalOpen(true)
+    } else if (isNewUser !== true && isUsernameModalOpen) {
+      console.log('ClientLayout: isNewUser flag changed or user logged out, closing modal.')
+      setIsUsernameModalOpen(false)
+    }
+  }, [isNewUser, isUsernameModalOpen, isAuthenticated, isUserLoading])
+
+  const handleCloseUsernameModal = () => {
+    setIsUsernameModalOpen(false)
+    if (useAuthStore.getState().isNewUser === true) {
+      resetNewUserFlag()
+    }
+  }
+
+  const formattedDefaultUsername = formatAddress(currentUser?.address)
+  const currentAddressValue = currentUser?.address ?? ''
+
   return (
     <>
       {/*!! Display auth error? */}
@@ -92,6 +119,12 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <IconContext.Provider value={{ className: 'react-icons' }}>
         <NavBar />
         {children}
+        <UsernamePromptModal
+          isOpen={isUsernameModalOpen}
+          onClose={handleCloseUsernameModal}
+          defaultUsername={formattedDefaultUsername}
+          currentAddress={currentAddressValue}
+        />
       </IconContext.Provider>
     </>
   )
