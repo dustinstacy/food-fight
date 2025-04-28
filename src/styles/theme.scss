@@ -68,19 +68,19 @@ $border-colors: (
 ///////////////////////////////////////////////
 
 .bangers {
-  font-family: Bangers, sans-serif;
+  font-family: var(--font-bangers);
 }
 
 .lilita-one {
-  font-family: 'Lilita One', sans-serif;
+  font-family: var(--font-lilita-one);
 }
 
 .luckiest-guy {
-  font-family: 'Luckiest Guy', sans-serif;
+  font-family: var(--font-luckiest-guy);
 }
 
 .tilt-warp {
-  font-family: 'Tilt Warp', sans-serif;
+  font-family: var(--font-tilt-warp);
 }
 
 .text-shadow {

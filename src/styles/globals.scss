@@ -1,15 +1,4 @@
 ///////////////////////////////////////////
-/// Fonts                               ///
-///////////////////////////////////////////
-/// Bangers                             ///
-/// Lilita One                          ///
-/// Luckiest Guy                        ///
-/// Tilt Warp                           ///
-///////////////////////////////////////////
-
-@import 'https://fonts.googleapis.com/css2?family=Bangers&family=Lilita+One&family=Luckiest+Guy&family=Tilt+Warp&display=swap';
-
-///////////////////////////////////////////
 /// Root                                ///
 ///////////////////////////////////////////
 
@@ -139,6 +128,9 @@ body {
   min-height: 100vh; // Make the layout container fill the viewport height
 }
 
+p {
+  font-family: 'Bangers', sans-serif;
+}
 //////////////////////////////////////////
 /// Scrollbar Styles                   ///
 //////////////////////////////////////////

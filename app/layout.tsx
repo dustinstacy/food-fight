@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Bangers, Lilita_One, Luckiest_Guy, Tilt_Warp } from 'next/font/google'
 import { headers } from 'next/headers'
 
 import AppKitProvider from 'providers/AppKitProvider'
@@ -19,6 +20,34 @@ export const metadata: Metadata = {
   },
   description: 'A Web3 collectible card game',
 }
+
+const bangers = Bangers({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-bangers',
+  display: 'swap',
+})
+
+const lilitaOne = Lilita_One({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-lilita-one',
+  display: 'swap',
+})
+
+const luckiestGuy = Luckiest_Guy({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-luckiest-guy',
+  display: 'swap',
+})
+
+const tiltWarp = Tilt_Warp({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-tilt-warp',
+  display: 'swap',
+})
 
 /**
  * Root Server Component layout for the application.
@@ -43,7 +72,11 @@ export default async function RootLayout({
 
   return (
     // Suppress hydration warning due to client-side theme class injection
-    <html lang='en' suppressHydrationWarning>
+    <html
+      lang='en'
+      className={`${bangers.variable} ${lilitaOne.variable} ${luckiestGuy.variable} ${tiltWarp.variable} `}
+      suppressHydrationWarning
+    >
       <body>
         <QueryProvider>
           <AppKitProvider cookies={cookies}>
