@@ -19,11 +19,11 @@ const queryClient = new QueryClient()
 const metadata = {
   name: 'Food Fight',
   description: 'A Web3 collectible card game',
-  url: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000', // origin must match your domain & subdomain
+  url: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000',
   icons: ['/icon.ico'],
 }
 
-// Constant unused. Named for clarity
+// Variable unused. Named for clarity
 const _modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId: projectId!,
@@ -31,7 +31,7 @@ const _modal = createAppKit({
   defaultNetwork: process.env.NODE_ENV === 'development' ? anvil : mainnet,
   metadata: metadata,
   features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
+    analytics: true,
   },
 })
 
@@ -41,12 +41,10 @@ const _modal = createAppKit({
 
 function AppKitProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
   // Get initial state for Wagmi SSR hydration from cookies
-  const initialState = cookieToInitialState(appkitConfig as Config, cookies) // Use config from adapter
+  const initialState = cookieToInitialState(appkitConfig as Config, cookies)
 
   return (
-    // Provide Wagmi state
     <WagmiProvider config={appkitConfig as Config} initialState={initialState}>
-      {/* Provide React Query state */}
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   )

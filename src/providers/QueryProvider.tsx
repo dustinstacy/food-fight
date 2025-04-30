@@ -5,9 +5,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react'
 
 export default function QueryProvider({ children }: { children: React.ReactNode }) {
-  // Create the QueryClient instance inside the Client Component.
-  // Use useState to ensure it's only created once per component instance
-  // and persists across re-renders.
   const [queryClient] = useState(
     () =>
       new QueryClient({
