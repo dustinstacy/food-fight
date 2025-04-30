@@ -1,6 +1,6 @@
-import { mainnet, sepolia } from '@reown/appkit/networks'
+import { mainnet, sepolia, anvil } from '@reown/appkit/networks'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { type Chain } from 'viem'
+import { http, type Chain } from 'viem'
 import { cookieStorage, createStorage } from 'wagmi'
 
 /** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
@@ -16,7 +16,7 @@ export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID
 const productionChains: Chain[] = [mainnet]
 
 // Define the development chains for local testing
-const developmentChains: Chain[] = [sepolia]
+const developmentChains: Chain[] = [sepolia, anvil]
 
 // Define the networks/chains the app will support
 export const networks: Chain[] = [
@@ -34,6 +34,11 @@ export const wagmiAdapter = new WagmiAdapter({
     storage: cookieStorage,
   }),
   ssr: true, // Enable Server-Side Rendering support
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [anvil.id]: http(),
+  },
   projectId: projectId!, // Use non-null assertion or handle missing ID case
   networks, // Pass the configured networks
 })

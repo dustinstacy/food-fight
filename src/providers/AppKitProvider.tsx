@@ -1,6 +1,6 @@
 'use client'
 
-import { mainnet, sepolia } from '@reown/appkit/networks'
+import { mainnet, sepolia, anvil } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { type ReactNode } from 'react'
@@ -27,8 +27,8 @@ const metadata = {
 const _modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId: projectId!,
-  networks: [mainnet, ...(process.env.NODE_ENV === 'development' ? [sepolia] : [])],
-  defaultNetwork: process.env.NODE_ENV === 'development' ? sepolia : mainnet,
+  networks: [mainnet, ...(process.env.NODE_ENV === 'development' ? [sepolia, anvil] : [])],
+  defaultNetwork: process.env.NODE_ENV === 'development' ? anvil : mainnet,
   metadata: metadata,
   features: {
     analytics: true, // Optional - defaults to your Cloud configuration
