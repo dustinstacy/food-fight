@@ -1,14 +1,22 @@
-/** Defines the available themes for the application. */
+/////////////////////////////////////////////////////////
+/// Theme Store Types                                 ///
+/////////////////////////////////////////////////////////
+
+/**
+ * Defines the available themes for the application.
+ */
 export type Theme = 'light' | 'dark'
 
-/** Describes the structure of the theme state. */
+/**
+ * Defines the structure of the theme state.
+ */
 export interface ThemeState {
   /** The current active theme. */
   theme: Theme
 }
 
 /**
- * Describes the actions available for managing the theme state.
+ * Defines the actions available for managing the theme state.
  */
 export interface ThemeActions {
   /**

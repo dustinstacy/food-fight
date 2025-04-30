@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////
-/// useToggle                                ///
+/// useToggle Types                          ///
 ////////////////////////////////////////////////
 
 import { Dispatch, SetStateAction } from 'react'

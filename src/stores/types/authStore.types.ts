@@ -1,3 +1,7 @@
+/////////////////////////////////////////////////////
+/// AuthStore Types                               ///
+/////////////////////////////////////////////////////
+
 /**
  * Defines the structure of the authentication state.
  */
@@ -15,7 +19,7 @@ export interface AuthState {
 }
 
 /**
- * Describes the actions available for managing authentication state.
+ * Defines the actions available for managing authentication state.
  */
 export interface AuthActions {
   /**
