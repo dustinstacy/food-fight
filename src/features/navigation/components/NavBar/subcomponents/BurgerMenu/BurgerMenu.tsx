@@ -23,6 +23,7 @@ const BurgerMenu = () => {
   const [isOpen, toggleIsOpen, setIsOpen] = useToggle(false)
   const isLargeScreen = useMediaQuery('(min-width: 768px)')
 
+  // Effect 1. Close the menu when the screen size changes to large
   useEffect(() => {
     return () => {
       setIsOpen(false)
@@ -31,6 +32,7 @@ const BurgerMenu = () => {
 
   return (
     <div className='burger-menu'>
+      {/* ----- Burger Menu Icon ----- */}
       {!isOpen ? (
         <MdMenu className='burger-menu__icon' onClick={toggleIsOpen} />
       ) : (

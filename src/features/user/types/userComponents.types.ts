@@ -1,6 +1,12 @@
-//** Props accepted by the UsernamePromptModal */
+/////////////////////////////////////////////////
+/// User Component Types                      ///
+/////////////////////////////////////////////////
+
+/**
+ * Defines props accepted by the UsernamePromptModal
+ */
 export interface UsernamePromptModalProps {
-  //** Indicates whether the modal is open or closed */
+  /** Indicates whether the modal is open or closed */
   isOpen: boolean
 
   /** Callback function when the modal is closed */

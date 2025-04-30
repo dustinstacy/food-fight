@@ -1,9 +1,15 @@
-/** Represents a user profile within the application. */
+/////////////////////////////////////////////////////////
+/// User Hooks Types                                  ///
+/////////////////////////////////////////////////////////
+
+/**
+ * Defines a user profile within the application.
+ * */
 export interface User {
-  /** The user's unique wallet address (e.g., Ethereum Address).  */
+  /** The user's unique wallet address.  */
   address: string
 
-  /** The user's chosen display name. May not be unique initially. */
+  /** The user's chosen display name. */
   username: string
 
   /** The date string representing when the user account was first created in the system. */
@@ -15,7 +21,7 @@ export interface User {
 
 /**
  * Defines the structure for variables passed to the useUpdateUser mutation.
- * Based on the updateUser API function.
+ * Based on the `updateUser` API function.
  */
 export type UpdateUserVariables<T extends keyof User = keyof User> = {
   /** The property of the User object to be updated. */

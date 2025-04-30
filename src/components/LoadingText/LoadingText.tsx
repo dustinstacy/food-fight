@@ -7,7 +7,7 @@ import './loadingText.scss'
 const DEFAULT_SIZE: LoadingTextSize = 'medium'
 
 /**
- * Renders base text followed by CSS-animated loading dots (e.g., "Loading...").
+ * Renders base text followed by CSS-animated loading dots.
  *
  * @remarks
  * This component is responsible for:
@@ -16,8 +16,8 @@ const DEFAULT_SIZE: LoadingTextSize = 'medium'
  * - Accepting additional CSS classes for customization.
  *
  * @param props - Props conforming to the {@link LoadingTextProps} interface.
- * @param props.text - The base text to display (e.g., "Loading").
- * @param props.size - Size of the loading text, can be 'small', 'medium', or 'large'. Defaults to 'medium'.
+ * @param props.text - The base text to display.
+ * @param props.size - Size of the loading text. Defaults to 'medium'.
  * @param props.className - Additional CSS classes to apply to the loading text component.
  */
 const LoadingText = ({ text, size = DEFAULT_SIZE, className }: LoadingTextProps) => {

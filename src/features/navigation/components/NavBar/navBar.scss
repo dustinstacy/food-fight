@@ -1,8 +1,8 @@
-@use 'styles/breakpoints.scss' as *;
-
 ////////////////////////////////////////////////
 /// Navbar Styles                            ///
 ////////////////////////////////////////////////
+
+@use 'styles/breakpoints.scss' as *;
 
 .navbar {
   position: fixed;

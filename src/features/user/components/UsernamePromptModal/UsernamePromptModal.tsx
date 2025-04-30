@@ -35,7 +35,7 @@ const UsernamePromptModal = ({ isOpen, onClose, defaultUsername, currentAddress 
     isSuccess: isUpdateSuccess,
   } = useUpdateUser()
 
-  // Set the default username when the modal opens and reset the error message
+  // Effect 1. Set the default username when the modal opens and reset the error message
   useEffect(() => {
     if (isOpen) {
       setUsername(defaultUsername || formatAddress(currentAddress))
@@ -43,14 +43,14 @@ const UsernamePromptModal = ({ isOpen, onClose, defaultUsername, currentAddress 
     }
   }, [isOpen, defaultUsername, currentAddress])
 
-  // Close the modal when the update is successful
+  // Effect 2. Close the modal when the update is successful
   useEffect(() => {
     if (isUpdateSuccess) {
       onClose()
     }
   }, [isUpdateSuccess, onClose])
 
-  // Handle error messages based on the update status
+  // Effect 3. Handle error messages based on the update status
   useEffect(() => {
     if (isUpdateError && updateError) {
       setErrorMessage(updateError.message || 'Failed to update username.')

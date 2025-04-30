@@ -24,8 +24,8 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  * @param props.path - Optional path for navigation; if provided, renders as a link.
  * @param props.onClick - Optional click handler for the button.
  * @param props.disabled - Boolean indicating whether the button is disabled.
- * @param props.htmlButtonType - HTML button type (e.g., 'button', 'submit', 'reset'); defaults to 'button'.
- * @param ref - Forwarded ref applied to the underlying interactive element (`<button>` or `<a>`).
+ * @param props.htmlButtonType - HTML button type. Defaults to 'button'.
+ * @param ref - Forwarded ref applied to the underlying interactive element.
  */
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   ({ label, className, path, onClick, disabled, htmlButtonType = DEFAULT_HTML_BUTTON_TYPE }, ref) => {

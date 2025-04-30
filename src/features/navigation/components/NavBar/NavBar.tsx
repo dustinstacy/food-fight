@@ -33,20 +33,19 @@ const NavBar = () => {
 
   return (
     <div className='navbar between secondary-gradient'>
+      {/* ----- Burger menu ----- */}
       <BurgerMenu />
-      {/* --- Logo linking to the home page --- */}
+
+      {/* ----- Logo ----- */}
       <Link href='/'>
         <Image className='navbar__logo abs-center' src={smallLogo1} alt='Food Fight logo' priority={true} />
       </Link>
+
+      {/* ----- Navigation links ----- */}
       <Links menu='navbar' />
-      {/* --- Conditional rendering using wagmi's isConnected --- */}
-      {isConnected ? (
-        // Render user-specific section if wallet is connected
-        <UserSection />
-      ) : (
-        // Render connect button if wallet is not connected
-        <Button label='Connect' onClick={handleConnectWallet} />
-      )}
+
+      {/* ----- Connect wallet button or user section ----- */}
+      {isConnected ? <UserSection /> : <Button label='Connect' onClick={handleConnectWallet} />}
     </div>
   )
 }

@@ -19,7 +19,7 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  * - Applying different styles based on the size of the avatar.
  *
  * @param props - Props conforming to the {@link AvatarProps} interface.
- * @param props.size - Size of the avatar, can be 'small', 'medium', or 'large'. Defaults to 'medium'.
+ * @param props.size - Size of the avatar. Defaults to 'medium'.
  * @param props.className - Additional CSS classes to apply to the avatar component.
  * @param props.onClick - Optional click handler for the avatar component.
  */
@@ -31,12 +31,12 @@ const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProp
   const interactiveProps = onClick
     ? {
         onClick: onClick,
-        role: 'button' as React.ButtonHTMLAttributes<HTMLDivElement>['role'], // Type assertion
+        role: 'button' as React.ButtonHTMLAttributes<HTMLDivElement>['role'],
         tabIndex: 0,
         onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
-            onClick() // Call the passed onClick handler
+            onClick()
           }
         },
       }

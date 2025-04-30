@@ -24,12 +24,19 @@ const UserSection = () => {
 
   return (
     <div className='user-section right'>
+      {/* ----- Divider ----- */}
       <hr />
+
+      {/* ----- Username ----- */}
       <div className='user-section__name text-shadow tilt-warp'>
         <p>{user?.username}</p>
       </div>
+
+      {/* ----- Avatar ----- */}
       <Avatar size='small' onClick={handleClick} />
-      {isOpen && <UserMenu isOpen toggleIsOpen={toggleIsOpen} />}
+
+      {/* ----- User menu ----- */}
+      {isOpen && <UserMenu toggleState={isOpen} toggle={toggleIsOpen} />}
     </div>
   )
 }

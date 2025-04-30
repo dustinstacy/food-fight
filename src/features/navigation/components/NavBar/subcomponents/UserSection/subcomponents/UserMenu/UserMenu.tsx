@@ -20,10 +20,10 @@ import './userMenu.scss'
  * - Allowing the user to log out.
  *
  * @param props - The component props.
- * @param props.isOpen - Boolean indicating whether the menu is open or closed.
- * @param props.toggleIsOpen - Function to toggle the menu open/closed state.
+ * @param props.toggleState - Boolean indicating whether the menu is open or closed.
+ * @param props.toggle- Function to toggle the menu open/closed state.
  */
-const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
+const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps) => {
   const { logout: logoutFromAuthStore } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
   const { address } = useAccount()
@@ -45,6 +45,7 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
     toggleIsOpen?.()
     router.push('/')
   }
+
   const handleDivKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
@@ -56,6 +57,7 @@ const UserMenu = ({ isOpen, toggleIsOpen }: UseToggleProps) => {
     <>
       {isOpen && (
         <div className='user-menu left-column black-border primary-gradient tilt-warp'>
+          {/* ----- Account Link ----- */}
           <Link className='user-menu__link text-shadow' href='/account' onClick={() => toggleIsOpen?.()}>
             <span>Account</span>
           </Link>
