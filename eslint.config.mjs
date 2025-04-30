@@ -87,13 +87,13 @@ const eslintConfig = [
       prettier: pluginPrettier,
     },
     rules: {
-      ...eslintConfigPrettier.rules, // Disables conflicting rules
+      ...eslintConfigPrettier.rules,
       'prettier/prettier': 'warn',
     },
     languageOptions: {
       globals: {
         ...cleanedBrowserGlobals, // Add browser globals
-        ...originalGlobals.node, // Add node globals if applicable (e.g., for config files)
+        ...originalGlobals.node, // Add node globals
         React: 'readonly',
       },
     },

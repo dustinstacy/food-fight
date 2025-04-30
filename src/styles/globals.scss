@@ -121,13 +121,6 @@ body {
   scroll-behavior: smooth;
 }
 
-.app-layout {
-  display: flex;
-  flex-direction: column;
-  min-width: 100vw;
-  min-height: 100vh; // Make the layout container fill the viewport height
-}
-
 //////////////////////////////////////////
 /// Scrollbar Styles                   ///
 //////////////////////////////////////////

@@ -3,6 +3,7 @@ import { customFetch } from 'utils'
 
 /**
  * Calls the backend to get a SIWE challenge message for a given address.
+ *
  * @param address - The user's wallet address.
  * @param chainId - The chain ID for the wallet address.
  * @returns A promise that resolves with the message string to be signed.
@@ -22,6 +23,7 @@ export const getChallenge = async (address: string, chainId: number): Promise<st
 
 /**
  * Calls the backend to verify a SIWE signature and obtain an auth token.
+ *
  * @param params - Object containing the original message, signature, and address.
  * @returns A promise that resolves with an object containing the accessToken.
  */

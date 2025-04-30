@@ -28,7 +28,6 @@ const NavBar = () => {
   const { open } = useAppKit()
 
   const handleConnectWallet = () => {
-    // Open the wallet connection modal
     open()
   }
 

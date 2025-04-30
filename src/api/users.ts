@@ -6,9 +6,6 @@ import { customFetch } from 'utils'
 /**
  * Fetches the authenticated user's data.
  *
- * @remarks
- * - Calls the backend route `GET /api/users/`.
- *
  * @returns A promise resolving with the User object for the authenticated user.
  */
 export const fetchUserFromAccount = async (): Promise<User> => {
@@ -25,11 +22,8 @@ export const fetchUserFromAccount = async (): Promise<User> => {
 /**
  * Updates a specific property of the *authenticated* user.
  *
- * @remarks
- * - Calls the backend route `PUT /api/users/:property`.
- *
  * @template T - The key of the User property to update.
- * @param property - The name of the user property to update (e.g., 'username', 'image'). This determines the API endpoint path segment.
+ * @param property - The name of the user property to update (e.g., 'username', 'image').
  * @param value - The new value for the specified property.
  * @returns A promise resolving with the updated User object returned by the API.
  */

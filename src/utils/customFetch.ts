@@ -3,45 +3,42 @@
  *
  * @remarks
  * This function provides a standardized way to interact with the backend API. Key behaviors include:
- * - Prepends the base URL (from `NEXT_PUBLIC_API_BASE_URL` env var or fallback 'http://localhost:5000').
+ * - Prepends the base URL.
+ * - Retrieves the access token from `localStorage` for authentication.
  * - Automatically sets 'Content-Type' to 'application/json'.
- * - Adds an 'Authorization: Bearer' token header, reading the token from `localStorage` (client-side only).
- * - Checks the response status and throws an `Error` for non-OK responses , attempting to include status and body details in the error message.
- * - Correctly handles successful empty responses by resolving the promise with `undefined`.
+ * - Adds an 'Authorization: Bearer' token header.
+ * - Accepts a `RequestInit` object for additional options.
+ * - Throws an error with the status code and response body if the response is not ok.
+ * - Handles successful empty responses.
  *
  * @template T - The expected type of the successful JSON response body. Defaults to `unknown`.
- * @param url - The API endpoint path (e.g., '/api/users') to be appended to the base URL.
- * @param options - Standard `fetch` options object (method, body, additional headers, etc.).
- * @defaultValue `{}` (empty object) for the `options` parameter.
+ * @param url - The API endpoint path (e.g., '/api/users').
+ * @param options - Standard `fetch` options object. Defaults to an empty object.
  * @returns A promise that resolves with the parsed JSON response body as type `T`,
  * or `undefined` if the response has no content.
  */
 export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
-  // Ensure the window object is defined before accessing localStorage
   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
-  const config: RequestInit = {
+  const requestOptions: RequestInit = {
     ...options,
     headers: {
-      // Default headers
       'Content-Type': 'application/json',
       ...options.headers,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   }
 
-  const res = await fetch(`${baseUrl}${url}`, config)
+  const res = await fetch(`${baseUrl}${url}`, requestOptions)
 
   if (!res.ok) {
     let errorData: Record<string, unknown> | { status: number; statusText: string; body: string }
     try {
       errorData = await res.json()
     } catch (_jsonError) {
-      // If response is not JSON, use text and status
       errorData = { status: res.status, statusText: res.statusText, body: await res.text().catch(() => '') }
     }
-    // Throw a custom error with status and message
     throw new Error(`API Error ${res.status}: ${JSON.stringify(errorData)}`)
   }
 

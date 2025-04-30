@@ -1,8 +1,8 @@
-@use 'styles/breakpoints.scss' as *;
-
 ////////////////////////////////////////
 /// Containers                       ///
 ////////////////////////////////////////
+
+@use 'styles/breakpoints.scss' as *;
 
 .page {
   display: flex;
