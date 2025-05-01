@@ -1,12 +1,11 @@
-import { Modal } from '@mui/material'
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 
 import { Button, TextInput } from 'components'
+import { UsernamePromptProps } from 'features/notifications/types'
 import { useUpdateUser } from 'features/user/hooks'
-import { UsernamePromptModalProps } from 'features/user/types'
 import { formatAddress } from 'utils/formatAddress'
 
-import './usernamePromptModal.scss'
+import './usernamePrompt.scss'
 
 /**
  * Renders a modal prompting the user to set a username.
@@ -16,15 +15,13 @@ import './usernamePromptModal.scss'
  * - Allowing the user to input a username.
  * - Validating the username input.
  * - Handling form submission.
- * - Displaying loading states and error messages.
+ * - Handling success and error states.
  *
  * @param props - Props for the UsernamePromptModal component.
- * @param props.isOpen - Indicates whether the modal is open or closed.
- * @param props.onClose - Callback function when the modal is closed.
- * @param props.defaultUsername - The default username to display in the input field.
  * @param props.currentAddress - The current address of the user.
+ * @param props.onSuccess - Callback function to be called when the username is successfully updated.
  */
-const UsernamePromptModal = ({ isOpen, onClose, defaultUsername, currentAddress }: UsernamePromptModalProps) => {
+const UsernamePrompt = ({ currentAddress, onSuccess }: UsernamePromptProps) => {
   const [username, setUsername] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const {
@@ -35,20 +32,18 @@ const UsernamePromptModal = ({ isOpen, onClose, defaultUsername, currentAddress 
     isSuccess: isUpdateSuccess,
   } = useUpdateUser()
 
-  // Effect 1. Set the default username when the modal opens and reset the error message
+  // Effect 1. Set the initial username based on the current address
   useEffect(() => {
-    if (isOpen) {
-      setUsername(defaultUsername || formatAddress(currentAddress))
-      setErrorMessage(null)
-    }
-  }, [isOpen, defaultUsername, currentAddress])
+    setUsername(formatAddress(currentAddress))
+    setErrorMessage(null)
+  }, [currentAddress])
 
-  // Effect 2. Close the modal when the update is successful
+  // Effect 2. Call onSuccess callback when the update is successful
   useEffect(() => {
     if (isUpdateSuccess) {
-      onClose()
+      onSuccess()
     }
-  }, [isUpdateSuccess, onClose])
+  }, [isUpdateSuccess, onSuccess])
 
   // Effect 3. Handle error messages based on the update status
   useEffect(() => {
@@ -87,41 +82,31 @@ const UsernamePromptModal = ({ isOpen, onClose, defaultUsername, currentAddress 
   )
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={onClose}
-      aria-labelledby='username-prompt-title'
-      aria-describedby='username-prompt-description'
-      className='modal'
-    >
-      <div className='modal__content background'>
-        <h2 id='username-prompt-title' className='modal__header lilita-one'>
-          Choose Your Username
-        </h2>
+    <div className='username-prompt'>
+      <h2 className='username-prompt__title lilita-one'>Choose Your Username</h2>
 
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            label='Username'
-            name='username'
-            value={username}
-            onChange={handleUsernameChange}
-            error={errorMessage || undefined}
-            loading={isUpdating}
-            autoComplete='username'
+      <form onSubmit={handleSubmit}>
+        <TextInput
+          label='Username'
+          name='username'
+          value={username}
+          onChange={handleUsernameChange}
+          error={errorMessage || undefined}
+          loading={isUpdating}
+          autoComplete='username'
+        />
+
+        <div className='modal__form-actions'>
+          <Button
+            label={isUpdating ? 'Saving...' : 'Save'}
+            htmlButtonType='submit'
+            disabled={isUpdating || !username.trim()}
+            className='modal__button'
           />
-
-          <div className='modal__form-actions'>
-            <Button
-              label={isUpdating ? 'Saving...' : 'Save'}
-              htmlButtonType='submit'
-              disabled={isUpdating || !username.trim()}
-              className='modal__button'
-            />
-          </div>
-        </form>
-      </div>
-    </Modal>
+        </div>
+      </form>
+    </div>
   )
 }
 
-export default UsernamePromptModal
+export default UsernamePrompt

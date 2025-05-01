@@ -86,6 +86,18 @@ export interface LoadingTextProps {
 }
 
 ////////////////////////////////////////////////////////
+/// MessageBox Types                                 ///
+////////////////////////////////////////////////////////
+
+/**
+ * Defines props accepted by the MessageBox component.
+ */
+export interface MessageBoxProps {
+  /** The children elements to be rendered inside the message box. */
+  children: React.ReactNode
+}
+
+////////////////////////////////////////////////////////
 /// TextInput Types                                  ///
 ////////////////////////////////////////////////////////
 

@@ -1,0 +1,19 @@
+/////////////////////////////////////////////////
+/// UsernamePromptModal                       ///
+/////////////////////////////////////////////////
+
+.username-prompt {
+  &__title {
+    margin-bottom: 48px;
+    color: var(--primary-color);
+  }
+
+  &__form-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__button {
+    width: 80%;
+  }
+}

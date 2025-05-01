@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { IconContext } from 'react-icons'
 
 import { NavBar } from 'features/navigation'
-import { UsernamePromptModal } from 'features/user/components'
+import { CustomModal, UsernamePrompt } from 'features/notifications/components'
 import { useCurrentUser } from 'features/user/hooks'
+import { useToggle } from 'hooks'
 import { useAuthStore } from 'stores'
-import { formatAddress } from 'utils'
 import './client-layout.scss'
 
 /**
@@ -34,29 +34,31 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const authError = useAuthStore((state) => state.authError)
   const resetNewUserFlag = useAuthStore((state) => state.resetNewUserFlag)
 
-  const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false)
+  const [isPromptOpen, , setIsPromptOpen] = useToggle(false)
 
-  // Effect 4: Control the display of the username prompt modal
+  // Effect 1: Handle the rendering of the username prompt modal
   useEffect(() => {
-    // Conditions: User is authenticated, is a new user, and modal is not open
-    if (isAuthenticated && isNewUser === true && !isUsernameModalOpen) {
-      console.log('[ClientLayout] Effect 4: New user detected, opening username prompt.')
-      setIsUsernameModalOpen(true)
-      // Conditions: User is not a new user or logging out, and modal is open
-    } else if (isNewUser !== true && isUsernameModalOpen) {
-      console.log('[ClientLayout] Effect 4: isNewUser flag changed or user logged out, closing modal.')
-      setIsUsernameModalOpen(false)
+    if (isAuthenticated && isNewUser === true && currentUser?.address && !isPromptOpen) {
+      console.log('[ClientLayout] New user detected, opening username prompt.')
+      setIsPromptOpen(true)
     }
-  }, [isAuthenticated, isNewUser, isUsernameModalOpen])
 
-  const handleCloseUsernameModal = () => {
-    setIsUsernameModalOpen(false)
-    if (useAuthStore.getState().isNewUser === true) {
-      resetNewUserFlag()
+    if ((!isAuthenticated || !currentUser?.address) && isPromptOpen) {
+      console.log('[ClientLayout] User logged out or user data lost, closing modal.')
+      setIsPromptOpen(false)
     }
+  }, [isAuthenticated, isNewUser, currentUser?.address, isPromptOpen, setIsPromptOpen])
+
+  const handlePromptSuccess = () => {
+    resetNewUserFlag()
+    setIsPromptOpen(false)
   }
 
-  const formattedDefaultUsername = formatAddress(currentUser?.address)
+  const handleModalClose = () => {
+    console.log('[ClientLayout] Modal closed.')
+    setIsPromptOpen(false)
+  }
+
   const currentAddressValue = currentUser?.address ?? ''
 
   return (
@@ -73,12 +75,21 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <IconContext.Provider value={{ className: 'react-icons' }}>
         <NavBar />
         {children}
-        <UsernamePromptModal
-          isOpen={isUsernameModalOpen}
-          onClose={handleCloseUsernameModal}
-          defaultUsername={formattedDefaultUsername}
-          currentAddress={currentAddressValue}
-        />
+
+        {/*--- Username Prompt Modal ---*/}
+        {currentAddressValue && (
+          <CustomModal
+            isOpen={isPromptOpen}
+            onClose={handleModalClose} // Handles click outside/Esc
+            ariaLabel='username-prompt-modal'
+            ariaDescription='Modal prompting for username setup'
+          >
+            <UsernamePrompt
+              currentAddress={currentAddressValue}
+              onSuccess={handlePromptSuccess} // Pass the success handler
+            />
+          </CustomModal>
+        )}
       </IconContext.Provider>
     </>
   )

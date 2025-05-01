@@ -8,6 +8,7 @@ import { useDisconnect } from 'wagmi'
 import { UseToggleProps } from 'hooks/types'
 import { useThemeStore } from 'stores'
 import './userMenu.scss'
+import { useRef } from 'react'
 
 /**
  * Renders the user menu.
@@ -27,6 +28,7 @@ const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps)
   const { disconnect } = useDisconnect()
   const router = useRouter()
 
+  const menuRef = useRef<HTMLDivElement>(null)
   const isDarkMode = theme === 'dark'
 
   const handleThemeChange = () => {

@@ -1,0 +1,17 @@
+.message-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  width: 300px;
+  padding: 24px;
+  color: var(--color-text-primary);
+  background-color: var(--background2-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow:
+    0 11px 15px -7px rgb(0 0 0 / 20%),
+    0 24px 38px 3px rgb(0 0 0 / 14%),
+    0 9px 46px 8px rgb(0 0 0 / 12%);
+  transform: translate(-50%, -50%);
+}
