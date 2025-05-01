@@ -9,7 +9,9 @@ export interface AuthState {
   /** Indicates if the user is authenticated. */
   isAuthenticated: boolean
   /** Indicates if the authentication process is currently in progress. */
-  isLoading: boolean
+  isAttemptingAuth: boolean
+  /** Indicates if the user is switching accounts. */
+  isSwitchingAccounts: boolean
   /** Any error that occurred during authentication. */
   authError: string | null
   /** Indicates if the user is logging out. */
@@ -36,18 +38,17 @@ export interface AuthActions {
     isConnected: boolean
   ) => Promise<void>
 
-  /**
-   * Action to check existing JWT token in storage.
-   * @param currentAddress - The user's current wallet address.
-   */
-  checkExistingToken: (currentAddress: string | undefined) => void
-
   /** Action for logging out the user. */
   logout: () => void
 
   /** Action to set manually reset the NewUser flag */
   resetNewUserFlag: () => void
 }
+
+/**
+ * Defines the complete structure of the authentication store, combining state and actions.
+ */
+export type AuthStore = AuthState & AuthActions
 
 /////////////////////////////////////////////////////////
 /// Theme Store Types                                 ///

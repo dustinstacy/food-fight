@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { Theme, ThemeActions, ThemeState } from 'stores/types'
+import { Theme, ThemeStore } from 'stores/types'
 
 /**
  * Determines the preferred theme based on system settings (prefers-color-scheme).
- * Checks client-side media query.
+ *
  * @returns The preferred theme ('light' or 'dark'), defaulting to 'light'.
  */
 const getSystemPreference = (): Theme => {
@@ -16,8 +16,8 @@ const getSystemPreference = (): Theme => {
 }
 
 /**
- * Applies the correct theme class ('light-theme' or 'dark-theme') to the
- * root <html> element and removes the other.
+ * Applies the correct theme class to the root <html> element and removes the other.
+ *
  * @param theme - The theme to apply.
  */
 const applyThemeClass = (theme: Theme) => {
@@ -28,26 +28,22 @@ const applyThemeClass = (theme: Theme) => {
   }
 }
 
-type ThemeStore = ThemeState & ThemeActions
-
 /**
- * Zustand store hook for managing the application's visual theme ('light'/'dark').
+ * Zustand store hook for managing the application's visual theme.
  *
  * @remarks
- * This store handles the current theme state.
- * It provides actions to:
- * - Set the theme explicitly (`setTheme`).
- * - Toggle the theme between 'light' and 'dark' (`toggleTheme`).
- * It also persists the theme state in localStorage using Zustand's `persist` middleware.
+ * This store is responsible for:
+ * - Storing the current theme in localStorage.
+ * - Providing actions to set and toggle the theme.
+ * - Applying the theme class to the <html> element.
+ * - Automatically determining the system's preferred theme on initial load.
  */
 export const useThemeStore = create<ThemeStore>()(
   // Use persist middleware for localStorage persistence
   persist(
     (set, get) => ({
-      // Initial state
       theme: getSystemPreference(),
 
-      // Actions
       setTheme: (newTheme) => {
         applyThemeClass(newTheme)
         set({ theme: newTheme })
@@ -62,7 +58,7 @@ export const useThemeStore = create<ThemeStore>()(
     }),
     {
       // Configuration for the persist middleware
-      name: 'theme-storage', // Key used in localStorage
+      name: 'theme-storage',
       storage: createJSONStorage(() => localStorage),
       // Only persist the 'theme' property, excluding actions from storage
       partialize: (state) => ({ theme: state.theme }),
@@ -77,7 +73,6 @@ export const useThemeStore = create<ThemeStore>()(
 )
 
 // Apply the theme class immediately when the store module loads on the client
-// This helps prevent a potential theme flicker
 if (typeof window !== 'undefined') {
   applyThemeClass(useThemeStore.getState().theme)
 }
