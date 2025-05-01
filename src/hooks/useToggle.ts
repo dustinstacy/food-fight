@@ -8,6 +8,7 @@ import { UseToggleReturn } from 'hooks/types'
  * Custom hook to manage a boolean toggle state.
  *
  * @param initialState - The initial boolean state of the toggle. Defaults to `false`.
+ *
  * @returns A state tuple conforming to {@link UseToggleReturn}:
  * - `[0]` (boolean): The current state (`true` or `false`).
  * - `[1]` (function): A function to toggle the state (`() => void`).

@@ -16,6 +16,7 @@ export const fetchUserFromAccount = async (): Promise<User> => {
   })
 
   if (!user) throw new Error('API returned unexpected empty response for fetchUserFromAccount')
+  console.log('User fetched:', user)
   return user
 }
 
