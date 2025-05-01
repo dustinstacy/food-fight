@@ -1,6 +1,7 @@
 import { Avatar } from 'components'
 import { useCurrentUser } from 'features/user/hooks'
 import { useToggle } from 'hooks'
+import { useAuthStore } from 'stores'
 
 import { UserMenu } from './subcomponents'
 import './userSection.scss'
@@ -16,6 +17,8 @@ import './userSection.scss'
  */
 const UserSection = () => {
   const { data: user } = useCurrentUser()
+  const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
+
   const [isOpen, toggleIsOpen] = useToggle(false)
 
   const handleClick = () => {
@@ -29,7 +32,7 @@ const UserSection = () => {
 
       {/* ----- Username ----- */}
       <div className='user-section__name text-shadow tilt-warp'>
-        <p>{user?.username}</p>
+        <p>{user && !isAttemptingAuth ? user.username : ''}</p>
       </div>
 
       {/* ----- Avatar ----- */}

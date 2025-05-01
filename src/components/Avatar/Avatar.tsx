@@ -3,6 +3,7 @@ import React from 'react'
 
 import type { AvatarProps, AvatarSize } from 'components/types'
 import { useCurrentUser } from 'features/user/hooks'
+import { useAuthStore } from 'stores'
 import { classSet } from 'utils'
 import './avatar.scss'
 
@@ -25,6 +26,7 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  */
 const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
   const { data: user } = useCurrentUser()
+  const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
   const image = user?.image
 
   // Props to make the div interactive and accessible when onClick is provided
@@ -46,7 +48,7 @@ const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProp
 
   return (
     <div className={avatarClasses} {...interactiveProps}>
-      {!image ? (
+      {!image || isAttemptingAuth ? (
         <div className='avatar__placeholder'></div>
       ) : (
         <Image

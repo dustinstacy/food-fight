@@ -9,6 +9,7 @@ import { useCurrentUser } from 'features/user/hooks'
 import { useToggle } from 'hooks'
 import { useAuthStore } from 'stores'
 import './client-layout.scss'
+import { LoadingText } from 'components'
 
 /**
  * Client-side layout component that coordinates wallet connection status
@@ -69,25 +70,32 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           {authError}
         </p>
       )}
-      {/*!! Display Loading Modal? */}
-      {isAttemptingAuth && <p className='center auth-text'>Authenticating...</p>}
 
       <IconContext.Provider value={{ className: 'react-icons' }}>
         <NavBar />
         {children}
 
+        {/*--- Attempting Auth Modal --- */}
+        {isAttemptingAuth && (
+          <CustomModal
+            isOpen={isAttemptingAuth}
+            onClose={handleModalClose}
+            ariaLabel='username-prompt-modal'
+            ariaDescription='Modal prompting for username setup'
+          >
+            <LoadingText text='Waiting for signature' />
+          </CustomModal>
+        )}
+
         {/*--- Username Prompt Modal ---*/}
         {currentAddressValue && (
           <CustomModal
             isOpen={isPromptOpen}
-            onClose={handleModalClose} // Handles click outside/Esc
+            onClose={handleModalClose}
             ariaLabel='username-prompt-modal'
             ariaDescription='Modal prompting for username setup'
           >
-            <UsernamePrompt
-              currentAddress={currentAddressValue}
-              onSuccess={handlePromptSuccess} // Pass the success handler
-            />
+            <UsernamePrompt currentAddress={currentAddressValue} onSuccess={handlePromptSuccess} />
           </CustomModal>
         )}
       </IconContext.Provider>

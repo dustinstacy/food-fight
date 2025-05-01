@@ -6,6 +6,7 @@ import { largeLogo1 } from 'assets'
 import { Button } from 'components'
 import { navLinks } from 'features/navigation/data'
 import { useCurrentUser } from 'features/user/hooks'
+import { useAuthStore } from 'stores'
 import './home.scss'
 
 /**
@@ -18,10 +19,12 @@ import './home.scss'
  */
 export default function Home() {
   const { data: user } = useCurrentUser()
+  const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
+
   return (
     <div className='home page bottom background-gradient'>
       <Image className='home__logo abs-top-center' src={largeLogo1} alt='Food Fight logo' sizes='100vw' />
-      {user ? (
+      {user && !isAttemptingAuth ? (
         <div className='home__buttons bottom-column'>
           {navLinks.map(
             (link) => link.name !== 'Home' && <Button key={link.name} label={link.name} path={link.path} />
