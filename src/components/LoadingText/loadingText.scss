@@ -6,10 +6,9 @@
   display: inline-block;
   margin: 0;
   line-height: 1.3;
-  color: inherit;
+  color: var(--black-color);
 
   // ----- Dots ----- //
-
   &__dots {
     display: inline-block;
     min-width: 1.5em;

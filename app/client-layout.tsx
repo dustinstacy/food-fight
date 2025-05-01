@@ -83,7 +83,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             ariaLabel='username-prompt-modal'
             ariaDescription='Modal prompting for username setup'
           >
-            <LoadingText text='Waiting for signature' />
+            <LoadingText text='Waiting for signature' size='large' />
           </CustomModal>
         )}
 
