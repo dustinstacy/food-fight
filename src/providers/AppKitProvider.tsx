@@ -2,7 +2,6 @@
 
 import { mainnet, sepolia, anvil } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 
@@ -13,8 +12,6 @@ import { wagmiAdapter, projectId, appkitConfig } from 'config'
 ///////////////////////////////////////////////////
 /// Constants                                   ///
 ///////////////////////////////////////////////////
-
-const queryClient = new QueryClient()
 
 const metadata = {
   name: 'Food Fight',
@@ -45,7 +42,7 @@ function AppKitProvider({ children, cookies }: { children: ReactNode; cookies: s
 
   return (
     <WagmiProvider config={appkitConfig as Config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      {children}
     </WagmiProvider>
   )
 }
