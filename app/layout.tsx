@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Bangers, Lilita_One, Luckiest_Guy, Tilt_Warp } from 'next/font/google'
 import { headers } from 'next/headers'
 
+import AuthManager from 'managers/AuthManager'
 import AppKitProvider from 'providers/AppKitProvider'
 import QueryProvider from 'providers/QueryProvider'
 
@@ -53,10 +54,11 @@ const tiltWarp = Tilt_Warp({
  * Root Server Component layout for the application.
  *
  * @remarks
- * This layour is responsible for:
+ * This layout is responsible for:
  * - Setting the HTML structure and language.
- * - Providing the AppKit and React Query providers.
- * - Suppressing hydration warnings.
+ * - Including global styles and fonts.
+ * - Providing the React Query and AppKit providers.
+ * - Managing authentication state with the AuthManager component.
  * - Wrapping the application with the ClientLayout component.
  *
  * @param props - The component props object.
@@ -67,19 +69,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Get cookies from headers
   const cookies = (await headers()).get('cookie')
 
   return (
-    // Suppress hydration warning due to client-side theme class injection
     <html
       lang='en'
       className={`${bangers.variable} ${lilitaOne.variable} ${luckiestGuy.variable} ${tiltWarp.variable} `}
-      suppressHydrationWarning
+      suppressHydrationWarning // Suppress hydration warning due to client-side theme class injection
     >
       <body>
         <QueryProvider>
           <AppKitProvider cookies={cookies}>
+            <AuthManager />
             <ClientLayout>{children}</ClientLayout>
           </AppKitProvider>
         </QueryProvider>
