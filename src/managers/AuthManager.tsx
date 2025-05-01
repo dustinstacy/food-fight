@@ -1,46 +1,61 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useAccount, useAccountEffect, useSignMessage } from 'wagmi'
 
 import { useCurrentUser } from 'features/user/hooks'
 import { userKeys } from 'features/user/utils'
 import { useAuthStore } from 'stores'
 
+/**
+ * Headless component that manages authentication events
+ *
+ * @remarks
+ * This component is responsible for:
+ * - Handling wallet connection and disconnection events.
+ * - Attempting authentication when the wallet is connected.
+ * - Refetching the current user data after successful authentication.
+ * - Logging out the user when the wallet is disconnected.
+ * - Handling account switching by attempting re-authentication.
+ *
+ * @returns null - This component does not render anything to the DOM.
+ */
 function AuthManager() {
-  const { address, chainId, isConnected } = useAccount()
+  /////////////////////////////////////////////////////////
+  /// Variables                                         ///
+  /////////////////////////////////////////////////////////
+
+  const { address, chainId, connector, isConnected } = useAccount()
+  const { refetch: refetchCurrentUser } = useCurrentUser()
   const { signMessageAsync } = useSignMessage()
   const queryClient = useQueryClient()
-  const { refetch: refetchCurrentUser } = useCurrentUser()
 
   const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
   const handleAuthentication = useAuthStore((state) => state.handleAuthentication)
   const logout = useAuthStore((state) => state.logout)
+
   const authenticatedAddressRef = useRef<string | null>(null)
 
-  // --- Wagmi Hooks --- //
-  useAccountEffect({
-    onConnect: async (data) => {
-      console.log('[onConnect] Wallet connect effect triggered.', data)
-      const { address, chainId, connector } = data
+  /////////////////////////////////////////////////////////
+  /// Functions                                         ///
+  /////////////////////////////////////////////////////////
 
-      // Conditions: Has details, not currently attempting, and not authenticated with this address
-      if (
-        address &&
-        chainId &&
-        connector &&
-        !isAttemptingAuth &&
-        authenticatedAddressRef.current?.toLowerCase() !== address.toLowerCase()
-      )
-        console.log(`[onConnect] Initiating authentication for ${address}...`)
+  const attemptAuthentication = useCallback(
+    async (prevAddress: string | null, currentAddress: string, chainId: number, origin: string) => {
       try {
-        await handleAuthentication(address, chainId, signMessageAsync, true)
+        if (prevAddress) {
+          queryClient.removeQueries({ queryKey: userKeys.currentUser(prevAddress) })
+        }
+        authenticatedAddressRef.current = null
+
+        await handleAuthentication(currentAddress, chainId, signMessageAsync, true)
+        authenticatedAddressRef.current = currentAddress
+
         await refetchCurrentUser()
-        console.log(`[onConnect] Authentication successful for ${address}.`)
-        authenticatedAddressRef.current = address
+        console.log(`[${origin}] Authentication successful for ${currentAddress}`)
       } catch (error) {
-        console.error('[onConnect] Error during handleAuthentication:', error)
+        console.error(`[${origin}] Error during handleAuthentication:`, error)
         authenticatedAddressRef.current = null
       } finally {
         if (isAttemptingAuth) {
@@ -48,10 +63,36 @@ function AuthManager() {
         }
       }
     },
+    [queryClient, handleAuthentication, signMessageAsync, refetchCurrentUser, isAttemptingAuth]
+  )
+
+  /////////////////////////////////////////////////////////
+  /// Effects                                           ///
+  /////////////////////////////////////////////////////////
+
+  // --- Wagmi onConnect/onDisconnect effect --- //
+  useAccountEffect({
+    onConnect: async (data) => {
+      console.log('[onConnect] Wallet connect effect triggered.', data)
+      const { address, chainId, connector } = data
+      const previouslyAuthenticatedAddress = authenticatedAddressRef.current
+      const canAuthenticate =
+        address &&
+        chainId &&
+        connector &&
+        !isAttemptingAuth &&
+        previouslyAuthenticatedAddress?.toLowerCase() !== address.toLowerCase()
+
+      if (canAuthenticate) {
+        console.log(`[onConnect] Initiating authentication for ${address}...`)
+        attemptAuthentication(previouslyAuthenticatedAddress, address, chainId, 'onConnect')
+      }
+    },
 
     onDisconnect: () => {
       console.log('[onDisconnect] Walled disconnect effect triggered.')
       const previouslyAuthenticatedAddress = authenticatedAddressRef.current
+
       if (previouslyAuthenticatedAddress) {
         queryClient.removeQueries({ queryKey: userKeys.currentUser(previouslyAuthenticatedAddress) })
         logout()
@@ -61,47 +102,27 @@ function AuthManager() {
     },
   })
 
-  // --- Custom Hooks --- //
+  // --- Custom onAccountSwitch effect --- //
   useEffect(() => {
-    async function reauthenticateCheck() {
-      console.log('[Switching Accounts] Address change check triggered.')
-      // Conditions: Connected, has details, not currently attempting, not authenticated with this address, and previously authenticated
-      if (
-        isConnected &&
-        address &&
-        chainId &&
-        !isAttemptingAuth &&
-        authenticatedAddressRef.current?.toLowerCase() !== address.toLowerCase() &&
-        authenticatedAddressRef.current !== null
-      ) {
-        console.log(`[Switching Accounts]: Address changed to ${address}, initiating re-authentication...`)
-        try {
-          await handleAuthentication(address, chainId, signMessageAsync, true)
-          await refetchCurrentUser()
-          console.log(`[Switching Accounts] Authentication successful for ${address}.`)
-          authenticatedAddressRef.current = address
-        } catch (error) {
-          console.error('[Switching Accounts] Error during handleAuthentication:', error)
-          authenticatedAddressRef.current = null
-        } finally {
-          if (isAttemptingAuth) {
-            useAuthStore.setState({ isAttemptingAuth: false })
-          }
-        }
+    const previouslyAuthenticatedAddress = authenticatedAddressRef.current
+    const canAuthenticate =
+      isConnected &&
+      address &&
+      chainId &&
+      connector &&
+      !isAttemptingAuth &&
+      previouslyAuthenticatedAddress &&
+      previouslyAuthenticatedAddress.toLowerCase() !== address.toLowerCase()
+
+    async function onAccountSwitch() {
+      if (canAuthenticate) {
+        console.log(`[onAccountSwitch]: Switching from ${previouslyAuthenticatedAddress} to ${address}`)
+        attemptAuthentication(previouslyAuthenticatedAddress, address, chainId, 'onAccountSwitch')
       }
     }
-    reauthenticateCheck()
-  }, [
-    address,
-    chainId,
-    signMessageAsync,
-    isAttemptingAuth,
-    handleAuthentication,
-    isConnected,
-    refetchCurrentUser,
-    queryClient,
-    logout,
-  ])
+
+    onAccountSwitch()
+  }, [address, attemptAuthentication, chainId, connector, isConnected, isAttemptingAuth])
 
   return null
 }
