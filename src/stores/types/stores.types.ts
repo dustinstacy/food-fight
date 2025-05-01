@@ -10,14 +10,12 @@ export interface AuthState {
   isAuthenticated: boolean
   /** Indicates if the authentication process is currently in progress. */
   isAttemptingAuth: boolean
-  /** Indicates if the user is switching accounts. */
-  isSwitchingAccounts: boolean
-  /** Any error that occurred during authentication. */
-  authError: string | null
   /** Indicates if the user is logging out. */
   isLoggingOut: boolean
   /** Indicates if the user is new. */
   isNewUser: boolean | null
+  /** Any error that occurred during authentication. */
+  authError: string | null
 }
 
 /**
