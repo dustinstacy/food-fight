@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
 import { IconContext } from 'react-icons'
 import { useAccount, useSignMessage } from 'wagmi'
 
@@ -28,73 +29,104 @@ import './client-layout.scss'
  */
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { address, chainId, isConnected, isDisconnected } = useAccount()
+  const { data: currentUser, refetch: refetchCurrentUser } = useCurrentUser()
   const { signMessageAsync } = useSignMessage()
-  const {
-    isAuthenticated,
-    isLoading: isAuthLoading,
-    authError,
-    handleAuthentication,
-    logout: logoutFromAuthStore,
-    checkExistingToken,
-    isNewUser,
-    resetNewUserFlag,
-    isLoggingOut,
-  } = useAuthStore()
+  const queryClient = useQueryClient()
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isSwitchingAccounts = useAuthStore((state) => state.isSwitchingAccounts)
+  const isNewUser = useAuthStore((state) => state.isNewUser)
+  const isLoggingOut = useAuthStore((state) => state.isLoggingOut)
+  const authError = useAuthStore((state) => state.authError)
+  const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
+  const logout = useAuthStore((state) => state.logout)
+  const handleAuthentication = useAuthStore((state) => state.handleAuthentication)
+  const resetNewUserFlag = useAuthStore((state) => state.resetNewUserFlag)
 
   const [isUsernameModalOpen, setIsUsernameModalOpen] = useState(false)
-  const { data: currentUser, isLoading: isUserLoading } = useCurrentUser()
+  const authenticatedAddressRef = useRef<string | null>(null)
 
-  // Check token on initial load
+  // Effect 1: Handle authentication and logout based on wallet connection status
   useEffect(() => {
-    if (isConnected && address && chainId) {
-      console.log('ClientLayout: Checking existing token...')
-      checkExistingToken(address)
-    }
-  }, [isConnected, address, chainId, checkExistingToken])
-
-  // Effect 2: Trigger authentication (if needed) or logout
-  useEffect(() => {
-    if (isDisconnected) {
-      const { isAuthenticated: currentAuthStatus } = useAuthStore.getState()
-      if (currentAuthStatus) {
-        console.log('ClientLayout Effect 2: Wallet disconnected, logging out...')
-        logoutFromAuthStore()
-      }
-      return
+    // Conditions: Connected, has details, not logging out, not already authenticated, and not already trying to authenticate.
+    if (
+      isConnected &&
+      address &&
+      chainId &&
+      !isLoggingOut &&
+      !isAuthenticated &&
+      !isAttemptingAuth &&
+      !isSwitchingAccounts
+    ) {
+      console.log(`[ClientLayout] Effect 1: Initiating authentication for ${address}...`)
+      handleAuthentication(address, chainId, signMessageAsync, true)
+      authenticatedAddressRef.current = address
     }
 
-    if (isConnected && address && chainId) {
-      const shouldAttemptAuth = !isAuthenticated && !isAuthLoading && !isLoggingOut
-      if (shouldAttemptAuth) {
-        console.log('ClientLayout Effect 2: Condition met, triggering authentication flow...')
-        handleAuthentication(address, chainId, signMessageAsync, isConnected)
-      }
+    // Conditions: Disconnected, not logging out, and authenticated.
+    if (isDisconnected && !isLoggingOut && isAuthenticated) {
+      console.log(`[ClientLayout] Effect 1: Wallet disconnected, logging out...`)
+      queryClient.removeQueries({ queryKey: ['currentUser', authenticatedAddressRef] })
+      logout()
+      authenticatedAddressRef.current = null
     }
   }, [
-    // Dependencies that should trigger this effect logic
-    isConnected,
-    isDisconnected,
-    isLoggingOut,
     address,
     chainId,
-    // Include functions called within the effect (React ESLint rule)
-    handleAuthentication,
-    signMessageAsync,
-    logoutFromAuthStore,
-    // Note: We don't strictly need isAuthenticated/isAuthLoading in deps if using getState(),
+    isConnected,
     isAuthenticated,
-    isAuthLoading,
+    isAttemptingAuth,
+    isDisconnected,
+    isLoggingOut,
+    handleAuthentication,
+    logout,
+    queryClient,
+    signMessageAsync,
+    isSwitchingAccounts,
   ])
 
+  // Effect 2: Handle account switch reauthentication
   useEffect(() => {
-    if (isNewUser === true && !isUsernameModalOpen && isAuthenticated /*&& !isUserLoading*/) {
-      console.log('ClientLayout: New user detected, opening username prompt.')
+    async function reauthenticateCheck() {
+      if (
+        isConnected &&
+        address &&
+        chainId &&
+        address !== authenticatedAddressRef.current &&
+        authenticatedAddressRef.current !== null
+      ) {
+        useAuthStore.setState({ isSwitchingAccounts: true })
+        console.log(`[ClientLayout] Effect 2: Address changed to ${address}, refetching current user...`)
+        await handleAuthentication(address, chainId, signMessageAsync, true)
+        authenticatedAddressRef.current = address
+        await refetchCurrentUser()
+        useAuthStore.setState({ isSwitchingAccounts: false })
+      }
+    }
+
+    reauthenticateCheck()
+  }, [address, chainId, isConnected, handleAuthentication, signMessageAsync, refetchCurrentUser])
+
+  // Effect 3: Clear the current user data when switching accounts
+  useEffect(() => {
+    if (isSwitchingAccounts) {
+      console.log('[ClientLayout] Effect 3: Clearing current user data due to account switch.')
+      queryClient.setQueryData(['currentUser', authenticatedAddressRef], null)
+    }
+  }, [isSwitchingAccounts, queryClient])
+
+  // Effect 4: Control the display of the username prompt modal
+  useEffect(() => {
+    // Conditions: User is authenticated, is a new user, and modal is not open
+    if (isAuthenticated && isNewUser === true && !isUsernameModalOpen) {
+      console.log('[ClientLayout] Effect 4: New user detected, opening username prompt.')
       setIsUsernameModalOpen(true)
+      // Conditions: User is not a new user or logging out, and modal is open
     } else if (isNewUser !== true && isUsernameModalOpen) {
-      console.log('ClientLayout: isNewUser flag changed or user logged out, closing modal.')
+      console.log('[ClientLayout] Effect 4: isNewUser flag changed or user logged out, closing modal.')
       setIsUsernameModalOpen(false)
     }
-  }, [isNewUser, isUsernameModalOpen, isAuthenticated, isUserLoading])
+  }, [isAuthenticated, isNewUser, isUsernameModalOpen])
 
   const handleCloseUsernameModal = () => {
     setIsUsernameModalOpen(false)
@@ -115,7 +147,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         </p>
       )}
       {/*!! Display Loading Modal? */}
-      {isAuthLoading && <p className='center auth-text'>Authenticating...</p>}
+      {isAttemptingAuth && <p className='center auth-text'>Authenticating...</p>}
 
       <IconContext.Provider value={{ className: 'react-icons' }}>
         <NavBar />
