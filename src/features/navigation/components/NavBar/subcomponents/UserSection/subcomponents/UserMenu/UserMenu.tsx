@@ -1,13 +1,12 @@
 'use client'
 
 import Switch from '@mui/material/Switch'
-import { useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useDisconnect } from 'wagmi'
 
 import { UseToggleProps } from 'hooks/types'
-import { useAuthStore, useThemeStore } from 'stores'
+import { useThemeStore } from 'stores'
 import './userMenu.scss'
 
 /**
@@ -24,11 +23,8 @@ import './userMenu.scss'
  * @param props.toggle- Function to toggle the menu open/closed state.
  */
 const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps) => {
-  const { logout: logoutFromAuthStore } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
-  const { address } = useAccount()
   const { disconnect } = useDisconnect()
-  const queryClient = useQueryClient()
   const router = useRouter()
 
   const isDarkMode = theme === 'dark'
@@ -37,10 +33,8 @@ const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps)
     toggleTheme()
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log('UserMenu: Logging out...')
-    logoutFromAuthStore()
-    queryClient.removeQueries({ queryKey: ['currentUser', address] })
     disconnect()
     toggleIsOpen?.()
     router.push('/')
