@@ -4,6 +4,7 @@ import { customFetch } from 'utils'
 /** @see {@link User} - The type definition for the user object. */
 
 /**
+ * GET /api/users/current
  * Fetches the authenticated user's data.
  *
  * @returns A promise resolving with the User object for the authenticated user.
@@ -21,6 +22,7 @@ export const fetchUserFromAccount = async (): Promise<User> => {
 }
 
 /**
+ * GET /api/users/:property
  * Updates a specific property of the *authenticated* user.
  *
  * @template T - The key of the User property to update.

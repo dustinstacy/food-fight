@@ -17,7 +17,9 @@ import { parseAuthError, validateToken } from './utils'
  * - Managing the new user flag
  */
 export const useAuthStore = create<AuthStore>((set, get) => ({
-  // ----- Initial state ----- //
+  //////////////////////////////////////////////////
+  /// Initial State                              ///
+  //////////////////////////////////////////////////
 
   isAuthenticated: false,
   isAttemptingAuth: false,
@@ -25,7 +27,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isNewUser: null,
   authError: null,
 
-  // ----- Handle authentication ----- //
+  //////////////////////////////////////////////////
+  /// HandleAuthentication                       ///
+  //////////////////////////////////////////////////
 
   handleAuthentication: async (address, chainId, signMessageAsync, isConnected) => {
     if (get().isAttemptingAuth || get().isLoggingOut || !isConnected) {
@@ -92,7 +96,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  // ---- Logout ----- //
+  /////////////////////////////////////////////////////
+  /// Logout                                        ///
+  /////////////////////////////////////////////////////
 
   logout: () => {
     set({ isLoggingOut: true, isAttemptingAuth: false, isAuthenticated: false, authError: null, isNewUser: null })
@@ -101,7 +107,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     console.log('[AuthStore] User logged out.')
   },
 
-  // ----- Reset New User Flag ----- //
+  /////////////////////////////////////////////////////
+  /// Reset New User Flag                           ///
+  /////////////////////////////////////////////////////
 
   resetNewUserFlag: () => {
     if (get().isNewUser === true) {

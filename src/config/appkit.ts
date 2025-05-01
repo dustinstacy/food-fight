@@ -6,7 +6,7 @@ import { cookieStorage, createStorage } from 'wagmi'
 /** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
 
 //////////////////////////////////////////////////
-/// Constants                                  ///
+/// Variables                                  ///
 //////////////////////////////////////////////////
 
 export const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID
@@ -19,7 +19,7 @@ export const networks: Chain[] = [
 ]
 
 //////////////////////////////////////////////////
-/// Wagmi Adapter                             ///
+/// Adapter                                    ///
 //////////////////////////////////////////////////
 
 export const wagmiAdapter = new WagmiAdapter({

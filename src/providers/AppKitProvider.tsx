@@ -10,7 +10,7 @@ import { wagmiAdapter, projectId, appkitConfig } from 'config'
 /** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
 
 ///////////////////////////////////////////////////
-/// Constants                                   ///
+/// Variables                                   ///
 ///////////////////////////////////////////////////
 
 const metadata = {

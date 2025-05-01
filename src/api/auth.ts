@@ -2,6 +2,7 @@ import { VerifySignatureParams, VerifySignatureResponse } from 'api/types'
 import { customFetch } from 'utils'
 
 /**
+ * POST /api/auth/challenge
  * Calls the backend to get a SIWE challenge message for a given address.
  *
  * @param address - The user's wallet address.
@@ -22,6 +23,7 @@ export const getChallenge = async (address: string, chainId: number): Promise<st
 }
 
 /**
+ * POST /api/auth/verify
  * Calls the backend to verify a SIWE signature and obtain an auth token.
  *
  * @param params - Object containing the original message, signature, and address.
