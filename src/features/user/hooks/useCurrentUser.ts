@@ -21,20 +21,13 @@ export function useCurrentUser() {
   const { address } = useAccount()
   const { isAuthenticated } = useAuthStore()
 
-  return useQuery<User | null, Error>({
-    // Unique query key based on the current user's address
+  const query = useQuery<User | null, Error>({
     queryKey: userKeys.currentUser(address),
-
-    // Function to fetch user data
-    queryFn: () => {
-      return fetchUserFromAccount()
-    },
-
-    // Only enable this query if the user is authenticated AND has an address
+    queryFn: () => fetchUserFromAccount(),
     enabled: isAuthenticated && !!address,
-
-    // Cache and garbage collection settings
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 15,
   })
+
+  return query
 }

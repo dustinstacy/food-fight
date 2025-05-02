@@ -46,12 +46,10 @@ function AuthManager() {
       try {
         if (prevAddress) {
           queryClient.removeQueries({ queryKey: userKeys.currentUser(prevAddress) })
+          authenticatedAddressRef.current = null
         }
-        authenticatedAddressRef.current = null
-
         await handleAuthentication(currentAddress, chainId, signMessageAsync, true)
         authenticatedAddressRef.current = currentAddress
-
         await refetchCurrentUser()
         console.log(`[${origin}] Authentication successful for ${currentAddress}`)
       } catch (error) {
