@@ -1,6 +1,6 @@
 'use client'
 
-import { mainnet, sepolia, anvil } from '@reown/appkit/networks'
+import { anvil } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
@@ -24,8 +24,8 @@ const metadata = {
 const _modal = createAppKit({
   adapters: [wagmiAdapter],
   projectId: projectId!,
-  networks: [mainnet, ...(process.env.NODE_ENV === 'development' ? [sepolia, anvil] : [])],
-  defaultNetwork: process.env.NODE_ENV === 'development' ? anvil : mainnet,
+  networks: [anvil],
+  defaultNetwork: anvil,
   metadata: metadata,
   features: {
     analytics: true,
