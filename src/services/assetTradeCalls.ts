@@ -42,26 +42,29 @@ export const rejectProposal = (proposalId: number) => {
 }
 
 export const getProposal = (proposalId: number) => {
-  return useReadContract({
+  const { data: proposal } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'getProposal',
     args: [proposalId],
   })
+  return proposal
 }
 
 export const getProposalCount = () => {
-  return useReadContract({
+  const { data: proposalCount } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'getProposalCount',
   })
+  return proposalCount
 }
 
 export function getAssetVaultAddress() {
-  return useReadContract({
+  const { data: assetVaultAddress } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'getAssetVaultAddress',
   })
+  return assetVaultAddress
 }
