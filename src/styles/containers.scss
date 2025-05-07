@@ -13,6 +13,10 @@
   padding-right: var(--page-gutter-x);
   padding-left: var(--page-gutter-x);
   overflow: hidden auto;
+  padding-bottom: 5vh;
+  background: var(--background-color);
+  background-position: right;
+  background-size: cover;
 
   @media screen and (min-width: $sm) {
     padding-top: var(--navbar-height-md);
