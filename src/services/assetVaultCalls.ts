@@ -23,21 +23,21 @@ export const depositAssets = (assetIds: number[], assetAmounts: number[]) => {
   })
 }
 
-export const withdrawIGC = (address: string, amount: number) => {
+export const withdrawIGC = (to: string, amount: number) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'withdrawIGC',
-    args: [address, amount],
+    args: [to, amount],
   })
 }
 
-export const withdrawAssets = (address: string, assetIds: number[], assetAmounts: number[]) => {
+export const withdrawAssets = (to: string, assetIds: number[], assetAmounts: number[]) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'withdrawAssets',
-    args: [address, assetIds, assetAmounts],
+    args: [to, assetIds, assetAmounts],
   })
 }
 

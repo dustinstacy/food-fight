@@ -2,7 +2,7 @@ import { useAccount, useReadContract, useWriteContract } from 'wagmi'
 
 import { getAbiAndAddress } from 'utils'
 
-const { address } = useAccount()
+const { address: account } = useAccount()
 const { writeContract } = useWriteContract()
 const { contractAddress, contractAbi } = getAbiAndAddress('AssetFactory')
 
@@ -11,52 +11,52 @@ export const mintIGC = (amount: number) => {
     address: contractAddress,
     abi: contractAbi,
     functionName: 'mintIGC',
-    args: [address, amount],
+    args: [account, amount],
   })
 }
 
-export const mintAsset = (assetNumber: number, amount: number) => {
+export const mintAsset = (id: number, amount: number, data: string) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'mintAsset',
-    args: [address, assetNumber, amount, ''],
+    args: [account, id, amount, data],
   })
 }
 
-export const mintBatch = (assetIds: number[], assetNumbers: number[]) => {
+export const mintBatch = (ids: number[], amounts: number[], data: string) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'mintBatch',
-    args: [address, assetIds, assetNumbers, ''],
+    args: [account, ids, amounts, data],
   })
 }
 
-export const burnAsset = (assetNumber: number, amount: number) => {
+export const burnAsset = (id: number, amount: number) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'burnAsset',
-    args: [address, assetNumber, amount],
+    args: [account, id, amount],
   })
 }
 
-export const burnBatch = (assetIds: number[], assetNumbers: number[]) => {
+export const burnBatch = (ids: number[], amounts: number[]) => {
   writeContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'burnBatch',
-    args: [address, assetIds, assetNumbers],
+    args: [account, ids, amounts],
   })
 }
 
-export const getAsset = (assetNumber: number) => {
+export const getAsset = (id: number) => {
   const { data: asset } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'getAsset',
-    args: [assetNumber],
+    args: [id],
   })
   return asset
 }
@@ -79,12 +79,12 @@ export const getIGCTokenId = () => {
   return igcTokenId
 }
 
-export const balanceOf = (assetNumber: number) => {
+export const balanceOf = (tokenId: number) => {
   const { data: balance } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: 'balanceOf',
-    args: [address, assetNumber],
+    args: [account, tokenId],
   })
   return balance
 }
