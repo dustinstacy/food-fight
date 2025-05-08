@@ -2,10 +2,12 @@
 
 import './manage.scss'
 
-export default function Manage() {
+const Manage = () => {
   return (
-    <div className='manage-wrapper page center'>
-      <div className='manage'>Manage</div>
+    <div className='page center'>
+      <div className='manage'></div>
     </div>
   )
 }
+
+export default Manage

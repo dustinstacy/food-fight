@@ -2,10 +2,12 @@
 
 import './rentals.scss'
 
-export default function Rentals() {
+const Rentals = () => {
   return (
-    <div className='rentals-wrapper page center'>
-      <div className='rentals'>Rentals</div>
+    <div className='page center'>
+      <div className='rentals'></div>
     </div>
   )
 }
+
+export default Rentals

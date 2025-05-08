@@ -1,104 +1,56 @@
 'use client'
-import { useMemo } from 'react'
-import { Abi } from 'viem'
-import { useAccount, useReadContract, useWriteContract } from 'wagmi'
+
+import { useCallback } from 'react'
+import { Log } from 'viem'
+import { useAccount } from 'wagmi'
 
 import { Button } from 'components'
-
-import deployedContractsData from '../../../food-fight-contracts/deployments/deployedContracts'
+import { useContract } from 'hooks'
+import { getAbiAndAddress } from 'utils'
 
 import './shop.scss'
 
-type DeployedContractsType = {
-  [chainId: string]: {
-    [contractName: string]: {
-      address: `0x${string}`
-      abi: Abi
-    }
-  }
-}
+const Shop = () => {
+  const { address: account } = useAccount()
+  const { contractAbi, contractAddress } = getAbiAndAddress('AssetFactory')
 
-const deployedContracts = deployedContractsData as DeployedContractsType
-
-export default function Shop() {
-  const { address, isConnected, chainId } = useAccount()
-  const { writeContract } = useWriteContract()
-
-  const IGC_TOKEN_ID = BigInt(0)
-
-  const contract = deployedContracts[chainId as number]?.['AssetFactory']
-  const contractAddress = contract?.address
-  const contractAbi = contract?.abi
-
-  const numberOfAssets = Array.from({ length: 3 }, (_, i) => i + 1)
-
-  const { data: igcBalanceBigInt } = useReadContract({
+  const factory = useContract({
     address: contractAddress,
     abi: contractAbi,
-    functionName: 'balanceOf',
-    args: address ? [address, IGC_TOKEN_ID] : undefined,
-    query: {
-      enabled: isConnected && !!address && !!contractAddress && !!contractAbi,
-    },
   })
 
-  const formattedBalance = useMemo(() => {
-    if (typeof igcBalanceBigInt === 'bigint') {
-      return igcBalanceBigInt.toString()
-    }
-    return '0'
-  }, [igcBalanceBigInt])
+  const { data: igcBalance, isLoading: isBalanceLoading, refetch: refetchBalance } = factory.balanceOf([account, 0n])
 
-  function purchaseIGC(amount: number) {
-    if (!contractAddress || !contractAbi) {
-      console.error('Contract info not found for chain ID:', chainId)
-      alert(`Contract not deployed or configured for chain ${chainId}`)
-      return
-    }
-    console.log(`Purchase IGC clicked. Target: ${contractAddress}`)
+  const handleLogs = useCallback(
+    (eventName: string, logs: Log[]) => {
+      for (const log of logs) {
+        for (const topic of log.topics) {
+          const parsedTopic = `0x${topic.toString().slice(-40)}`
+          if (parsedTopic === account?.toLowerCase()) {
+            console.log(`[Shop useContract Logs] User Involved in ${eventName}: ${account}`)
+            refetchBalance()
+          }
+        }
+      }
+    },
+    [account, refetchBalance]
+  )
 
-    const igcAmountToMint = BigInt(amount)
-
-    // --- Call the mintIGC function ---
-    writeContract({
-      address: contractAddress,
-      abi: contractAbi,
-      functionName: 'mintIGC',
-      args: [address, igcAmountToMint],
-    })
-  }
-
-  function mintAsset(assetNumber: number) {
-    if (!contractAddress || !contractAbi) {
-      console.error('Contract info not found for chain ID:', chainId)
-      alert(`Contract not deployed or configured for chain ${chainId}`)
-      return
-    }
-    console.log(`Mint Asset ${assetNumber} clicked. Target: ${contractAddress}`)
-
-    // --- Call the mintAsset function ---
-    writeContract({
-      address: contractAddress,
-      abi: contractAbi,
-      functionName: 'mintAsset',
-      args: [address, assetNumber, 1, ''],
-    })
+  if (factory && factory.watchIGCminted) {
+    factory.watchIGCminted(handleLogs)
   }
 
   return (
-    <div className='shop-wrapper page center'>
+    <div className='page center'>
       <div className='shop'>
-        Your IGC Balance: {formattedBalance}
-        <Button onClick={() => purchaseIGC(10000)} className='shop-button' label='Purchase IGC' />
-        {numberOfAssets.map((assetNumber) => (
-          <Button
-            key={assetNumber}
-            onClick={() => mintAsset(assetNumber)}
-            className='shop-button'
-            label={`Mint Asset ${assetNumber}`}
-          />
-        ))}
+        Current Balance:
+        {isBalanceLoading && ' Loading...'}
+        {igcBalance !== undefined && !isBalanceLoading && (igcBalance as bigint)?.toString()}
+        {igcBalance === undefined && !isBalanceLoading && ' N/A'}
+        <Button onClick={() => factory.mintIGC([account, 1000n])} label='Mint IGC' />
       </div>
     </div>
   )
 }
+
+export default Shop

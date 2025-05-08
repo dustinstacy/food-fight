@@ -2,10 +2,12 @@
 
 import './trade.scss'
 
-export default function Trade() {
+const Trade = () => {
   return (
-    <div className='trade-wrapper page center'>
-      <div className='trade'>Trade</div>
+    <div className='page center'>
+      <div className='trade'></div>
     </div>
   )
 }
+
+export default Trade

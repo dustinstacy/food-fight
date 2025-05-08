@@ -2,10 +2,12 @@
 
 import './auctions.scss'
 
-export default function Auctions() {
+const Auctions = () => {
   return (
-    <div className='auctions-wrapper page center'>
-      <div className='auctions'>Auctions</div>
+    <div className='page center'>
+      <div className='auctions'></div>
     </div>
   )
 }
+
+export default Auctions
