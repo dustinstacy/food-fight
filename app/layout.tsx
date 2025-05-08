@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Bangers, Lilita_One, Luckiest_Guy, Tilt_Warp } from 'next/font/google'
 import { headers } from 'next/headers'
 
-import AuthManager from 'managers/AuthManager'
+import AuthManager from 'features/auth/managers/AuthManager'
 import AppKitProvider from 'providers/AppKitProvider'
 import QueryProvider from 'providers/QueryProvider'
 

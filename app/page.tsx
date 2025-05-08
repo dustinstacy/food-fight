@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 import { largeLogo1 } from 'assets'
 import { Button } from 'components'
-import { navLinks } from 'features/navigation/data'
-import { useCurrentUser } from 'features/user/hooks'
-import { useAuthStore } from 'stores'
+import { useAuthStore } from 'features/auth'
+import { navLinks } from 'features/navigation'
+import { useCurrentUser } from 'features/user'
 import './home.scss'
 
 /**

@@ -3,13 +3,13 @@
 import { useEffect } from 'react'
 import { IconContext } from 'react-icons'
 
-import { NavBar } from 'features/navigation'
-import { CustomModal, UsernamePrompt } from 'features/notifications/components'
-import { useCurrentUser } from 'features/user/hooks'
-import { useToggle } from 'hooks'
-import { useAuthStore } from 'stores'
-import './client-layout.scss'
 import { LoadingText } from 'components'
+import { useAuthStore } from 'features/auth'
+import { NavBar } from 'features/navigation'
+import { CustomModal, UsernamePrompt } from 'features/notifications'
+import { useCurrentUser } from 'features/user'
+import { useToggle } from 'hooks'
+import './client-layout.scss'
 
 /**
  * Client-side layout component that coordinates wallet connection status

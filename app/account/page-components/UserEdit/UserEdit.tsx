@@ -5,7 +5,7 @@ import { IoMdCloseCircle } from 'react-icons/io'
 
 import { UserEditErrors, UserEditProps } from '@account/types'
 import { Avatar, Button, TextInput } from 'components'
-import { useCurrentUser, useUpdateUser } from 'features/user/hooks'
+import { useCurrentUser, useUpdateUser } from 'features/user'
 
 /**
  * Renders the user edit profile component.

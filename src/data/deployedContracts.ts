@@ -5,13 +5,13 @@
 const deployedContracts = {
   31337: {
     AssetFactory: {
-      address: '0x700b6a60ce7eaaea56f065753d8dcb9653dbad35',
+      address: '0x05b4cb126885fb10464fdd12666feb25e2563b76',
       abi: [
         {
           type: 'constructor',
           inputs: [
             {
-              name: '_owner',
+              name: '_initialOwner',
               type: 'address',
               internalType: 'address',
             },
@@ -76,7 +76,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'id',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -99,7 +99,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'ids',
+              name: 'assetIds',
               type: 'uint256[]',
               internalType: 'uint256[]',
             },
@@ -114,38 +114,57 @@ const deployedContracts = {
         },
         {
           type: 'function',
-          name: 'getAssetPrice',
+          name: 'getAsset',
           inputs: [
             {
-              name: 'id',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
           ],
           outputs: [
             {
-              name: '',
-              type: 'uint256',
-              internalType: 'uint256',
+              name: 'asset',
+              type: 'tuple',
+              internalType: 'struct AssetFactory.Asset',
+              components: [
+                {
+                  name: 'uri',
+                  type: 'string',
+                  internalType: 'string',
+                },
+                {
+                  name: 'price',
+                  type: 'uint256',
+                  internalType: 'uint256',
+                },
+              ],
             },
           ],
           stateMutability: 'view',
         },
         {
           type: 'function',
-          name: 'getAssetURI',
-          inputs: [
-            {
-              name: 'id',
-              type: 'uint256',
-              internalType: 'uint256',
-            },
-          ],
+          name: 'getIGCTokenId',
+          inputs: [],
           outputs: [
             {
-              name: '',
-              type: 'string',
-              internalType: 'string',
+              name: 'tokenId',
+              type: 'uint8',
+              internalType: 'uint8',
+            },
+          ],
+          stateMutability: 'pure',
+        },
+        {
+          type: 'function',
+          name: 'getNextAssetId',
+          inputs: [],
+          outputs: [
+            {
+              name: 'assetId',
+              type: 'uint256',
+              internalType: 'uint256',
             },
           ],
           stateMutability: 'view',
@@ -184,7 +203,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'id',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -212,7 +231,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'ids',
+              name: 'assetIds',
               type: 'uint256[]',
               internalType: 'uint256[]',
             },
@@ -435,55 +454,14 @@ const deployedContracts = {
           name: 'setAssetData',
           inputs: [
             {
-              name: 'id',
-              type: 'uint256',
-              internalType: 'uint256',
-            },
-            {
-              name: 'uri',
+              name: 'assetUri',
               type: 'string',
               internalType: 'string',
             },
             {
-              name: 'price',
+              name: 'assetPrice',
               type: 'uint256',
               internalType: 'uint256',
-            },
-          ],
-          outputs: [],
-          stateMutability: 'nonpayable',
-        },
-        {
-          type: 'function',
-          name: 'setAssetPrice',
-          inputs: [
-            {
-              name: 'id',
-              type: 'uint256',
-              internalType: 'uint256',
-            },
-            {
-              name: 'price',
-              type: 'uint256',
-              internalType: 'uint256',
-            },
-          ],
-          outputs: [],
-          stateMutability: 'nonpayable',
-        },
-        {
-          type: 'function',
-          name: 'setAssetURI',
-          inputs: [
-            {
-              name: 'id',
-              type: 'uint256',
-              internalType: 'uint256',
-            },
-            {
-              name: 'uri',
-              type: 'string',
-              internalType: 'string',
             },
           ],
           outputs: [],
@@ -516,6 +494,29 @@ const deployedContracts = {
               name: 'newOwner',
               type: 'address',
               internalType: 'address',
+            },
+          ],
+          outputs: [],
+          stateMutability: 'nonpayable',
+        },
+        {
+          type: 'function',
+          name: 'updateAssetData',
+          inputs: [
+            {
+              name: 'assetId',
+              type: 'uint256',
+              internalType: 'uint256',
+            },
+            {
+              name: 'assetUri',
+              type: 'string',
+              internalType: 'string',
+            },
+            {
+              name: 'assetPrice',
+              type: 'uint256',
+              internalType: 'uint256',
             },
           ],
           outputs: [],
@@ -576,7 +577,7 @@ const deployedContracts = {
               internalType: 'string',
             },
             {
-              name: 'id',
+              name: 'assetId',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
@@ -592,35 +593,22 @@ const deployedContracts = {
         },
         {
           type: 'event',
-          name: 'AssetPriceSet',
+          name: 'AssetMinted',
           inputs: [
             {
-              name: 'id',
+              name: 'account',
+              type: 'address',
+              indexed: true,
+              internalType: 'address',
+            },
+            {
+              name: 'assetId',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
             },
             {
-              name: 'price',
-              type: 'uint256',
-              indexed: false,
-              internalType: 'uint256',
-            },
-          ],
-          anonymous: false,
-        },
-        {
-          type: 'event',
-          name: 'AssetURISet',
-          inputs: [
-            {
-              name: 'uri',
-              type: 'string',
-              indexed: false,
-              internalType: 'string',
-            },
-            {
-              name: 'id',
+              name: 'amount',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
@@ -639,7 +627,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'ids',
+              name: 'assetIds',
               type: 'uint256[]',
               indexed: false,
               internalType: 'uint256[]',
@@ -664,10 +652,29 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'id',
+              name: 'assetId',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
+            },
+            {
+              name: 'amount',
+              type: 'uint256',
+              indexed: false,
+              internalType: 'uint256',
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: 'event',
+          name: 'IGCminted',
+          inputs: [
+            {
+              name: 'account',
+              type: 'address',
+              indexed: true,
+              internalType: 'address',
             },
             {
               name: 'amount',
@@ -789,6 +796,17 @@ const deployedContracts = {
             },
           ],
           anonymous: false,
+        },
+        {
+          type: 'error',
+          name: 'AssetFactoryAssetNotFound',
+          inputs: [
+            {
+              name: 'assetId',
+              type: 'uint256',
+              internalType: 'uint256',
+            },
+          ],
         },
         {
           type: 'error',
@@ -914,13 +932,32 @@ const deployedContracts = {
             },
           ],
         },
+        {
+          type: 'error',
+          name: 'ReentrancyGuardReentrantCall',
+          inputs: [],
+        },
       ],
-      inheritedFunctions: {},
-      deploymentFile: 'run-1746488108.json',
+      inheritedFunctions: {
+        balanceOf: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        balanceOfBatch: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        isApprovedForAll: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        safeBatchTransferFrom: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        safeTransferFrom: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        setApprovalForAll: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        uri: 'lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol',
+        onERC1155BatchReceived: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        owner: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+        renounceOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+        transferOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+      },
+      deploymentFile: 'run-1746649111.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetVault: {
-      address: '0xa15bb66138824a1c7167f5e85b957d04dd34e468',
+      address: '0x2a264f26859166c5bf3868a54593ee716aebc848',
       abi: [
         {
           type: 'constructor',
@@ -931,7 +968,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: '_owner',
+              name: '_initialOwner',
               type: 'address',
               internalType: 'address',
             },
@@ -961,7 +998,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -980,7 +1017,7 @@ const deployedContracts = {
           name: 'depositAssets',
           inputs: [
             {
-              name: 'tokenIds',
+              name: 'assetIds',
               type: 'uint256[]',
               internalType: 'uint256[]',
             },
@@ -1061,7 +1098,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -1227,7 +1264,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -1250,7 +1287,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenIds',
+              name: 'assetIds',
               type: 'uint256[]',
               internalType: 'uint256[]',
             },
@@ -1305,7 +1342,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
@@ -1330,7 +1367,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
@@ -1355,7 +1392,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenIds',
+              name: 'assetIds',
               type: 'uint256[]',
               indexed: false,
               internalType: 'uint256[]',
@@ -1380,7 +1417,7 @@ const deployedContracts = {
               internalType: 'address',
             },
             {
-              name: 'tokenIds',
+              name: 'assetIds',
               type: 'uint256[]',
               indexed: false,
               internalType: 'uint256[]',
@@ -1469,7 +1506,7 @@ const deployedContracts = {
           name: 'AssetVaultArraysLengthMismatch',
           inputs: [
             {
-              name: 'tokenIdsLength',
+              name: 'assetIdsLength',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -1500,7 +1537,7 @@ const deployedContracts = {
               internalType: 'uint256',
             },
             {
-              name: 'tokenId',
+              name: 'assetId',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -1539,13 +1576,25 @@ const deployedContracts = {
             },
           ],
         },
+        {
+          type: 'error',
+          name: 'ReentrancyGuardReentrantCall',
+          inputs: [],
+        },
       ],
-      inheritedFunctions: {},
-      deploymentFile: 'run-1746488108.json',
+      inheritedFunctions: {
+        onERC1155BatchReceived: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        owner: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+        renounceOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+        transferOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
+      },
+      deploymentFile: 'run-1746649111.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetTrade: {
-      address: '0xb19b36b1456e65e3a6d514d3f715f204bd59f431',
+      address: '0xd04ff4a75edd737a73e92b2f2274cb887d96e110',
       abi: [
         {
           type: 'constructor',
@@ -1885,12 +1934,16 @@ const deployedContracts = {
           ],
         },
       ],
-      inheritedFunctions: {},
-      deploymentFile: 'run-1746488108.json',
+      inheritedFunctions: {
+        onERC1155BatchReceived: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+      },
+      deploymentFile: 'run-1746649111.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetAuction: {
-      address: '0x8ce361602b935680e8dec218b820ff5056beb7af',
+      address: '0xc6b8fbf96cf7bbe45576417ec2163acecfa88ecc',
       abi: [
         {
           type: 'constructor',
@@ -1944,7 +1997,7 @@ const deployedContracts = {
               internalType: 'uint256',
             },
             {
-              name: 'deadline',
+              name: 'blocksDuration',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -2007,7 +2060,7 @@ const deployedContracts = {
                   internalType: 'uint256',
                 },
                 {
-                  name: 'deadline',
+                  name: 'deadlineBlock',
                   type: 'uint256',
                   internalType: 'uint256',
                 },
@@ -2040,19 +2093,6 @@ const deployedContracts = {
               name: 'count',
               type: 'uint256',
               internalType: 'uint256',
-            },
-          ],
-          stateMutability: 'view',
-        },
-        {
-          type: 'function',
-          name: 'getIGCTokenId',
-          inputs: [],
-          outputs: [
-            {
-              name: 'tokenId',
-              type: 'uint8',
-              internalType: 'uint8',
             },
           ],
           stateMutability: 'view',
@@ -2214,7 +2254,7 @@ const deployedContracts = {
               internalType: 'uint256',
             },
             {
-              name: 'deadline',
+              name: 'blocksDuration',
               type: 'uint256',
               indexed: false,
               internalType: 'uint256',
@@ -2318,7 +2358,12 @@ const deployedContracts = {
           name: 'AssetAuctionDeadlineHasPassed',
           inputs: [
             {
-              name: 'deadline',
+              name: 'currentBlock',
+              type: 'uint256',
+              internalType: 'uint256',
+            },
+            {
+              name: 'deadlineBlock',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -2329,7 +2374,12 @@ const deployedContracts = {
           name: 'AssetAuctionDeadlineNotPassed',
           inputs: [
             {
-              name: 'deadline',
+              name: 'currentBlock',
+              type: 'uint256',
+              internalType: 'uint256',
+            },
+            {
+              name: 'deadlineBlock',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -2362,13 +2412,22 @@ const deployedContracts = {
             },
           ],
         },
+        {
+          type: 'error',
+          name: 'ReentrancyGuardReentrantCall',
+          inputs: [],
+        },
       ],
-      inheritedFunctions: {},
-      deploymentFile: 'run-1746488108.json',
+      inheritedFunctions: {
+        onERC1155BatchReceived: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+      },
+      deploymentFile: 'run-1746649111.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetRental: {
-      address: '0xe1aa25618fa0c7a1cfdab5d6b456af611873b629',
+      address: '0x29a79095352a718b3d7fe84e1f14e9f34a35598e',
       abi: [
         {
           type: 'constructor',
@@ -2415,7 +2474,7 @@ const deployedContracts = {
               internalType: 'uint256',
             },
             {
-              name: 'duration',
+              name: 'blocksDuration',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -2432,19 +2491,6 @@ const deployedContracts = {
               name: 'vaultAddress',
               type: 'address',
               internalType: 'address',
-            },
-          ],
-          stateMutability: 'view',
-        },
-        {
-          type: 'function',
-          name: 'getIGCTokenId',
-          inputs: [],
-          outputs: [
-            {
-              name: 'assetId',
-              type: 'uint8',
-              internalType: 'uint8',
             },
           ],
           stateMutability: 'view',
@@ -2486,7 +2532,7 @@ const deployedContracts = {
                   internalType: 'uint256',
                 },
                 {
-                  name: 'duration',
+                  name: 'blocksDuration',
                   type: 'uint256',
                   internalType: 'uint256',
                 },
@@ -2680,7 +2726,7 @@ const deployedContracts = {
               internalType: 'uint256',
             },
             {
-              name: 'duration',
+              name: 'blocksDuration',
               type: 'uint256',
               internalType: 'uint256',
             },
@@ -2854,9 +2900,18 @@ const deployedContracts = {
             },
           ],
         },
+        {
+          type: 'error',
+          name: 'ReentrancyGuardReentrantCall',
+          inputs: [],
+        },
       ],
-      inheritedFunctions: {},
-      deploymentFile: 'run-1746488108.json',
+      inheritedFunctions: {
+        onERC1155BatchReceived: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+        supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
+      },
+      deploymentFile: 'run-1746649111.json',
       deploymentScript: 'Deploy.s.sol',
     },
   },
