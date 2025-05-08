@@ -2,9 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
 
 import { fetchUserFromAccount } from 'api'
-import { User } from 'features/user/types'
-import { userKeys } from 'features/user/utils'
-import { useAuthStore } from 'stores'
+import { useAuthStore } from 'features/auth'
+import { User, userKeys } from 'features/user'
 
 /**
  * Custom hook to fetch the current authenticated user's profile data.
