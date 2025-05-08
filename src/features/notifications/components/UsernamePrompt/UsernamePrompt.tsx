@@ -1,8 +1,8 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react'
 
 import { Button, TextInput } from 'components'
-import { UsernamePromptProps } from 'features/notifications/types'
-import { useUpdateUser } from 'features/user/hooks'
+import { UsernamePromptProps } from 'features/notifications'
+import { useUpdateUser } from 'features/user'
 import { formatAddress } from 'utils/formatAddress'
 
 import './usernamePrompt.scss'
