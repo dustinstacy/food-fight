@@ -1,5 +1,5 @@
 import { Avatar } from 'components'
-import { useCurrentUser } from 'features/user/hooks'
+import { useCurrentUser } from 'features/user'
 import { useToggle } from 'hooks'
 import { useAuthStore } from 'stores'
 
