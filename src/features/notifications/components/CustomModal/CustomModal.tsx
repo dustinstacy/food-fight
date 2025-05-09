@@ -1,7 +1,7 @@
 import { Modal } from '@mui/material'
 
 import MessageBox from 'components/MessageBox/MessageBox'
-import { CustomModalProps } from 'features/notifications/types'
+import { CustomModalProps } from 'features/notifications'
 
 const CustomModal = ({ isOpen, onClose, ariaLabel, ariaDescription, children }: CustomModalProps) => {
   return (

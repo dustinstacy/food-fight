@@ -9,11 +9,8 @@
   flex-direction: column;
   width: 100vw;
   min-height: 100vh;
-  padding-top: var(--navbar-height-sm);
-  padding-right: var(--page-gutter-x);
-  padding-left: var(--page-gutter-x);
+  padding: var(--navbar-height-sm) var(--page-gutter-x) 5vh var(--page-gutter-x);
   overflow: hidden auto;
-  padding-bottom: 5vh;
   background: var(--background-color);
   background-position: right;
   background-size: cover;

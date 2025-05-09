@@ -5,7 +5,7 @@
 const deployedContracts = {
   31337: {
     AssetFactory: {
-      address: '0x05b4cb126885fb10464fdd12666feb25e2563b76',
+      address: '0x7d3a31e45adfc5b5c95da3ba89625b61d448dd91',
       abi: [
         {
           type: 'constructor',
@@ -953,11 +953,11 @@ const deployedContracts = {
         renounceOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
         transferOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
       },
-      deploymentFile: 'run-1746649111.json',
+      deploymentFile: 'run-1746756403.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetVault: {
-      address: '0x2a264f26859166c5bf3868a54593ee716aebc848',
+      address: '0x5094103de460df9bc1a0f2d69d6d6547cc97c050',
       abi: [
         {
           type: 'constructor',
@@ -1590,11 +1590,11 @@ const deployedContracts = {
         renounceOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
         transferOwnership: 'lib/openzeppelin-contracts/contracts/access/Ownable.sol',
       },
-      deploymentFile: 'run-1746649111.json',
+      deploymentFile: 'run-1746756403.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetTrade: {
-      address: '0xd04ff4a75edd737a73e92b2f2274cb887d96e110',
+      address: '0x4e97bf98a0301d0f53ba0846ad7bafffa334196c',
       abi: [
         {
           type: 'constructor',
@@ -1939,11 +1939,11 @@ const deployedContracts = {
         onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
         supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
       },
-      deploymentFile: 'run-1746649111.json',
+      deploymentFile: 'run-1746756403.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetAuction: {
-      address: '0xc6b8fbf96cf7bbe45576417ec2163acecfa88ecc',
+      address: '0x1cff7cdecef22d70fedefe1774831f18b86e9888',
       abi: [
         {
           type: 'constructor',
@@ -2423,11 +2423,11 @@ const deployedContracts = {
         onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
         supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
       },
-      deploymentFile: 'run-1746649111.json',
+      deploymentFile: 'run-1746756403.json',
       deploymentScript: 'Deploy.s.sol',
     },
     AssetRental: {
-      address: '0x29a79095352a718b3d7fe84e1f14e9f34a35598e',
+      address: '0x32e0a4f5c9846c8c504103e41d7e8edf03ce8cbc',
       abi: [
         {
           type: 'constructor',
@@ -2911,7 +2911,7 @@ const deployedContracts = {
         onERC1155Received: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
         supportsInterface: 'lib/openzeppelin-contracts/contracts/token/ERC1155/IERC1155Receiver.sol',
       },
-      deploymentFile: 'run-1746649111.json',
+      deploymentFile: 'run-1746756403.json',
       deploymentScript: 'Deploy.s.sol',
     },
   },

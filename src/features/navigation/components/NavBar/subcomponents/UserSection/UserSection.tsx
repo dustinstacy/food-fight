@@ -1,7 +1,7 @@
 import { Avatar } from 'components'
+import { useAuthStore } from 'features/auth'
 import { useCurrentUser } from 'features/user'
 import { useToggle } from 'hooks'
-import { useAuthStore } from 'stores'
 
 import { UserMenu } from './subcomponents'
 import './userSection.scss'

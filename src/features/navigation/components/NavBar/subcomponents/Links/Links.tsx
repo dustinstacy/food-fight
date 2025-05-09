@@ -2,8 +2,7 @@
 import Link from 'next/link'
 import React from 'react'
 
-import { navLinks } from 'features/navigation/data'
-import type { LinksProps } from 'features/navigation/types'
+import { LinksProps, navLinks } from 'features/navigation'
 import { classSet } from 'utils'
 import './links.scss'
 

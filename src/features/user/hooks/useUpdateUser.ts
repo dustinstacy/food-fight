@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
 
 import { updateUser } from 'api'
-import { User, UpdateUserVariables } from 'features/user/types'
-import { userKeys } from 'features/user/utils'
+import { User, UpdateUserVariables, userKeys } from 'features/user'
 
 /**
  * Custom hook to update the current authenticated user's profile data.
