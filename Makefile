@@ -5,9 +5,10 @@ CONCURRENTLY_ARGS := --names "FRONTEND,CONTRACTS,BACKEND" -c "bgBlue.bold,bgMage
 FRONTEND_CMD := "npm run dev"
 CONTRACTS_CMD := "npm:dev --prefix ../food-fight-contracts"
 BACKEND_CMD := "npm:dev --prefix ../food-fight-backend"
+WAGMI_GENERATE_CMD := "npx wagmi generate"
 
 
 # Start dev environment for all services
 start-all:
 	@echo "Starting all services..."
-	npx concurrently $(CONCURRENTLY_ARGS) $(FRONTEND_CMD) $(CONTRACTS_CMD) $(BACKEND_CMD)
+	npx concurrently $(CONCURRENTLY_ARGS) $(FRONTEND_CMD) $(CONTRACTS_CMD) $(BACKEND_CMD) $(WAGMI_GENERATE_CMD)
