@@ -83,8 +83,6 @@ const IGCBalanceDisplay = ({
       return <span>{notConnectedText}</span>
     }
     if (igcBalance === undefined || igcBalance === 0n) {
-      // Handle the case where balance is 0 or undefined
-      // but the user is connected
       return <span>{zeroBalanceText}</span>
     }
     if (igcBalance) {

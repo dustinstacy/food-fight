@@ -296,7 +296,7 @@ export const assetAuctionAbi = [
   { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
 ] as const
 
-export const assetAuctionAddress = '0xc6B8FBF96CF7bbE45576417EC2163AcecFA88ECC' as const
+export const assetAuctionAddress = '0x8ce361602B935680E8DeC218b820ff5056BeB7af' as const
 
 export const assetAuctionConfig = {
   address: assetAuctionAddress,
@@ -823,7 +823,7 @@ export const assetFactoryAbi = [
   { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
 ] as const
 
-export const assetFactoryAddress = '0x05B4CB126885fb10464fdD12666FEb25E2563B76' as const
+export const assetFactoryAddress = '0x700b6A60ce7EaaEA56F065753d8dcB9653dbAD35' as const
 
 export const assetFactoryConfig = {
   address: assetFactoryAddress,
@@ -1113,7 +1113,7 @@ export const assetRentalAbi = [
   { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
 ] as const
 
-export const assetRentalAddress = '0x29a79095352a718B3D7Fe84E1F14E9F34A35598e' as const
+export const assetRentalAddress = '0xe1Aa25618fA0c7A1CFDab5d6B456af611873b629' as const
 
 export const assetRentalConfig = {
   address: assetRentalAddress,
@@ -1314,7 +1314,7 @@ export const assetTradeAbi = [
   },
 ] as const
 
-export const assetTradeAddress = '0xd04fF4A75Edd737A73E92b2F2274Cb887d96E110' as const
+export const assetTradeAddress = '0xb19b36b1456E65E3A6D514D3F715f204BD59f431' as const
 
 export const assetTradeConfig = {
   address: assetTradeAddress,
@@ -1702,7 +1702,7 @@ export const assetVaultAbi = [
   { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
 ] as const
 
-export const assetVaultAddress = '0x2a264F26859166C5BF3868A54593eE716AeBC848' as const
+export const assetVaultAddress = '0xA15BB66138824a1c7167f5E85b957d04Dd34E468' as const
 
 export const assetVaultConfig = {
   address: assetVaultAddress,

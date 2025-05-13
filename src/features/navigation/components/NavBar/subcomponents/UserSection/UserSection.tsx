@@ -1,5 +1,6 @@
 import { Avatar } from 'components'
 import { useAuthStore } from 'features/auth'
+import { IGCBalanceDisplay } from 'features/igc'
 import { useCurrentUser } from 'features/user'
 import { useToggle } from 'hooks'
 
@@ -32,7 +33,14 @@ const UserSection = () => {
 
       {/* ----- Username ----- */}
       <div className='user-section__name text-shadow tilt-warp'>
-        <p>{user && !isAttemptingAuth ? user.username : ''}</p>
+        {user && !isAttemptingAuth ? (
+          <div className='user-section__info right-column'>
+            <span>{user.username}</span>
+            <IGCBalanceDisplay />
+          </div>
+        ) : (
+          <> </>
+        )}
       </div>
 
       {/* ----- Avatar ----- */}
