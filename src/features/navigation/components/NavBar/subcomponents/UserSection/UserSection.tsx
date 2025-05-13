@@ -1,6 +1,7 @@
 import { Avatar } from 'components'
 import { useAuthStore } from 'features/auth'
-import { IGCBalanceDisplay } from 'features/igc'
+import { IGCBalanceDisplay, MintIGCPrompt } from 'features/igc'
+import { CustomModal } from 'features/notifications'
 import { useCurrentUser } from 'features/user'
 import { useToggle } from 'hooks'
 
@@ -20,11 +21,8 @@ const UserSection = () => {
   const { data: user } = useCurrentUser()
   const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
 
-  const [isOpen, toggleIsOpen] = useToggle(false)
-
-  const handleClick = () => {
-    toggleIsOpen()
-  }
+  const [isUserMenuOpen, toggleUserMenu] = useToggle(false)
+  const [isMintModalOpen, toggleMintModal] = useToggle(false)
 
   return (
     <div className='user-section right'>
@@ -36,7 +34,7 @@ const UserSection = () => {
         {user && !isAttemptingAuth ? (
           <div className='user-section__info right-column'>
             <span>{user.username}</span>
-            <IGCBalanceDisplay />
+            <IGCBalanceDisplay onClick={toggleMintModal} />
           </div>
         ) : (
           <> </>
@@ -44,10 +42,17 @@ const UserSection = () => {
       </div>
 
       {/* ----- Avatar ----- */}
-      <Avatar size='small' onClick={handleClick} />
+      <Avatar size='small' onClick={toggleUserMenu} />
 
       {/* ----- User menu ----- */}
-      {isOpen && <UserMenu toggleState={isOpen} toggle={toggleIsOpen} />}
+      {isUserMenuOpen && <UserMenu toggleState={isUserMenuOpen} toggle={toggleUserMenu} />}
+
+      {/* ----- Mint IGC Modal ----- */}
+      {isMintModalOpen && (
+        <CustomModal isOpen={isMintModalOpen} onClose={toggleMintModal} ariaLabel='Mint IGC' ariaDescription='Mint IGC'>
+          <MintIGCPrompt />
+        </CustomModal>
+      )}
     </div>
   )
 }

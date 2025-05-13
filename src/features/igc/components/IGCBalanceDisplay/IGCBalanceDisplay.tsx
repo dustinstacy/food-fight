@@ -7,22 +7,32 @@ import { useAccount } from 'wagmi'
 
 import { LoadingText } from 'components'
 import { useReadAssetFactoryBalanceOf, useWatchAssetFactoryIgCmintedEvent } from 'hooks'
+import { IGCBalanceDisplayProps } from 'features/igc'
 
-interface IGCBalanceDisplayProps {
-  // You can add props for custom styling or text variants
-  className?: string
-  loadingText?: string
-  notConnectedText?: string
-  zeroBalanceText?: string // Text for when balance is 0 or undefined but user is connected
-  prefixText?: string
-}
-
+/**
+ * Renders the IGC balance display component.
+ *
+ * @remarks
+ * This component is responsible for:
+ * - Fetching and displaying the IGC balance of the connected wallet.
+ * - Handling the loading state and error state.
+ * - Refetching the balance when the user is involved in an IGC minting event.
+ *
+ * @param props - The properties for the component.
+ * @param props.className - Optional class name for styling.
+ * @param props.loadingText - Text to display while loading the balance.
+ * @param props.notConnectedText - Text to display when the wallet is not connected.
+ * @param props.zeroBalanceText - Text to display when the balance is zero.
+ * @param props.prefixText - Optional prefix text to display before the balance.
+ * @param props.onClick - Optional click handler for the balance display.
+ */
 const IGCBalanceDisplay = ({
   className,
   loadingText = 'Fetching',
   notConnectedText = '(Connect Wallet)',
   zeroBalanceText = '0',
   prefixText = 'IGC Balance:',
+  onClick,
 }: IGCBalanceDisplayProps) => {
   const { isConnected, address: account } = useAccount()
 
@@ -38,10 +48,9 @@ const IGCBalanceDisplay = ({
     },
   })
 
-  // Event handling logic
   const handleLogs = useCallback(
     (logs: Log[]) => {
-      if (!account) return // Use wagmi's account
+      if (!account) return
 
       let userInvolved = false
       for (const log of logs) {
@@ -82,14 +91,27 @@ const IGCBalanceDisplay = ({
     if (!isConnected) {
       return <span>{notConnectedText}</span>
     }
-    if (igcBalance === undefined || igcBalance === 0n) {
-      return <span>{zeroBalanceText}</span>
-    }
-    if (igcBalance) {
-      return <span>{igcBalance.toString()}</span>
+
+    const balanceString = igcBalance?.toString() ?? zeroBalanceText
+    const isZero = igcBalance === undefined || igcBalance === 0n
+
+    if (onClick) {
+      return (
+        <a
+          onClick={onClick}
+          style={{ cursor: 'pointer' }}
+          aria-label={
+            isZero
+              ? `Mint IGC, current balance: ${zeroBalanceText}`
+              : `Mint IGC, current balance: ${balanceString}`
+          }
+        >
+          {isZero ? zeroBalanceText : balanceString}
+        </a>
+      )
     }
 
-    return <span>{zeroBalanceText}</span>
+    return <span>{isZero ? zeroBalanceText : balanceString}</span>
   }
 
   return (
