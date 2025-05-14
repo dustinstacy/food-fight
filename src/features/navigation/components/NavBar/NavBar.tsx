@@ -38,7 +38,12 @@ const NavBar = () => {
 
       {/* ----- Logo ----- */}
       <Link href='/'>
-        <Image className='navbar__logo abs-center' src={smallLogo1} alt='Food Fight logo' priority={true} />
+        <Image
+          className='navbar__logo abs-center'
+          src={smallLogo1}
+          alt='Food Fight logo'
+          priority={true}
+        />
       </Link>
 
       {/* ----- Navigation links ----- */}

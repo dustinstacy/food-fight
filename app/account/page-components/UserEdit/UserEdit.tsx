@@ -30,7 +30,10 @@ const UserEdit = ({ setIsEditing }: UserEditProps) => {
 
   const [newUserImage, setNewUserImage] = useState('')
   const [newUsername, setNewUsername] = useState('')
-  const [validationErrors, setValidationErrors] = useState<UserEditErrors>({ image: '', username: '' })
+  const [validationErrors, setValidationErrors] = useState<UserEditErrors>({
+    image: '',
+    username: '',
+  })
 
   useEffect(() => {
     if (user) {
@@ -131,7 +134,9 @@ const UserEdit = ({ setIsEditing }: UserEditProps) => {
               label='Update Image'
               htmlButtonType='button'
               onClick={() => handleSubmit('image')}
-              disabled={!newUserImage?.trim() || isUpdatePending || newUserImage.trim() === user?.image}
+              disabled={
+                !newUserImage?.trim() || isUpdatePending || newUserImage.trim() === user?.image
+              }
             />
           </div>
         </div>
@@ -156,7 +161,9 @@ const UserEdit = ({ setIsEditing }: UserEditProps) => {
               label='Update Username'
               htmlButtonType='button'
               onClick={() => handleSubmit('username')}
-              disabled={!newUsername?.trim() || isUpdatePending || newUsername.trim() === user?.username}
+              disabled={
+                !newUsername?.trim() || isUpdatePending || newUsername.trim() === user?.username
+              }
             />
           </div>
         </div>

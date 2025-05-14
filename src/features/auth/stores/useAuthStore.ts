@@ -99,7 +99,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   /////////////////////////////////////////////////////
 
   logout: () => {
-    set({ isLoggingOut: true, isAttemptingAuth: false, isAuthenticated: false, authError: null, isNewUser: null })
+    set({
+      isLoggingOut: true,
+      isAttemptingAuth: false,
+      isAuthenticated: false,
+      authError: null,
+      isNewUser: null,
+    })
     localStorage.removeItem('accessToken')
     set({ isLoggingOut: false })
     console.log('[AuthStore] User logged out.')

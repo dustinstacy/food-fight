@@ -49,7 +49,12 @@ const UserSection = () => {
 
       {/* ----- Mint IGC Modal ----- */}
       {isMintModalOpen && (
-        <CustomModal isOpen={isMintModalOpen} onClose={toggleMintModal} ariaLabel='Mint IGC' ariaDescription='Mint IGC'>
+        <CustomModal
+          isOpen={isMintModalOpen}
+          onClose={toggleMintModal}
+          ariaLabel='Mint IGC'
+          ariaDescription='Mint IGC'
+        >
           <MintIGCPrompt />
         </CustomModal>
       )}

@@ -23,11 +23,17 @@ export default function Home() {
 
   return (
     <div className='home page bottom background-gradient'>
-      <Image className='home__logo abs-top-center' src={largeLogo1} alt='Food Fight logo' sizes='100vw' />
+      <Image
+        className='home__logo abs-top-center'
+        src={largeLogo1}
+        alt='Food Fight logo'
+        sizes='100vw'
+      />
       {user && !isAttemptingAuth ? (
         <div className='home__buttons bottom-column'>
           {navLinks.map(
-            (link) => link.name !== 'Home' && <Button key={link.name} label={link.name} path={link.path} />
+            (link) =>
+              link.name !== 'Home' && <Button key={link.name} label={link.name} path={link.path} />
           )}
         </div>
       ) : (

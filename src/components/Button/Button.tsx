@@ -28,7 +28,10 @@ const DEFAULT_HTML_BUTTON_TYPE = 'button'
  * @param ref - Forwarded ref applied to the underlying interactive element.
  */
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ label, className, path, onClick, disabled, htmlButtonType = DEFAULT_HTML_BUTTON_TYPE }, ref) => {
+  (
+    { label, className, path, onClick, disabled, htmlButtonType = DEFAULT_HTML_BUTTON_TYPE },
+    ref
+  ) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
       if (disabled) {
         e.preventDefault()

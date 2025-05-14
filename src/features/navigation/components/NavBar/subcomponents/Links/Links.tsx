@@ -32,7 +32,12 @@ const Links = ({ menu, onClick }: LinksProps) => {
   return (
     <div className={containerClasses}>
       {navLinks.map((link) => (
-        <Link className={linkClasses} key={link.name} href={link.path} onClick={(e) => onClick?.(e)}>
+        <Link
+          className={linkClasses}
+          key={link.name}
+          href={link.path}
+          onClick={(e) => onClick?.(e)}
+        >
           {link.image}
           <span>{link.name}</span>
         </Link>

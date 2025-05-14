@@ -38,7 +38,12 @@ const Account = () => {
       )}
       {user && !isEditing && (
         <div className='account top-column secondary-gradient black-border'>
-          <button type='button' className='edit' onClick={() => setIsEditing(true)} aria-label='Edit profile'>
+          <button
+            type='button'
+            className='edit'
+            onClick={() => setIsEditing(true)}
+            aria-label='Edit profile'
+          >
             <GoPencil />
           </button>
           <div className='wrapper center-column'>

@@ -29,7 +29,9 @@ export const getChallenge = async (address: string, chainId: number): Promise<st
  * @param params - Object containing the original message, signature, and address.
  * @returns A promise that resolves with an object containing the accessToken.
  */
-export const verifySignature = async (params: VerifySignatureParams): Promise<VerifySignatureResponse> => {
+export const verifySignature = async (
+  params: VerifySignatureParams
+): Promise<VerifySignatureResponse> => {
   console.log('Verifying signature for address:', params.address)
   const result = await customFetch<VerifySignatureResponse>('/api/auth/verify', {
     method: 'POST',

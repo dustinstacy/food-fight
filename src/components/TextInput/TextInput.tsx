@@ -24,7 +24,19 @@ const DEFAULT_LOADING = false
  * @param ref - Forwarded ref applied to the underlying HTML `<input>` element.
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, name, value, onChange, type = DEFAULT_TYPE, loading = DEFAULT_LOADING, error, autoComplete }, ref) => {
+  (
+    {
+      label,
+      name,
+      value,
+      onChange,
+      type = DEFAULT_TYPE,
+      loading = DEFAULT_LOADING,
+      error,
+      autoComplete,
+    },
+    ref
+  ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
     const isPasswordInput = type === 'password'
@@ -35,7 +47,11 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       setIsPasswordVisible((prevState) => !prevState)
     }
 
-    const rootClasses = classSet('text-input', error ? 'has-error' : '', isPasswordInput ? 'has-password-toggle' : '')
+    const rootClasses = classSet(
+      'text-input',
+      error ? 'has-error' : '',
+      isPasswordInput ? 'has-password-toggle' : ''
+    )
     const inputClasses = classSet('input', value && 'has-content')
 
     const inputId = name // Use name as ID for label association

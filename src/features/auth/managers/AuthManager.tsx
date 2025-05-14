@@ -91,7 +91,9 @@ function AuthManager() {
       const previouslyAuthenticatedAddress = authenticatedAddressRef.current
 
       if (previouslyAuthenticatedAddress) {
-        queryClient.removeQueries({ queryKey: userKeys.currentUser(previouslyAuthenticatedAddress) })
+        queryClient.removeQueries({
+          queryKey: userKeys.currentUser(previouslyAuthenticatedAddress),
+        })
         logout()
         authenticatedAddressRef.current = null
         console.log('[onDisconnect] Wallet disconnected. User logged out.')
@@ -113,7 +115,9 @@ function AuthManager() {
 
     async function onAccountSwitch() {
       if (canAuthenticate) {
-        console.log(`[onAccountSwitch]: Switching from ${previouslyAuthenticatedAddress} to ${address}`)
+        console.log(
+          `[onAccountSwitch]: Switching from ${previouslyAuthenticatedAddress} to ${address}`
+        )
         attemptAuthentication(previouslyAuthenticatedAddress, address, chainId, 'onAccountSwitch')
       }
     }

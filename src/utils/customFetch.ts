@@ -17,7 +17,10 @@
  * @returns A promise that resolves with the parsed JSON response body as type `T`,
  * or `undefined` if the response has no content.
  */
-export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
+export const customFetch = async <T = unknown>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
@@ -37,7 +40,11 @@ export const customFetch = async <T = unknown>(url: string, options: RequestInit
     try {
       errorData = await res.json()
     } catch (_jsonError) {
-      errorData = { status: res.status, statusText: res.statusText, body: await res.text().catch(() => '') }
+      errorData = {
+        status: res.status,
+        statusText: res.statusText,
+        body: await res.text().catch(() => ''),
+      }
     }
     throw new Error(`API Error ${res.status}: ${JSON.stringify(errorData)}`)
   }

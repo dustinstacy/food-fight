@@ -6,7 +6,11 @@
  * @param endChars The number of characters to show at the end. Defaults to 4.
  * @returns The truncated address string or the original string if invalid/too short.
  */
-export const formatAddress = (address: string | undefined | null, startChars = 4, endChars = 4): string => {
+export const formatAddress = (
+  address: string | undefined | null,
+  startChars = 4,
+  endChars = 4
+): string => {
   if (!address) {
     return ''
   }
@@ -15,7 +19,10 @@ export const formatAddress = (address: string | undefined | null, startChars = 4
   const prefix = '0x'
 
   // Check if the address starts with '0x' and has enough characters to truncate meaningfully
-  if (!addressLower.startsWith(prefix) || addressLower.length < prefix.length + startChars + endChars + 3) {
+  if (
+    !addressLower.startsWith(prefix) ||
+    addressLower.length < prefix.length + startChars + endChars + 3
+  ) {
     return address
   }
 

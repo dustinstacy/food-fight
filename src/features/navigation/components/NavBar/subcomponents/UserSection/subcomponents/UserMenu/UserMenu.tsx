@@ -79,7 +79,11 @@ const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps)
   return (
     <>
       {isOpen && (
-        <div ref={menuRef} className='user-menu left-column black-border primary-gradient tilt-warp' role='menu'>
+        <div
+          ref={menuRef}
+          className='user-menu left-column black-border primary-gradient tilt-warp'
+          role='menu'
+        >
           {/* ----- Account Link ----- */}
           <Link
             className='user-menu__link text-shadow'
@@ -99,7 +103,9 @@ const UserMenu = ({ toggleState: isOpen, toggle: toggleIsOpen }: UseToggleProps)
             tabIndex={0}
             onKeyDown={handleDivKeyDown}
           >
-            <span className='user-menu__link text-shadow'>{isDarkMode ? 'Dark Mode' : 'Light Mode'}</span>
+            <span className='user-menu__link text-shadow'>
+              {isDarkMode ? 'Dark Mode' : 'Light Mode'}
+            </span>
             <Switch
               checked={isDarkMode}
               onChange={handleThemeChange}

@@ -21,7 +21,11 @@ import { JwtPayload } from 'types'
  * - `isValid`: A boolean indicating if the token is valid.
  * - `decoded`: The decoded JWT payload if valid, otherwise null.
  */
-export const validateToken = ({ token, address, chainId }: ValidateTokenParams): ValidateTokenResult => {
+export const validateToken = ({
+  token,
+  address,
+  chainId,
+}: ValidateTokenParams): ValidateTokenResult => {
   if (!token || !address || chainId === undefined) {
     return { isValid: false, decoded: null }
   }

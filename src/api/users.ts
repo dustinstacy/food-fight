@@ -30,7 +30,10 @@ export const fetchUserFromAccount = async (): Promise<User> => {
  * @param value - The new value for the specified property.
  * @returns A promise resolving with the updated User object returned by the API.
  */
-export const updateUser = async <T extends keyof User>(property: T, value: User[T]): Promise<User> => {
+export const updateUser = async <T extends keyof User>(
+  property: T,
+  value: User[T]
+): Promise<User> => {
   console.log(`Updating user ${property}...`)
   const updatedUser = await customFetch<User>(`/api/users/${property}`, {
     method: 'PUT',
