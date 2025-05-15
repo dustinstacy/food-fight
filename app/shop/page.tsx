@@ -1,7 +1,5 @@
 'use client'
 
-import { useToggle } from 'hooks'
-
 import './shop.scss'
 
 const Shop = () => {

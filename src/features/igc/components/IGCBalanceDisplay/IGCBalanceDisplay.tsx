@@ -6,8 +6,8 @@ import { Log } from 'viem'
 import { useAccount } from 'wagmi'
 
 import { LoadingText } from 'components'
-import { useReadAssetFactoryBalanceOf, useWatchAssetFactoryIgCmintedEvent } from 'hooks'
 import { IGCBalanceDisplayProps } from 'features/igc'
+import { useReadAssetFactoryBalanceOf, useWatchAssetFactoryIgCmintedEvent } from 'hooks'
 
 /**
  * Renders the IGC balance display component.
@@ -97,9 +97,17 @@ const IGCBalanceDisplay = ({
 
     if (onClick) {
       return (
-        <a
+        <div
           onClick={onClick}
+          role='button'
+          tabIndex={0}
           style={{ cursor: 'pointer' }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              onClick()
+            }
+          }}
           aria-label={
             isZero
               ? `Mint IGC, current balance: ${zeroBalanceText}`
@@ -107,7 +115,7 @@ const IGCBalanceDisplay = ({
           }
         >
           {isZero ? zeroBalanceText : balanceString}
-        </a>
+        </div>
       )
     }
 

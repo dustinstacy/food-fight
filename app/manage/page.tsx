@@ -1,19 +1,19 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 
 import { Button, LoadingText } from 'components'
+import { NFTUploader } from 'devtools/components'
+import { uploadedAssets } from 'devtools/data/uploadedAssets'
+import { useAuthStore } from 'features/auth'
+import { AssetDisplayCard } from 'features/nfts'
+import { useNotificationStore } from 'features/notifications'
 import {
   useReadAssetFactoryGetNextAssetId,
   useWatchAssetFactoryAssetDataSetEvent,
   useWriteAssetFactorySetAssetData,
 } from 'hooks'
-import { NFTUploader } from 'devtools/components'
-import { useNotificationStore } from 'features/notifications'
-import { AssetDisplayCard } from 'features/nfts'
-import { uploadedAssets } from 'devtools/data/uploadedAssets'
-import { useAuthStore } from 'features/auth'
 
 import './manage.scss'
 
@@ -26,29 +26,10 @@ const Manage = () => {
     isError: isNextTokenIdError,
     error: nextTokenIdError,
   } = useReadAssetFactoryGetNextAssetId()
-  const {
-    writeContractAsync: setAssetData,
-    isPending: isSettingAssetData,
-    isError: isSettingAssetDataError,
-    error: setAssetDataError,
-  } = useWriteAssetFactorySetAssetData()
-  const {
-    openModal: openGlobalModal,
-    closeModal: closeGlobalModal,
-    isOpen: isGlobalModalOpen,
-  } = useNotificationStore()
+  const { writeContractAsync: setAssetData } = useWriteAssetFactorySetAssetData()
+  const { openModal: openGlobalModal, closeModal: closeGlobalModal } = useNotificationStore()
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
-  {
-    isNextTokenIdLoading && <LoadingText text='Loading assets' />
-  }
-  {
-    isNextTokenIdError && (
-      <p className='manage__error-message'>
-        Error loading assets: {(nextTokenIdError as any).shortMessage || nextTokenIdError.message}
-      </p>
-    )
-  }
 
   useEffect(() => {
     if (isNextTokenIdLoading) {
@@ -78,7 +59,7 @@ const Manage = () => {
   ])
 
   useEffect(() => {
-    const handleSetAssetData = async (i: BigInt) => {
+    const handleSetAssetData = async (i: bigint) => {
       const asset = uploadedAssets[Number(i)]
       const priceBigInt = BigInt(asset.price)
       const contractArgs: [string, bigint] = [asset.uri, priceBigInt]
@@ -100,7 +81,6 @@ const Manage = () => {
     }
   }, [
     nextTokenId,
-    uploadedAssets,
     setAssetData,
     openGlobalModal,
     closeGlobalModal,

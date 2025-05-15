@@ -1,5 +1,5 @@
-import { customFetch } from 'utils'
 import { BackendPinataResponse } from 'src/devtools/types'
+import { customFetch } from 'utils'
 
 /**
  * Uploads an image file to the backend using customFetch.

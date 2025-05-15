@@ -2,14 +2,14 @@
 
 import { FormEvent, useState } from 'react'
 
-import { nftAssetStructure } from 'src/devtools/data'
-import { FormField, NFTUploaderProps } from 'src/devtools/types'
 import { Button } from 'components'
-import { useWriteAssetFactorySetAssetData } from 'hooks'
+import { LoadingText } from 'components'
 import { uploadImageToPinata, uploadMetadataToPinata } from 'devtools/api/nft'
 import { constructMetadataJson } from 'devtools/utils'
 import { useNotificationStore } from 'features/notifications'
-import { LoadingText } from 'components'
+import { useWriteAssetFactorySetAssetData } from 'hooks'
+import { nftAssetStructure } from 'src/devtools/data'
+import { FormField, NFTUploaderProps } from 'src/devtools/types'
 
 import './nft-uploader.scss'
 
@@ -53,12 +53,7 @@ const NFTUploader = ({ tokenId, setIsOpen }: NFTUploaderProps) => {
   ///                    WAGMI HOOKS                    ///
   /////////////////////////////////////////////////////////
 
-  const {
-    writeContractAsync: setAssetData,
-    isPending: isSettingAssetData,
-    isError: isSettingAssetDataError,
-    error: setAssetDataError,
-  } = useWriteAssetFactorySetAssetData()
+  const { writeContractAsync: setAssetData } = useWriteAssetFactorySetAssetData()
 
   const { closeModal, updateContent } = useNotificationStore()
 
@@ -144,10 +139,15 @@ const NFTUploader = ({ tokenId, setIsOpen }: NFTUploaderProps) => {
       await setAssetData({ args: contractArgs })
       setIsProcessing(false)
       closeModal()
-    } catch (error: any) {
-      console.error('Error during processing:', error)
-      const errorMessage = error.shortMessage || error.message || 'An unknown error occurred.'
-      console.log('Error message:', errorMessage)
+    } catch (error: unknown) {
+      console.error('Error setting asset data:', error)
+      setIsProcessing(false)
+      closeModal()
+      updateContent(
+        <p className='nft-uploader__error-message'>
+          Error setting asset data: {(error as Error).message || 'Unknown error'}
+        </p>
+      )
     }
   }
 

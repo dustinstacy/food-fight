@@ -1,8 +1,9 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-import { NftMetadata } from 'devtools/types'
+import { NftAttribute, NftMetadata } from 'devtools/types'
 import { AssetDisplayCardProps } from 'features/nfts'
 import { useReadAssetFactoryGetAsset } from 'hooks'
 
@@ -39,7 +40,7 @@ const AssetDisplayCard = ({ assetId }: AssetDisplayCardProps) => {
     } else {
       setMetadata(null)
     }
-  }, [assetData?.uri])
+  }, [assetData?.uri, ipfsGatewayUrl])
 
   if (!assetData) {
     return (
@@ -62,7 +63,7 @@ const AssetDisplayCard = ({ assetId }: AssetDisplayCardProps) => {
     return (
       <div className='asset-card asset-card__error'>
         <p>Error loading Asset ID: {assetId.toString()}</p>
-        {error && <p className='error-message'>{(error as any).shortMessage || error.message}</p>}
+        {error && <p className='error-message'>{error.message || 'Unknown error'}</p>}
       </div>
     )
   }
@@ -74,7 +75,7 @@ const AssetDisplayCard = ({ assetId }: AssetDisplayCardProps) => {
           <p>
             <strong>Name:</strong> {metadata.name}
           </p>
-          <img
+          <Image
             src={`https://${metadata.image}`}
             alt={metadata.name}
             className='asset-card__metadata-image'
@@ -92,7 +93,7 @@ const AssetDisplayCard = ({ assetId }: AssetDisplayCardProps) => {
             <div className='asset-card__metadata-attributes center-column'>
               <strong>Attributes:</strong>
               <ul className='asset-card__metadata-attributes-list left-column'>
-                {metadata.attributes.map((attr: any, index: number) => (
+                {metadata.attributes.map((attr: NftAttribute, index: number) => (
                   <li key={index}>
                     {attr.trait_type}: {attr.value}
                   </li>

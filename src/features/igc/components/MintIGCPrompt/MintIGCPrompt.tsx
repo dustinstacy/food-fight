@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { Button, TextInput } from 'components'
 import { useMintIGC } from 'features/igc'

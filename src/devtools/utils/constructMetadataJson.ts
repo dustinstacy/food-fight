@@ -1,5 +1,5 @@
-import { NftMetadata, NftAttribute } from 'src/devtools/types'
 import { nftAssetStructure } from 'src/devtools/data'
+import { NftMetadata, NftAttribute } from 'src/devtools/types'
 
 /**
  * Constructs the metadata JSON for an NFT based on the provided form data and generated image IPFS URI.

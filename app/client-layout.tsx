@@ -82,6 +82,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     currentUser?.address,
     openGlobalModal,
     closeGlobalModal,
+    isGlobalModalOpen,
     resetNewUserFlag,
   ])
 
