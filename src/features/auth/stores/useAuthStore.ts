@@ -29,6 +29,14 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   /// HandleAuthentication                       ///
   //////////////////////////////////////////////////
 
+  /**
+   * Handles the authentication process using SIWE (Sign-In with Ethereum).
+   *
+   * @param address - The user's wallet address.
+   * @param chainId - The chain ID of the connected wallet.
+   * @param signMessageAsync - Function to sign the SIWE message.
+   * @param isConnected - Indicates whether the wallet is connected.
+   */
   handleAuthentication: async (address, chainId, signMessageAsync, isConnected) => {
     if (get().isAttemptingAuth || get().isLoggingOut || !isConnected) {
       console.warn(
@@ -44,7 +52,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       )
       return
     }
-    set({ isAttemptingAuth: true, authError: null, isLoggingOut: false, isNewUser: null })
+    set({
+      isAuthenticated: false,
+      isAttemptingAuth: true,
+      authError: null,
+      isLoggingOut: false,
+      isNewUser: null,
+    })
 
     // Skip SIWE if a valid token is found
     const token = localStorage.getItem('accessToken')
@@ -98,6 +112,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   /// Logout                                        ///
   /////////////////////////////////////////////////////
 
+  /**
+   * Logs out the user by removing the access token from local storage and resetting the authentication state.
+   */
   logout: () => {
     set({
       isLoggingOut: true,
@@ -115,6 +132,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   /// Reset New User Flag                           ///
   /////////////////////////////////////////////////////
 
+  /**
+   * Resets the new user flag to false if the user is a new user.
+   */
   resetNewUserFlag: () => {
     if (get().isNewUser === true) {
       set({ isNewUser: false })
