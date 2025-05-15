@@ -45,6 +45,9 @@ export interface FormField {
 
   /** The type of the field if it is an attribute */
   trait_type?: string
+
+  /** The marketplace display type for the attribute */
+  display_type?: string
 }
 
 /**
