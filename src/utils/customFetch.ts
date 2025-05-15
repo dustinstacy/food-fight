@@ -17,17 +17,13 @@
  * @returns A promise that resolves with the parsed JSON response body as type `T`,
  * or `undefined` if the response has no content.
  */
-export const customFetch = async <T = unknown>(
-  url: string,
-  options: RequestInit = {}
-): Promise<T> => {
+export const customFetch = async <T = unknown>(url: string, options: RequestInit = {}): Promise<T> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'
   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
   const requestOptions: RequestInit = {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
       ...options.headers,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
