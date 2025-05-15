@@ -108,3 +108,14 @@ export interface UploadedAsset {
   /** The uri of the asset */
   uri: string
 }
+
+/**
+ * Define the structure of the NFT Uploader component
+ */
+export interface NFTUploaderProps {
+  /** The token ID of the asset */
+  tokenId: string
+
+  /** Callback function to control the visibility of the uploader */
+  setIsOpen?: (value: boolean) => void
+}

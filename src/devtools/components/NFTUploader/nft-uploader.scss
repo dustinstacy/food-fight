@@ -1,0 +1,193 @@
+// --- Main Block: metadata-uploader ---
+.nft-uploader {
+  width: 60vw;
+
+  // --- Typography within the block ---
+  &__main-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--black-color);
+  }
+
+  &__sub-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--black-color);
+  }
+
+  &__attributes-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--black-color);
+  }
+
+  // --- Form Elements ---
+  &__form-field {
+    margin-bottom: 1rem; // Group label and input
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--black-color);
+    }
+
+    input[type='text'],
+    input[type='number'],
+    input[type='url'],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--black-color);
+      border-radius: 0.375rem;
+      background-color: var(--light-gray-color);
+      color: var(--black-color);
+      // margin-bottom: 1rem; // Moved to __form-field
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: var(--secondary2-color);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+      }
+    }
+
+    input[type='file'] {
+      display: block;
+      // margin-bottom: 1rem; // Moved to __form-field
+      color: var(--black-color);
+
+      &::file-selector-button {
+        padding: 0.5rem 1rem;
+        margin-right: 1rem;
+        background-color: var(--secondary2-color);
+        color: var(--black-color);
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        &:hover {
+          background-color: var(--secondary2-color);
+        }
+      }
+    }
+  }
+
+  &__submit-button {
+    background-color: var(--secondary2-color);
+    color: var(--black-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1.5rem;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--secondary2-color);
+    }
+
+    &:disabled {
+      background-color: var(--black-color);
+      cursor: not-allowed;
+    }
+  }
+
+  // --- Image Preview ---
+  &__preview-container {
+    margin-top: 1rem;
+
+    // margin-bottom: 1rem; // Handled by __form-field if preview is inside it
+  }
+
+  &__preview-image {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 0.375rem;
+    border: 1px solid var(--black-color);
+    display: block;
+  }
+
+  // --- Messages ---
+  &__form-messages {
+    margin-top: 1rem;
+    min-height: 4.5em; // Placeholder for roughly 3 lines of messages
+  }
+
+  &__message-base {
+    // Base style for all message types
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  &__error-message {
+    @extend .nft-uploader__message-base; // Inherit base styles
+    color: var(--error-color);
+    background-color: rgba(var(--error-color), 0.1);
+    border-color: rgba(var(--error-color), 0.3);
+  }
+
+  &__success-message {
+    @extend .nft-uploader__message-base;
+    color: var(--primary3-color);
+    background-color: rgba(var(--primary3-color), 0.1);
+    border-color: rgba(var(--primary3-color), 0.3);
+  }
+
+  &__info-message {
+    @extend .nft-uploader__message-base;
+    color: var(--black-color); // Adjusted for better visibility on dark bg
+    background-color: rgba(var(--black-color), 0.1);
+    border-color: rgba(var(--black-color), 0.3);
+  }
+
+  // --- Output Area ---
+  &__output-area {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: var(--black-color);
+    border-radius: 0.375rem;
+    color: var(--black-color);
+
+    p {
+      margin-bottom: 0.5rem;
+      word-wrap: break-word;
+      strong {
+        color: var(--black-color);
+      }
+    }
+  }
+
+  &__output-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem; // Increased margin
+    color: var(--black-color);
+  }
+
+  &__json-output {
+    margin-top: 0.75rem; // Increased margin
+    padding: 0.75rem; // Increased padding
+    background-color: var(--black-color);
+    border-radius: 0.25rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    max-height: 300px; // Added max-height for very long JSON
+  }
+}
