@@ -1,3 +1,5 @@
 export { default as CustomModal } from './components/CustomModal/CustomModal'
+export { default as GlobalNotification } from './components/GlobalNotification/GlobalNotification'
 export { default as UsernamePrompt } from './components/UsernamePrompt/UsernamePrompt'
+export { default as useNotificationStore } from './stores/useNotificationStore'
 export * from './types/notifications.types'

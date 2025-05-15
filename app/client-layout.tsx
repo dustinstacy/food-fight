@@ -6,9 +6,8 @@ import { IconContext } from 'react-icons'
 import { LoadingText } from 'components'
 import { useAuthStore } from 'features/auth'
 import { NavBar } from 'features/navigation'
-import { CustomModal, UsernamePrompt } from 'features/notifications'
+import { GlobalNotification, UsernamePrompt, useNotificationStore } from 'features/notifications'
 import { useCurrentUser } from 'features/user'
-import { useToggle } from 'hooks'
 import './client-layout.scss'
 
 /**
@@ -21,13 +20,20 @@ import './client-layout.scss'
  * - Handling user session state and profile data.
  * - Displaying authentication errors.
  * - Rendering the navigation bar and page content.
- * - Managing the display of the username prompt modal.
+ * - Managing global notifications and modals.
+ * - Handling the loading state during authentication.
+ * - Displaying a username prompt for new users.
  *
  * @param props - Component props.
  * @param props.children - The page content to render within the layout.
  */
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { data: currentUser } = useCurrentUser()
+  const {
+    openModal: openGlobalModal,
+    closeModal: closeGlobalModal,
+    isOpen: isGlobalModalOpen,
+  } = useNotificationStore()
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
@@ -35,69 +41,66 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const authError = useAuthStore((state) => state.authError)
   const resetNewUserFlag = useAuthStore((state) => state.resetNewUserFlag)
 
-  const [isPromptOpen, , setIsPromptOpen] = useToggle(false)
-
-  // Effect 1: Handle the rendering of the username prompt modal
+  // Effect 1: Handle the "Attempting Auth" loading modal
   useEffect(() => {
-    if (isAuthenticated && isNewUser === true && currentUser?.address && !isPromptOpen) {
-      console.log('[ClientLayout] New user detected, opening username prompt.')
-      setIsPromptOpen(true)
+    if (isAttemptingAuth) {
+      openGlobalModal(<LoadingText text='Waiting for signature' size='large' />, {
+        ariaLabel: 'Authentication Progress',
+        ariaDescription: 'Waiting for wallet signature to authenticate.',
+      })
+    } else {
+      closeGlobalModal()
+    }
+  }, [isAttemptingAuth, openGlobalModal, closeGlobalModal])
+
+  // Effect 2: Handle the rendering of the username prompt modal
+  useEffect(() => {
+    if (isAuthenticated && isNewUser === true && currentUser?.address) {
+      console.log('[ClientLayout] New user detected.')
+      openGlobalModal(
+        <UsernamePrompt
+          currentAddress={currentUser.address}
+          onSuccess={() => {
+            resetNewUserFlag()
+            closeGlobalModal()
+          }}
+        />,
+        {
+          ariaLabel: 'Username Setup Prompt',
+          ariaDescription: 'Modal prompting for new user username setup.',
+        }
+      )
     }
 
-    if ((!isAuthenticated || !currentUser?.address) && isPromptOpen) {
-      console.log('[ClientLayout] User logged out or user data lost, closing modal.')
-      setIsPromptOpen(false)
+    if ((!isAuthenticated || !currentUser?.address) && isGlobalModalOpen) {
+      console.log('[ClientLayout] User logged out or user data lost.')
+      closeGlobalModal()
     }
-  }, [isAuthenticated, isNewUser, currentUser?.address, isPromptOpen, setIsPromptOpen])
+  }, [
+    isAuthenticated,
+    isNewUser,
+    currentUser?.address,
+    openGlobalModal,
+    closeGlobalModal,
+    resetNewUserFlag,
+  ])
 
-  const handlePromptSuccess = () => {
-    resetNewUserFlag()
-    setIsPromptOpen(false)
-  }
-
-  const handleModalClose = () => {
-    console.log('[ClientLayout] Modal closed.')
-    setIsPromptOpen(false)
-  }
-
-  const currentAddressValue = currentUser?.address ?? ''
+  // Effect 3: Handle the rendering of authentication errors
+  useEffect(() => {
+    if (authError) {
+      openGlobalModal(<p className='manage__error-message'>{authError}</p>, {
+        ariaLabel: 'Authentication Error',
+        ariaDescription: 'Error during authentication process.',
+      })
+    }
+  }, [authError, openGlobalModal])
 
   return (
     <>
-      {/*!! Display auth error? */}
-      {authError && (
-        <p className='center auth-text error-text' style={{ color: 'red' }}>
-          {authError}
-        </p>
-      )}
-
       <IconContext.Provider value={{ className: 'react-icons' }}>
+        <GlobalNotification />
         <NavBar />
         {children}
-
-        {/*--- Attempting Auth Modal --- */}
-        {isAttemptingAuth && (
-          <CustomModal
-            isOpen={isAttemptingAuth}
-            onClose={handleModalClose}
-            ariaLabel='username-prompt-modal'
-            ariaDescription='Modal prompting for username setup'
-          >
-            <LoadingText text='Waiting for signature' size='large' />
-          </CustomModal>
-        )}
-
-        {/*--- Username Prompt Modal ---*/}
-        {currentAddressValue && (
-          <CustomModal
-            isOpen={isPromptOpen}
-            onClose={handleModalClose}
-            ariaLabel='username-prompt-modal'
-            ariaDescription='Modal prompting for username setup'
-          >
-            <UsernamePrompt currentAddress={currentAddressValue} onSuccess={handlePromptSuccess} />
-          </CustomModal>
-        )}
       </IconContext.Provider>
     </>
   )
