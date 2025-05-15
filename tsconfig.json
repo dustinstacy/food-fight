@@ -31,6 +31,8 @@
       "config/*": ["src/config/*"],
       "data": ["src/data"],
       "data/*": ["src/data/*"],
+      "devtools": ["src/devtools"],
+      "devtools/*": ["src/devtools/*"],
       "features": ["src/features"],
       "features/*": ["src/features/*"],
       "hooks": ["src/hooks"],
