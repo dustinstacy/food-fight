@@ -8,6 +8,14 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'green-occupational-primate-904.mypinata.cloud',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+      },
     ],
   },
 }

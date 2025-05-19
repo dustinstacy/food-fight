@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
 
-import { smallLogo1 } from 'assets'
+import { smallLogo } from 'data'
 import { Button } from 'components'
 
 import { BurgerMenu, Links, UserSection } from './subcomponents'
@@ -40,9 +40,11 @@ const NavBar = () => {
       <Link href='/'>
         <Image
           className='navbar__logo abs-center'
-          src={smallLogo1}
+          src={smallLogo}
           alt='Food Fight logo'
           priority={true}
+          width={100}
+          height={100}
         />
       </Link>
 

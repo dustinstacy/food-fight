@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 
-import { largeLogo1 } from 'assets'
 import { Button } from 'components'
+import { mainLogo } from 'data'
 import { useAuthStore } from 'features/auth/stores'
 import { navLinks } from 'features/navigation'
 import { useCurrentUser } from 'features/user'
@@ -25,9 +25,10 @@ export default function Home() {
     <div className='home page bottom background-gradient'>
       <Image
         className='home__logo abs-top-center'
-        src={largeLogo1}
+        src={mainLogo}
         alt='Food Fight logo'
-        sizes='100vw'
+        width={2000}
+        height={1000}
       />
       {user && !isAttemptingAuth ? (
         <div className='home__buttons bottom-column'>

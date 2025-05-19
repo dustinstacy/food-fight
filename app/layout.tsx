@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Bangers, Lilita_One, Luckiest_Guy, Tilt_Warp } from 'next/font/google'
 import { headers } from 'next/headers'
 
+import { smallLogo } from 'data'
 import { AuthManager } from 'features/auth/managers'
 import AppKitProvider from 'providers/AppKitProvider'
 import QueryProvider from 'providers/QueryProvider'
@@ -17,7 +18,7 @@ import 'styles/theme.scss'
 export const metadata: Metadata = {
   title: 'Food Fight',
   icons: {
-    icon: [{ url: '/icon.ico' }],
+    icon: [{ url: smallLogo }],
   },
   description: 'A Web3 collectible card game',
 }
