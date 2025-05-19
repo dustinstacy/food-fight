@@ -1,5 +1,5 @@
 import { Avatar } from 'components'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { IGCBalanceDisplay, MintIGCPrompt } from 'features/igc'
 import { CustomModal } from 'features/notifications'
 import { useCurrentUser } from 'features/user'

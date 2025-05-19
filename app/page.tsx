@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import { largeLogo1 } from 'assets'
 import { Button } from 'components'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { navLinks } from 'features/navigation'
 import { useCurrentUser } from 'features/user'
 import './home.scss'

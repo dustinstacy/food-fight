@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import type { AvatarProps, AvatarSize } from 'components/types'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { useCurrentUser } from 'features/user'
 import { classSet } from 'utils'
 import './avatar.scss'

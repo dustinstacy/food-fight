@@ -1,5 +1,29 @@
+////////////////////////////////////////////////
+/// Auth API Types                           ///
+////////////////////////////////////////////////
+
+/**
+ * Defines the structure of the JWT payload.
+ */
+export interface JwtPayload {
+  /** The unique identifier for the user. */
+  userId: string
+
+  /** The user's wallet address. */
+  address: string
+
+  /** The expiration time. */
+  exp?: number
+
+  /** The issued at time. */
+  iat?: number
+
+  /** The chain ID */
+  chainId?: number
+}
+
 /////////////////////////////////////////////////////
-/// AuthStore Types                               ///
+/// Auth Store Types                               ///
 /////////////////////////////////////////////////////
 
 /**
@@ -47,3 +71,43 @@ export interface AuthActions {
  * Defines the complete structure of the authentication store, combining state and actions.
  */
 export type AuthStore = AuthState & AuthActions
+
+///////////////////////////////////////////////////
+/// Auth Utils Types                            ///
+///////////////////////////////////////////////////
+
+/**
+ * Defines the result of the parseAuthError function.
+ */
+export type ParseAuthErrorResult = {
+  /** The user-friendly error message to display. */
+  displayMessage: string
+
+  /** Indicates if the error was due to user rejection. */
+  isUserRejection: boolean
+}
+
+/**
+ * Define parameters for the validateToken function
+ */
+export type ValidateTokenParams = {
+  /** The JWT token to validate */
+  token: string | null
+
+  /** The address of the user */
+  address: string | null | undefined
+
+  /** The chain ID of the user's wallet */
+  chainId: number | undefined
+}
+
+/**
+ * Define the result of the validateToken function
+ */
+export type ValidateTokenResult = {
+  /** Indicates if the token is valid */
+  isValid: boolean
+
+  /** The decoded JWT payload */
+  decoded: JwtPayload | null
+}

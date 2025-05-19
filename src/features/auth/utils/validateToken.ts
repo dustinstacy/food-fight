@@ -1,7 +1,6 @@
 import { jwtDecode } from 'jwt-decode'
 
-import { ValidateTokenParams, ValidateTokenResult } from 'features/auth'
-import { JwtPayload } from 'types'
+import { JwtPayload, ValidateTokenParams, ValidateTokenResult } from '../types'
 
 /**
  * Validates a JWT token.

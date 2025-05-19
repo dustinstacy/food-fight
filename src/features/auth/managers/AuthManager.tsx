@@ -4,9 +4,9 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
 import { useAccount, useAccountEffect, useSignMessage } from 'wagmi'
 
-import { useAuthStore } from 'features/auth'
 import { useCurrentUser, userKeys } from 'features/user'
 
+import { useAuthStore } from '../stores'
 /**
  * Headless component that manages authentication events
  *

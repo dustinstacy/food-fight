@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
 
 import { fetchUserFromAccount } from 'api'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { User, userKeys } from 'features/user'
 
 /**

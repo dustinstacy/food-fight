@@ -1,4 +1,4 @@
-import { ParseAuthErrorResult } from 'features/auth'
+import { ParseAuthErrorResult } from '../types'
 
 /**
  * Parses various error types from the authentication flow.

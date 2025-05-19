@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 
-import { getChallenge, verifySignature } from 'api'
-import { AuthStore, parseAuthError, validateToken } from 'features/auth'
+import { getChallenge, verifySignature } from '../api'
+import { AuthStore } from '../types'
+import { parseAuthError, validateToken } from '../utils'
 
 /**
  * Zustand store hook for managing the application's authentication state.

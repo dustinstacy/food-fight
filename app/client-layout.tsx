@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { IconContext } from 'react-icons'
 
 import { LoadingText } from 'components'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { NavBar } from 'features/navigation'
 import { GlobalNotification, UsernamePrompt, useNotificationStore } from 'features/notifications'
 import { useCurrentUser } from 'features/user'

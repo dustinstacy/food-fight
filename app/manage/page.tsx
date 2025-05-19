@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi'
 import { Button, LoadingText } from 'components'
 import { NFTUploader } from 'devtools/components'
 import { uploadedAssets } from 'devtools/data/uploadedAssets'
-import { useAuthStore } from 'features/auth'
+import { useAuthStore } from 'features/auth/stores'
 import { AssetDisplayCard } from 'features/nfts'
 import { useNotificationStore } from 'features/notifications'
 import {

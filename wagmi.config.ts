@@ -6,6 +6,7 @@ import { deployedContractsData } from 'data'
 
 const contractsToGenerate = []
 
+// Loop through the deployed contracts data and extract the necessary information
 for (const [chainId, contracts] of Object.entries(deployedContractsData)) {
   for (const [contractName, contract] of Object.entries(contracts)) {
     if (contract.abi && contract.address) {
