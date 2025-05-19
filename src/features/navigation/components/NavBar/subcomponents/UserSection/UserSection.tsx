@@ -2,7 +2,7 @@ import { Avatar } from 'components'
 import { useAuthStore } from 'features/auth/stores'
 import { IGCBalanceDisplay, MintIGCPrompt } from 'features/igc'
 import { CustomModal } from 'features/notifications'
-import { useCurrentUser } from 'features/user'
+import { useCurrentUser } from 'features/user/hooks'
 import { useToggle } from 'hooks'
 
 import { UserMenu } from './subcomponents'

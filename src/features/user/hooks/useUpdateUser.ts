@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
 
-import { updateUser } from 'api'
-import { User, UpdateUserVariables, userKeys } from 'features/user'
+import { updateUser } from '../api'
+import { User, UpdateUserVariables } from '../types'
+import { userKeys } from '../utils'
 
 /**
  * Custom hook to update the current authenticated user's profile data.
@@ -15,7 +16,7 @@ import { User, UpdateUserVariables, userKeys } from 'features/user'
  *
  * @returns A mutation object containing the mutation function and handlers.
  */
-export function useUpdateUser() {
+const useUpdateUser = () => {
   const queryClient = useQueryClient()
   const { address } = useAccount()
 
@@ -41,3 +42,5 @@ export function useUpdateUser() {
     },
   })
 }
+
+export default useUpdateUser

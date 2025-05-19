@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAccount } from 'wagmi'
 
-import { fetchUserFromAccount } from 'api'
 import { useAuthStore } from 'features/auth/stores'
-import { User, userKeys } from 'features/user'
+
+import { fetchUserFromAccount } from '../api'
+import { User } from '../types'
+import { userKeys } from '../utils'
 
 /**
  * Custom hook to fetch the current authenticated user's profile data.
@@ -16,7 +18,7 @@ import { User, userKeys } from 'features/user'
  *
  * @returns A query object containing the user data, loading state, and error state.
  */
-export function useCurrentUser() {
+const useCurrentUser = () => {
   const { address } = useAccount()
   const { isAuthenticated } = useAuthStore()
 
@@ -30,3 +32,5 @@ export function useCurrentUser() {
 
   return query
 }
+
+export default useCurrentUser

@@ -7,7 +7,7 @@ import { LoadingText } from 'components'
 import { useAuthStore } from 'features/auth/stores'
 import { NavBar } from 'features/navigation'
 import { GlobalNotification, UsernamePrompt, useNotificationStore } from 'features/notifications'
-import { useCurrentUser } from 'features/user'
+import { useCurrentUser } from 'features/user/hooks'
 import './client-layout.scss'
 
 /**

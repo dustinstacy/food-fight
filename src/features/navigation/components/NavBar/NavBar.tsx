@@ -5,8 +5,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
 
-import { smallLogo } from 'data'
 import { Button } from 'components'
+import { smallLogo } from 'data'
 
 import { BurgerMenu, Links, UserSection } from './subcomponents'
 

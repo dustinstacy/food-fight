@@ -1,6 +1,6 @@
-import { VerifySignatureParams, VerifySignatureResponse } from 'api/types'
 import { customFetch } from 'utils'
 
+import { VerifySignatureParams, VerifySignatureResponse } from '../types'
 /**
  * POST /api/auth/challenge
  * Calls the backend to get a SIWE challenge message for a given address.

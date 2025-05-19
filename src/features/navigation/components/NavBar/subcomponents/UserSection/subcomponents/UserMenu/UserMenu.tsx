@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { useDisconnect } from 'wagmi'
 
+import { useThemeStore } from 'features/user/stores'
 import { UseToggleProps } from 'hooks/types'
-import { useThemeStore } from 'stores'
 import './userMenu.scss'
 
 /**

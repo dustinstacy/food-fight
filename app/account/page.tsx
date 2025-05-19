@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { GoPencil } from 'react-icons/go'
 
 import { Avatar, LoadingText } from 'components'
-import { useCurrentUser } from 'features/user'
+import { useCurrentUser } from 'features/user/hooks'
 
 import { UserEdit } from './page-components'
 

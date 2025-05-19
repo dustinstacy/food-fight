@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { Theme, ThemeStore } from 'stores/types'
+import { Theme, ThemeStore } from '../types'
 
 /**
  * Determines the preferred theme based on system settings (prefers-color-scheme).
