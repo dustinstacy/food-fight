@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "check": "npm run format:check && npm run lint && npm run lint:scss && npm run build",
-    "scss:clean": "rm ./combined.css wallace-report.json",
-    "scss:combine": "cat .next/static/css/*.css > ./combined.css",
-    "scss:analyze": "npx wallace ./combined.css",
-    "scss:json": "npx wallace ./combined.css --json > wallace-report.json",
+    "scss:clean": "rm src/data/combined.css wallace-report.json",
+    "scss:combine": "cat .next/static/css/*.css > src/data/combined.css",
+    "scss:analyze": "npx wallace src/data/combined.css",
+    "scss:json": "npx wallace src/data/combined.css --json > src/data/wallace-report.json",
     "scss:report": "npm run build && npm run scss:combine && npm run scss:analyze && npm run scss:json",
     "dev": "next dev",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,scss,md}\"",
@@ -18,7 +17,8 @@
     "lint:scss": "stylelint \"**/*.scss\"",
     "lint:scss:fix": "stylelint \"**/*.scss\" --fix",
     "start": "next start",
-    "start:all": "make start-all"
+    "start:all": "make start-all",
+    "validate": "npm run format:check && npm run lint && npm run lint:scss && npm run build"
   },
   "dependencies": {
     "@emotion/styled": "^11.14.0",
