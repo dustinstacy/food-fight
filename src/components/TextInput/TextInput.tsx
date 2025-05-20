@@ -3,8 +3,9 @@
 import React, { forwardRef, useState } from 'react'
 import { MdOutlineVisibility, MdOutlineVisibilityOff } from 'react-icons/md'
 
-import type { TextInputProps } from 'components/types'
 import { classSet } from 'utils'
+
+import type { TextInputProps } from '../types'
 import './textInput.scss'
 
 const DEFAULT_TYPE = 'text'
@@ -21,6 +22,14 @@ const DEFAULT_LOADING = false
  * - Displaying error messages when validation fails.
  *
  * @param props - Props conforming to the {@link TextInputProps} interface.
+ * @param props.label - The label for the input field.
+ * @param props.name - The name attribute for the input field.
+ * @param props.value - The current value of the input field.
+ * @param props.onChange - Callback function to handle input value changes.
+ * @param props.type - The type of the input field (e.g., 'text', 'password'). Defaults to 'text'.
+ * @param props.loading - Boolean indicating whether the input is in a loading state. Defaults to false.
+ * @param props.error - Error message to display when validation fails.
+ * @param props.autoComplete - The autoComplete attribute for the input field.
  * @param ref - Forwarded ref applied to the underlying HTML `<input>` element.
  */
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(

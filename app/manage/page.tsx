@@ -4,16 +4,16 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 
 import { Button, LoadingText } from 'components'
-import { NFTUploader } from 'devtools/components'
-import { uploadedAssets } from 'devtools/data/uploadedAssets'
-import { useAuthStore } from 'features/auth/stores'
-import { AssetDisplayCard } from 'features/nfts'
-import { useNotificationStore } from 'features/notifications'
 import {
   useReadAssetFactoryGetNextAssetId,
   useWatchAssetFactoryAssetDataSetEvent,
   useWriteAssetFactorySetAssetData,
-} from 'hooks'
+} from 'contracts/hooks'
+import { AssetCard } from 'contracts/nfts/components'
+import { NFTUploader } from 'devtools/components'
+import { uploadedAssets } from 'devtools/data'
+import { useAuthStore } from 'features/auth/stores'
+import { useNotificationStore } from 'features/notifications'
 
 import './manage.scss'
 
@@ -130,7 +130,7 @@ const Manage = () => {
         {assetIdsToDisplay.length > 0 ? (
           <div className='manage__assets center'>
             {assetIdsToDisplay.map((id) => (
-              <AssetDisplayCard key={id.toString()} assetId={id} />
+              <AssetCard key={id.toString()} assetId={id} />
             ))}
           </div>
         ) : (

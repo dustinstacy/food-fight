@@ -20,7 +20,7 @@ import './account.scss'
  * - Handling the loading state while fetching user data.
  */
 const Account = () => {
-  const { data: user } = useCurrentUser()
+  const { data: user, isLoading: isUserLoading } = useCurrentUser()
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -47,7 +47,7 @@ const Account = () => {
             <GoPencil />
           </button>
           <div className='wrapper center-column'>
-            <Avatar size='medium' />
+            <Avatar user={user} size='medium' isLoading={isUserLoading} />
             <div className='section center-column'>
               <span className='center'>
                 Username:

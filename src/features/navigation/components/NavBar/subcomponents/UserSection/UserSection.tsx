@@ -1,6 +1,6 @@
 import { Avatar } from 'components'
+import { IGCBalanceDisplay, MintIGCPrompt } from 'contracts/igc/components'
 import { useAuthStore } from 'features/auth/stores'
-import { IGCBalanceDisplay, MintIGCPrompt } from 'features/igc'
 import { CustomModal } from 'features/notifications'
 import { useCurrentUser } from 'features/user/hooks'
 import { useToggle } from 'hooks'
@@ -42,7 +42,7 @@ const UserSection = () => {
       </div>
 
       {/* ----- Avatar ----- */}
-      <Avatar size='small' onClick={toggleUserMenu} />
+      <Avatar user={user} size='small' onClick={toggleUserMenu} isLoading={isAttemptingAuth} />
 
       {/* ----- User menu ----- */}
       {isUserMenuOpen && <UserMenu toggleState={isUserMenuOpen} toggle={toggleUserMenu} />}

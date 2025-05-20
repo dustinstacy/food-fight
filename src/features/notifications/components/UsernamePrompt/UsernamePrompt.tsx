@@ -17,7 +17,7 @@ import './usernamePrompt.scss'
  * - Handling form submission.
  * - Handling success and error states.
  *
- * @param props - Props for the UsernamePromptModal component.
+ * @param props - Props conforming to the {@link UsernamePromptProps} interface.
  * @param props.currentAddress - The current address of the user.
  * @param props.onSuccess - Callback function to be called when the username is successfully updated.
  */
@@ -82,7 +82,7 @@ const UsernamePrompt = ({ currentAddress, onSuccess }: UsernamePromptProps) => {
   )
 
   return (
-    <div className='username-prompt'>
+    <div className='username-prompt message-box'>
       <h2 className='username-prompt__title lilita-one'>Choose Your Username</h2>
 
       <form onSubmit={handleSubmit}>

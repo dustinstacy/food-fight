@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 
+import { mainLogo } from '#assets'
 import { Button } from 'components'
-import { mainLogo } from 'data'
 import { useAuthStore } from 'features/auth/stores'
 import { navLinks } from 'features/navigation'
 import { useCurrentUser } from 'features/user/hooks'

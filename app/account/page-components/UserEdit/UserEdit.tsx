@@ -119,7 +119,7 @@ const UserEdit = ({ setIsEditing }: UserEditProps) => {
       <div className='wrapper center-column'>
         {/* --- Image Section --- */}
         <div className='section center-column'>
-          <Avatar size='medium' />
+          <Avatar user={user} size='medium' isLoading={isUserLoading} />
           <div className='edit-input center-column'>
             <TextInput
               label='Image URL'

@@ -1,5 +1,7 @@
 import type React from 'react'
 
+import { User } from 'features/user/types'
+
 /////////////////////////////////////////////////////
 /// Avatar Types                                  ///
 /////////////////////////////////////////////////////
@@ -13,6 +15,9 @@ export type AvatarSize = 'small' | 'medium' | 'large'
  * Defines props accepted by the Avatar component.
  */
 export interface AvatarProps {
+  /** The user object containing the avatar image URL. */
+  user: User | null | undefined
+
   /** Specifies the visual size variant ('small', 'medium', 'large'). */
   size?: AvatarSize
 
@@ -24,6 +29,11 @@ export interface AvatarProps {
    * via keyboard (Enter/Space).
    */
   onClick?: () => void
+
+  /**
+   * Indicates if the avatar is in a loading state.
+   */
+  isLoading?: boolean
 }
 
 //////////////////////////////////////////////////////

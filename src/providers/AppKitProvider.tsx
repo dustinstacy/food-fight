@@ -5,7 +5,7 @@ import { createAppKit } from '@reown/appkit/react'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
 
-import { wagmiAdapter, projectId, appkitConfig } from 'config'
+import { wagmiAdapter, projectId, appkitConfig } from 'appkit.config'
 
 /** @see {@link https://docs.reown.com/appkit/next/core/installation} for more information */
 

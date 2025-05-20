@@ -1,0 +1,202 @@
+%message-base {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  // Base style for all message types
+  font-size: 12;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.25rem;
+}
+
+.nft-uploader {
+  width: 60vw;
+
+  // --- Typography within the block ---
+  &__main-title {
+    margin-bottom: 1.5rem;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--black-color);
+    text-align: center;
+  }
+
+  &__sub-title {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--black-color);
+  }
+
+  &__attributes-title {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--black-color);
+  }
+
+  // --- Form Elements ---
+  &__form-field {
+    margin-bottom: 1rem; // Group label and input
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black-color);
+    }
+
+    input[type='text'],
+    input[type='number'],
+    input[type='url'],
+    textarea,
+    select {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 8px;
+      font-size: 12px;
+      color: var(--black-color);
+      background-color: var(--light-gray-color);
+      border: 1px solid var(--black-color);
+      border-radius: 0.375rem;
+
+      // margin-bottom: 1rem; // Moved to __form-field
+      transition: border-color 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: var(--secondary2-color);
+        box-shadow: 0 0 0 3px rgb(59 130 246 / 50%);
+      }
+    }
+
+    input[type='file'] {
+      display: block;
+
+      // margin-bottom: 1rem; // Moved to __form-field
+      color: var(--black-color);
+
+      &::file-selector-button {
+        padding: 0.5rem 1rem;
+        margin-right: 1rem;
+        color: var(--black-color);
+        cursor: pointer;
+        background-color: var(--secondary2-color);
+        border: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: var(--secondary2-color);
+        }
+      }
+    }
+  }
+
+  &__submit-button {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    color: var(--black-color);
+    cursor: pointer;
+    background-color: var(--secondary2-color);
+    border: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--secondary2-color);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: var(--black-color);
+    }
+  }
+
+  // --- Image Preview ---
+  &__preview-container {
+    margin-top: 1rem;
+
+    // margin-bottom: 1rem; // Handled by __form-field if preview is inside it
+  }
+
+  &__preview-image {
+    display: block;
+    max-width: 200px;
+    max-height: 200px;
+    border: 1px solid var(--black-color);
+    border-radius: 0.375rem;
+  }
+
+  // --- Messages ---
+  &__form-messages {
+    min-height: 4.5em; // Placeholder for roughly 3 lines of messages
+    margin-top: 1rem;
+  }
+
+  &__error-message {
+    @extend %message-base;
+
+    color: var(--error-color);
+    background-color: rgba(var(--error-color), 0.1);
+    border-color: rgba(var(--error-color), 0.3);
+  }
+
+  &__success-message {
+    @extend %message-base;
+
+    color: var(--primary3-color);
+    background-color: rgba(var(--primary3-color), 0.1);
+    border-color: rgba(var(--primary3-color), 0.3);
+  }
+
+  &__info-message {
+    @extend %message-base;
+
+    color: var(--black-color); // Adjusted for better visibility on dark bg
+    background-color: rgba(var(--black-color), 0.1);
+    border-color: rgba(var(--black-color), 0.3);
+  }
+
+  // --- Output Area ---
+  &__output-area {
+    padding: 1rem;
+    margin-top: 2rem;
+    color: var(--black-color);
+    background-color: var(--black-color);
+    border-radius: 0.375rem;
+
+    p {
+      margin-bottom: 0.5rem;
+      word-wrap: break-word;
+
+      strong {
+        color: var(--black-color);
+      }
+    }
+  }
+
+  &__output-title {
+    margin-bottom: 0.75rem; // Increased margin
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--black-color);
+  }
+
+  &__json-output {
+    max-height: 300px; // Added max-height for very long JSON
+    padding: 0.75rem; // Increased padding
+    margin-top: 0.75rem; // Increased margin
+    overflow-x: auto;
+    font-family: monospace;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    background-color: var(--black-color);
+    border-radius: 0.25rem;
+  }
+}

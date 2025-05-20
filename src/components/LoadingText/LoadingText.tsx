@@ -1,7 +1,8 @@
 'use client'
 
-import type { LoadingTextProps, LoadingTextSize } from 'components/types'
 import { classSet } from 'utils'
+
+import type { LoadingTextProps, LoadingTextSize } from '../types'
 import './loadingText.scss'
 
 const DEFAULT_SIZE: LoadingTextSize = 'medium'

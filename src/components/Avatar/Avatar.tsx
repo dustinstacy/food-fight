@@ -1,10 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
 
-import type { AvatarProps, AvatarSize } from 'components/types'
-import { useAuthStore } from 'features/auth/stores'
-import { useCurrentUser } from 'features/user/hooks'
 import { classSet } from 'utils'
+
+import type { AvatarProps, AvatarSize } from '../types'
 import './avatar.scss'
 
 const DEFAULT_SIZE: AvatarSize = 'medium'
@@ -20,13 +19,19 @@ const DEFAULT_SIZE: AvatarSize = 'medium'
  * - Applying different styles based on the size of the avatar.
  *
  * @param props - Props conforming to the {@link AvatarProps} interface.
+ * @param props.user - The user object containing the avatar image URL.
  * @param props.size - Size of the avatar. Defaults to 'medium'.
  * @param props.className - Additional CSS classes to apply to the avatar component.
  * @param props.onClick - Optional click handler for the avatar component.
+ * @param props.isLoading - Flag indicating if the avatar is in a loading state.
  */
-const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProps) => {
-  const { data: user } = useCurrentUser()
-  const isAttemptingAuth = useAuthStore((state) => state.isAttemptingAuth)
+const AvatarComponent = ({
+  user,
+  size = DEFAULT_SIZE,
+  className,
+  onClick,
+  isLoading,
+}: AvatarProps) => {
   const image = user?.image
 
   // Props to make the div interactive and accessible when onClick is provided
@@ -54,7 +59,7 @@ const AvatarComponent = ({ size = DEFAULT_SIZE, className, onClick }: AvatarProp
 
   return (
     <div className={avatarClasses} {...interactiveProps}>
-      {!image || isAttemptingAuth ? (
+      {!image || isLoading ? (
         <div className='avatar__placeholder'></div>
       ) : (
         <Image

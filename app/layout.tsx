@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Bangers, Lilita_One, Luckiest_Guy, Tilt_Warp } from 'next/font/google'
 import { headers } from 'next/headers'
 
-import { smallLogo } from 'data'
+import { smallLogo } from '#assets'
 import { AuthManager } from 'features/auth/managers'
 import AppKitProvider from 'providers/AppKitProvider'
 import QueryProvider from 'providers/QueryProvider'
